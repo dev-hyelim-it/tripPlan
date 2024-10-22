@@ -3,7 +3,7 @@ package com.teamProject.tripPlan.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
-
+//sg1
 @Entity
 public class Area {
     @Id
