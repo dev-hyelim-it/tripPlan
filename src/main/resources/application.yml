@@ -1,0 +1,19 @@
+#MySql ????
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/travel_plan_db
+    username: user
+    password: 1111
+  sql:
+    init:
+      mode: always
+#always : ??, embedded : ?? DB?, never : ?? ?? ??
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql:true
+        format_sql:true
