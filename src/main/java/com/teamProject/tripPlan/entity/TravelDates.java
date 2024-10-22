@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 import java.sql.Date;
-//sg1
+
 @Entity
 public class TravelDates {
     @Id
