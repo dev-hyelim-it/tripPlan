@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<div action="/community">
+    <div class="container1">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">나의 여행 목록</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>여행 1</td>
+            </tr>
+            <tr>
+                <td>여행 2</td>
+            </tr>
+            <tr>
+                <td>여행 3</td>
+            </tr>
+
+            </tbody>
+        </table>
+
+        <!--    <button>불러오기</button>-->
+        <!--  <p>데이터1(호텔)</p>-->
+        <!--  <p>데이터2(레스토랑)</p>-->
+        <!--  <p>데이터3(관광지)</p>-->
+    </div>
+
+    <div class="container2">
+        <div>
+            <label>여행 장소</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>여행 날짜</label>
+            <input type="date"> ~
+            <input type="date">
+        </div>
+        <div>
+            <label>이용한 숙소</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>이용한 식당</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>관광지</label>
+            <input type="text">
+        </div>
+        <div>
+            <input type="radio" value="추천해요" class="form-check-input">
+            <label class="form-check-label">추천해요</label>
+            <input type="radio" value="별로예요" class="form-check-input">
+            <label class="form-check-label">별로예요</label>
+
+            <!--        <label></label>-->
+            <!--        <input type="radio">-->
+
+            <!--        <input type="radio" th:field="${dto.gender}" th:value="${gen.name()}" class="form-check-input">-->
+            <!--        <label th:for="${#ids.prev('gender')}" th:text="${gen.desc}" class="form-check-label"></label>-->
+            <!--                <input class="form-check-input" type="radio" id="inlineCheckbox1" value="option1">-->
+            <!--                <label class="form-check-label" for="inlineCheckbox1">1</label>-->
+        </div>
+    </div>
+    <div>
+        <label>메모</label>
+        <textarea cols="20" rows="7"></textarea>
+    </div>
+
+    <!--    <h2>내용</h2>-->
+    <!--  <textarea>내용 입력. css 는 나중에 ㄱㄱ</textarea>-->
+</div>
+
+<input type="reset" value="취소">
+<input type="submit" value="등록">
+
+<!--<button>취소</button>-->
+<!--<button>등록</button>-->
+
+
+</body>
+</html>
