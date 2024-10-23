@@ -6,15 +6,35 @@
 </head>
 <body>
 <div>
-  <button>불러오기</button>
-  <p>데이터1(호텔)</p>
-  <p>데이터2(레스토랑)</p>
-  <p>데이터3(관광지)</p>
+    <form id="form" th:action="@{/community/new}">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">여행장소</th>
+                <th scope="col">제목</th>
+                <th scope="col">작성자</th>
+                <th scope="col">작성일</th>
+                <th scope="col">조회수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <div>
+                <tr>
+                    <td>부산</td>
+                    <td>부산 여행 추천해요</td>
+                    <td>개구리</td>
+                    <td>2024-09-12</td>
+                    <td>100</td>
+                </tr>
+
+            </div>
+            </tbody>
+        </table>
+        <input type="submit" value="글쓰기" id="newPost">
+        <br>
+        <a href="/main">메인 화면으로 돌아가기</a>
+    </form>
 </div>
-<div>
-  <h2>내용</h2>
-</div>
-<button>작성</button>
 
 </body>
 </html>
