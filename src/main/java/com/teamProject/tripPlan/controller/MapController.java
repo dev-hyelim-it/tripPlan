@@ -10,4 +10,5 @@ public class MapController {
     public String mapTest() {
         return "map";
     }
+
 }
