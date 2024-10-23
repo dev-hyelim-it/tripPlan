@@ -1,10 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<title>Title</title>
+	<title>Main</title>
 </head>
 <body>
-<h1>성공!</h1>
+
+<form id="searchForm" action="/community" method="POST">
+	<label for="keyword"> 키워드 : </label>
+	<div id="keywordButtons"></div>
+
+	<label for="area"> 지역 : </label>
+	<div id="areaButtons"></div>
+
+	<label for="departureDate"> 떠날 날짜 : </label>
+	<input type="date" id="departureDate" name="departureDate" required>
+
+	<label for="arrivalDate"> 도착할 날짜 : </label>
+	<input type="date" id="arrivalDate" name="arrivalDate" required>
+
+	<button type="submit"> 검색 </button>
+</form>
+
+<script>
+	// 페이지 로드 시 자동으로 키워드와 지역 버튼을 불러옵니다.
+    window.onload = function() {
+        loadKeywords();
+        loadAreas();
+    };
+
+    function loadKeywords() {
+        fetch('/api/keywords')
+            .then(response => response.json())
+            .then(data => {
+                const keywordButtons = document.getElementById('keywordButtons');
+                keywordButtons.innerHTML = ''; // 기존 버튼 초기화
+                data.forEach(keyword => {
+                    const button = document.createElement('button');
+                    button.innerText = keyword;
+                    button.type = 'button';
+                    button.onclick = () => selectKeyword(keyword);
+                    keywordButtons.appendChild(button);
+                });
+            });
+    }
+
+    function selectKeyword(keyword) {
+        const keywordInput = document.createElement('input');
+        keywordInput.type = 'hidden';
+        keywordInput.name = 'keyword';
+        keywordInput.value = keyword;
+        document.getElementById('searchForm').appendChild(keywordInput);
+        alert(`선택된 키워드: ${keyword}`);
+    }
+
+    function loadAreas() {
+        fetch('/api/areas')
+            .then(response => response.json())
+            .then(data => {
+                const areaButtons = document.getElementById('areaButtons');
+                areaButtons.innerHTML = ''; // 기존 버튼 초기화
+                data.forEach(area => {
+                    const button = document.createElement('button');
+                    button.innerText = area;
+                    button.type = 'button';
+                    button.onclick = () => selectArea(area);
+                    areaButtons.appendChild(button);
+                });
+            });
+    }
+
+    function selectArea(area) {
+        const areaInput = document.createElement('input');
+        areaInput.type = 'hidden';
+        areaInput.name = 'area';
+        areaInput.value = area;
+        document.getElementById('searchForm').appendChild(areaInput);
+        alert(`선택된 지역: ${area}`);
+    }
+</script>
+
 </body>
 </html>
