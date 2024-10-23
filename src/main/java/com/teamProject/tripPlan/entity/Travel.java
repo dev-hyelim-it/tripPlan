@@ -17,10 +17,7 @@ public class Travel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long travelId;
     @Column(length = 20)
-    private String keyword;
 
-    private LocalDateTime startPoint;
-    private LocalDateTime endPoint;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
@@ -29,22 +26,24 @@ public class Travel {
     @JoinColumn(name = "user_id")
     private Users users;
 
-    @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "travel",
-            cascade = {CascadeType.PERSIST,
-                    CascadeType.REMOVE})
-    List<Restaurant> restaurants = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "travel",
-            cascade = {CascadeType.PERSIST,
-                    CascadeType.REMOVE})
-    List<Attraction> attractions = new ArrayList<>();
+            cascade = CascadeType.PERSIST)
+    List<TravelRestaurant> travelRestaurants = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "travel",
-            cascade = {CascadeType.PERSIST,
-                    CascadeType.REMOVE})
-    List<Accommodation> accommodations = new ArrayList<>();
+            cascade = CascadeType.PERSIST)
+    List<TravelAttraction> travelAttractions = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "travel",
+            cascade = CascadeType.PERSIST)
+    List<TravelAccommodation> travelAccommodations = new ArrayList<>();
+
+
+
+
 
 }
