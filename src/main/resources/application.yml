@@ -1,4 +1,4 @@
-#Mysql 셋팅
+##Mysql 셋팅
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
