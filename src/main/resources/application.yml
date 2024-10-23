@@ -3,8 +3,8 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/travel_plan_db
-    username: user
-    password: 1111
+    username: ${DB_USER}
+    password: ${DB_PW}
   sql:
     init:
       mode: always
@@ -12,7 +12,7 @@ spring:
   jpa:
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       hibernate:
         show_sql: true
