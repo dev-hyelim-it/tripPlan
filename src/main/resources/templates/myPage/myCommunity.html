@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+</head>
+<body>
+<div id="myCommunityContainer" class="myCommunityContainer">
+    <h1>마이페이지 커뮤니티</h1>
+    <!--메뉴바 들어갈 곳 -->
+    <th:block th:replace="~{myPage/myMenu :: myMenu}"></th:block>
+    <div>
+        <h3>커뮤니티에 게시한 글 목록</h3>
+        <hr>
+        <ul>
+            <li> 2024/10/24 <b>부산 여행기</b></li>
+            <li> 2024/11/01 <b>@@@@ 다녀왔어요</b></li>
+            <li> 2024/11/23 <b>생일기념 여행</b></li>
+            <li> 2024/12/02 <b>부천 맛집 추천</b></li>
+            <li> 2024/12/13 <b>크리스마스 기념 파티</b></li>
+        </ul>
+    </div>
+    <p><a th:href="@{/community}">커뮤니티로 이동</a></p>
+</div>
+<style>
+    .myCommunityContainer {
+        text-align: center;
+    }
+    li {
+        list-style-type: none;
+    }
+</style>
+
+</body>
+</html>
