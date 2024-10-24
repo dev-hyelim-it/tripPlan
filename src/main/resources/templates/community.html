@@ -19,12 +19,12 @@
             </thead>
             <tbody>
             <div>
-                <tr>
-                    <td>부산</td>
-                    <td>부산 여행 추천해요</td>
-                    <td>개구리</td>
-                    <td>2024-09-12</td>
-                    <td>100</td>
+                <tr th:each="post : ${posts}" th:object="${post}">
+                    <td th:text="*{postId}">부산</td>
+                    <td th:text="*{postTitle}">부산 여행 추천해요</td>
+                    <td th:text="*{users.userNickname}">개구리</td>
+                    <td th:text="*{postDate}">2024-09-12</td>
+                    <td th:text="*{likes}">100</td>
                 </tr>
 
             </div>

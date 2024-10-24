@@ -17,7 +17,8 @@ public class Travel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long travelId;
     @Column(length = 20)
-
+    private String keyword;
+    private String place;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
@@ -46,4 +47,7 @@ public class Travel {
 
 
 
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "travel_id")
+    private Post post;
 }
