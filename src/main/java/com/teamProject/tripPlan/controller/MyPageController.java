@@ -33,4 +33,14 @@ public class MyPageController {
     public String myInfo() {
         return "/myPage/myInfo";
     }
+
+    @GetMapping("/update")
+    public String myInfoUpdate() {
+        return "/myPage/myInfoUpdate";
+    }
+
+    @GetMapping("/community")
+    public String myCommunity() {
+        return "myPage/myCommunity";
+    }
 }
