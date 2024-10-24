@@ -23,7 +23,8 @@ public class Post {
     private String postContent;
     @Column(nullable = false)
     private LocalDateTime postDate;
-
+    @Column
+    private int likes;
 
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "post",
@@ -32,7 +33,10 @@ public class Post {
     List<Comment> comments = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_no")
     private Users users;
+
+    @OneToOne(mappedBy = "post", fetch = FetchType.LAZY)
+    private Travel travel;
 
 }

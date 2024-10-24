@@ -30,7 +30,6 @@ public class Users {
 
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "users",
-            cascade = {CascadeType.PERSIST,
-            CascadeType.REMOVE})
+            cascade = CascadeType.PERSIST)
     List<Post> posts = new ArrayList<>();
 }
