@@ -8,10 +8,12 @@
 <h2>로그인 페이지</h2>
 <hr>
 <form th:action="@{/loginProc}" method="post" name="loginForm">
-  email : <input id="email"  type="email" name="email"><br>
-  password : <input id="password" type="password" name="password"><br>
+  아이디 : <input id="id"  type="id" name="id"><br>
+  비밀번호 : <input id="password" type="password" name="password"><br>
   <input type="submit" value="login"/>
 </form>
-<a href="/join">회원가입</a>
+<input value="회원가입" href="/join" />
+<input value="아이디 찾기" href="/" />
+<input value="비밀번호 찾기" href="/" />
 </body>
 </html>
