@@ -22,11 +22,9 @@ public class Users {
     private String userPassword;
     @Column(nullable = false, length = 20)
     private String userName;
-    @Column(nullable = false, length = 20)
     private String userNickname;
     @Column(nullable = false, length = 30)
     private String userEmail;
-
 
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "users",

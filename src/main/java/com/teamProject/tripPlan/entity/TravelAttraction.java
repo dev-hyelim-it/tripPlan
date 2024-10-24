@@ -11,7 +11,7 @@ public class TravelAttraction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long travel_att_id;
 
 
     @ManyToOne(fetch = FetchType.LAZY)

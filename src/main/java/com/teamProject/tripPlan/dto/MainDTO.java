@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
-//DTO
 @Data
 @NoArgsConstructor
 public class MainDTO {

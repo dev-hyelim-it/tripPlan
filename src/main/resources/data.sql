@@ -25,8 +25,12 @@ INSERT INTO area (area) VALUES ('경상남도');
 INSERT INTO area (area) VALUES ('제주특별자치도');
 
 INSERT INTO users (user_name, user_nickname, user_email, user_id, user_password) VALUES ('frog', 'froggy', 'frog@naver.com', 'froggg', 'frogfrog');
+INSERT INTO users (user_name, user_nickname, user_email, user_id, user_password) VALUES ('ant', 'antty', 'ant@naver.com', 'anttt', 'antant');
 
 INSERT INTO post (likes, post_date, user_no, post_title, post_content) VALUES (100, '2024-07-23', 1, '부산 조아', '부산 개조음');
+INSERT INTO post (likes, post_date, user_no, post_title, post_content) VALUES (159, '2024-08-11', 2, '여수 조아', '여수 개조음');
+
+INSERT INTO travel (end_date, start_date, user_id, keyword, place) VALUES ('2024-07-21', '2024-07-19', 1, '호캉스', '부산')
 
 INSERT INTO accommodation (accommodation_id, accommodation_name, accommodation_location, accommodation_grade, accommodation_call, keyword) VALUES (1, '더 리센츠 동대문 호텔', '서울특별시 동대문구 천호대로 383  (장안동)', '3성', '02-3390-7000', '호캉스');
 INSERT INTO accommodation (accommodation_id, accommodation_name, accommodation_location, accommodation_grade, accommodation_call, keyword) VALUES (2, '에이큐브 호텔 동대문', '서울특별시 중구 동호로35길 5 석광빌딩 (을지로5가)', '3성', '02-2264-2888', '호캉스');
@@ -79,3 +83,4 @@ INSERT INTO attraction (attraction_id, attraction_name, attraction_location, key
 INSERT INTO attraction (attraction_id, attraction_name, attraction_location, keyword) VALUES (23, 'DMZ생태평화공원', '강원특별자치도 철원군 김화읍 생창길 481-1(김화읍)', '역사관광지');
 INSERT INTO attraction (attraction_id, attraction_name, attraction_location, keyword) VALUES (24, 'GS칼텍스예울마루', '전라남도 여수시 예울마루로 100', '문화시설');
 INSERT INTO attraction (attraction_id, attraction_name, attraction_location, keyword) VALUES (25, 'JFK대천워터파크', '충청남도 보령시 대해로 876', '휴양관광지');
+
