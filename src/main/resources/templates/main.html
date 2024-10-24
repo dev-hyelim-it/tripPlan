@@ -4,46 +4,81 @@
 	  layout:decorate="~{layout/layout}">
 <head>
 	<meta charset="UTF-8">
-	<title> 메인 </title>
+	<title>메인</title>
 	<th:block layout:fragment="css"></th:block>
 	<th:block layout:fragment="script"></th:block>
+	<style>
+		.form-row {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .my-button {
+            flex: 1;
+            min-width: 80px; /* 키워드 버튼 크기 줄임 */
+        }
+
+        .keyword-row, .area-row {
+            display: flex;
+            flex-wrap: wrap; /* 자동 줄바꿈 */
+            gap: 10px; /* 버튼 간 간격 */
+            margin-bottom: 10px;
+        }
+
+        .keyword-button, .area-button {
+            flex: 1 1 calc(20% - 10px); /* 5열 배치로 조정 */
+            min-width: 80px; /* 크기 조정 */
+        }
+	</style>
 </head>
 
 <body>
 <div layout:fragment="content" class="content">
 	<div class="main">
 		<h3>검색 하기</h3>
-		<form id="searchForm" action="/myPage/list" method="POST" class="main_form">
-			<div class="mb-3">
-				<label for="keyword" class="form-label">키워드:</label>
-				<span id="selectedKeyword" style="margin-left: 10px;"></span>
-				<button type="button" id="resetKeyword" class="cancel-button btn btn-danger" style="display:none;">취소</button>
-				<div id="keywordButtons" class="mt-2"></div>
+		<form id="searchForm" action="/result" method="POST" class="main_form">
+			<div class="form-row">
+				<div class="mb-3">
+					<label for="keyword" class="form-label">키워드:</label>
+					<span id="selectedKeyword" style="margin-left: 10px;"></span>
+					<button type="button" id="resetKeyword" class="cancel-button btn btn-danger" style="display:none;">취소</button>
+					<div id="keywordButtons" class="keyword-row mt-2"></div>
+				</div>
+
+				<div class="mb-3">
+					<label for="area" class="form-label">지역:</label>
+					<span id="selectedArea" style="margin-left: 10px;"></span>
+					<button type="button" id="resetArea" class="cancel-button btn btn-danger" style="display:none;">취소</button>
+					<div id="areaButtons" class="area-row mt-2"></div>
+					<button type="button" id="showMoreAreas" class="btn btn-secondary mt-2">▼ 더 보기</button>
+				</div>
+
+				<div class="mb-3">
+					<label for="departureDate" class="form-label">떠날 날짜:</label>
+					<input type="date" id="departureDate" name="departureDate" class="form-control" required>
+				</div>
+
+				<div class="mb-3">
+					<label for="arrivalDate" class="form-label">도착할 날짜:</label>
+					<input type="date" id="arrivalDate" name="arrivalDate" class="form-control" required>
+				</div>
 			</div>
 
-			<div class="mb-3">
-				<label for="area" class="form-label">지역:</label>
-				<span id="selectedArea" style="margin-left: 10px;"></span>
-				<button type="button" id="resetArea" class="cancel-button btn btn-danger" style="display:none;">취소</button>
-				<div id="areaButtons" class="mt-2"></div>
-			</div>
-
-			<div class="mb-3">
-				<label for="departureDate" class="form-label">떠날 날짜:</label>
-				<input type="date" id="departureDate" name="departureDate" class="form-control">
-			</div>
-
-			<div class="mb-3">
-				<label for="arrivalDate" class="form-label">도착할 날짜:</label>
-				<input type="date" id="arrivalDate" name="arrivalDate" class="form-control">
-			</div>
-
+			<input type="hidden" name="keyword" id="hiddenKeyword">
+			<input type="hidden" name="area" id="hiddenArea">
 			<button type="submit" class="btn btn-primary">검색</button>
 		</form>
 	</div>
 
 	<script>
-		window.onload = () => {
+		let allAreas = [];
+        let isAllAreasVisible = false;
+        let selectedKeywords = new Set();
+        let selectedAreas = new Set();
+
+        window.onload = () => {
             loadKeywords();
             loadAreas();
         };
@@ -56,7 +91,7 @@
                     keywordButtons.innerHTML = '';
 
                     data.forEach(keyword => {
-                        const button = createButton(keyword, selectKeyword);
+                        const button = createButton(keyword, selectKeyword, 'keyword-button');
                         keywordButtons.appendChild(button);
                     });
                 });
@@ -66,64 +101,106 @@
             fetch('/api/areas')
                 .then(response => response.json())
                 .then(data => {
-                    const areaButtons = document.getElementById('areaButtons');
-                    areaButtons.innerHTML = '';
-
-                    for (let i = 0; i < data.length; i += 2) {
-                        const row = document.createElement('div');
-                        row.className = 'button-row';
-
-                        const button1 = createButton(data[i], selectArea);
-                        row.appendChild(button1);
-
-                        if (i + 1 < data.length) {
-                            const button2 = createButton(data[i + 1], selectArea);
-                            row.appendChild(button2);
-                        }
-
-                        areaButtons.appendChild(row);
-                    }
+                    allAreas = data;
+                    displayAreas(allAreas.slice(0, 2)); // 처음 2개만 보여줌
                 });
         }
 
-        function createButton(text, onClick) {
+        function createButton(text, onClick, buttonClass) {
             const button = document.createElement('button');
             button.innerText = text;
             button.type = 'button';
-            button.className = 'my-button'; // 추가된 클래스
+            button.className = `my-button ${buttonClass}`;
+
             button.onclick = () => {
-                onClick(text);
-                setActiveButton(button); // 클릭한 버튼 활성화
+                onClick(text, button);
             };
+
             return button;
         }
 
-        function setActiveButton(activeButton) {
-            const buttons = document.querySelectorAll('.my-button');
-            buttons.forEach(button => {
-                button.classList.remove('active'); // 모든 버튼에서 active 클래스 제거
+        function displayAreas(areas) {
+            const areaButtons = document.getElementById('areaButtons');
+            areaButtons.innerHTML = ''; // 기존 버튼을 지우고 새로 표시
+
+            areas.forEach((area) => {
+                const button = createButton(area, selectArea, 'area-button');
+                areaButtons.appendChild(button);
+
+                // 선택된 지역이면 색상 유지
+                if (selectedAreas.has(area)) {
+                    button.classList.add('active');
+                }
             });
-            activeButton.classList.add('active'); // 클릭한 버튼에 active 클래스 추가
+
+            updateShowMoreButton();
         }
 
-        function selectKeyword(keyword) {
-            updateSelection('keyword', keyword);
+        function updateShowMoreButton() {
+            const showMoreButton = document.getElementById('showMoreAreas');
+            showMoreButton.style.display = allAreas.length > 2 ? 'block' : 'none';
         }
 
-        function selectArea(area) {
-            updateSelection('area', area);
-        }
+        document.getElementById('showMoreAreas').onclick = function() {
+            if (!isAllAreasVisible) {
+                displayAreas(allAreas); // 모든 지역 표시
+                this.innerText = '▲ 접기';
+                isAllAreasVisible = true;
+            } else {
+                displayAreas(allAreas.slice(0, 2)); // 처음 2개만 다시 표시
+                this.innerText = '▼ 더 보기';
+                isAllAreasVisible = false;
+
+                // 선택된 지역의 버튼 색상 유지
+                selectedAreas.forEach(area => {
+                    const button = Array.from(document.querySelectorAll('#areaButtons .my-button'))
+                        .find(btn => btn.innerText === area);
+                    if (button) {
+                        button.classList.add('active'); // 선택된 버튼 색상 유지
+                    }
+                });
+            }
+        };
+
+        function selectKeyword(keyword, button) {
+	    // 이미 선택된 키워드가 있으면 해제
+	    if (selectedKeyword) {
+	        const existingButton = Array.from(document.querySelectorAll('#keywordButtons .my-button'))
+	            .find(btn => btn.classList.contains('active'));
+	        if (existingButton) {
+	            existingButton.classList.remove('active');
+	        }
+	    }
+
+	    selectedKeyword = keyword;
+	    button.classList.add('active');
+	    updateSelection('keyword', keyword);
+	    document.getElementById('keywordInput').value = keyword; // hidden input 업데이트
+	}
+
+	function selectArea(area, button) {
+	    // 이미 선택된 지역이 있으면 해제
+	    if (selectedArea) {
+	        const existingButton = Array.from(document.querySelectorAll('#areaButtons .my-button'))
+	            .find(btn => btn.classList.contains('active'));
+	        if (existingButton) {
+	            existingButton.classList.remove('active');
+	        }
+	    }
+
+	    selectedArea = area;
+	    button.classList.add('active');
+	    updateSelection('area', area);
+	    document.getElementById('areaInput').value = area; // hidden input 업데이트
+	}
 
         function updateSelection(type, value) {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = type;
-            input.value = value;
-            document.getElementById('searchForm').appendChild(input);
+        const input = document.getElementById(`hidden${capitalize(type)}`);
+        input.value = value;
 
-            document.getElementById(`selected${capitalize(type)}`).innerText = value;
-            document.getElementById(`reset${capitalize(type)}`).style.display = 'inline';
-        }
+        document.getElementById(`selected${capitalize(type)}`).innerText = value || '선택된 항목이 없습니다.';
+        document.getElementById(`reset${capitalize(type)}`).style.display = value ? 'inline' : 'none';
+    }
 
         function capitalize(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
@@ -135,19 +212,22 @@
                 const input = document.querySelector(`input[name="${type.toLowerCase()}"]`);
                 if (input) input.remove();
                 this.style.display = 'none';
+
+                if (type === 'Keyword') {
+                    selectedKeywords.clear();
+                    document.querySelectorAll('#keywordButtons .my-button').forEach(button => {
+                        button.classList.remove('active');
+                    });
+                } else if (type === 'Area') {
+                    selectedAreas.clear();
+                    document.querySelectorAll('#areaButtons .my-button').forEach(button => {
+                        button.classList.remove('active');
+                    });
+                }
             };
         });
-
-        // Form submission validation
-        document.getElementById('searchForm').onsubmit = function(event) {
-            const keywordInput = document.querySelector('input[name="keyword"]');
-            const areaInput = document.querySelector('input[name="area"]');
-            if (!keywordInput || !areaInput) {
-                alert('키워드와 지역은 필수로 선택해야 합니다.');
-                event.preventDefault(); // 제출 막기
-            }
-        };
 	</script>
 
+</div>
 </body>
 </html>
