@@ -1,84 +1,153 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/layout}">
 <head>
 	<meta charset="UTF-8">
-	<title>Main</title>
+	<title> 메인 </title>
+	<th:block layout:fragment="css"></th:block>
+	<th:block layout:fragment="script"></th:block>
 </head>
+
 <body>
+<div layout:fragment="content" class="content">
+	<div class="main">
+		<h3>검색 하기</h3>
+		<form id="searchForm" action="/myPage/list" method="POST" class="main_form">
+			<div class="mb-3">
+				<label for="keyword" class="form-label">키워드:</label>
+				<span id="selectedKeyword" style="margin-left: 10px;"></span>
+				<button type="button" id="resetKeyword" class="cancel-button btn btn-danger" style="display:none;">취소</button>
+				<div id="keywordButtons" class="mt-2"></div>
+			</div>
 
-<form id="searchForm" action="/myPage/list" method="POST">
-	<label for="keyword"> 키워드 : </label>
-	<div id="keywordButtons"></div>
+			<div class="mb-3">
+				<label for="area" class="form-label">지역:</label>
+				<span id="selectedArea" style="margin-left: 10px;"></span>
+				<button type="button" id="resetArea" class="cancel-button btn btn-danger" style="display:none;">취소</button>
+				<div id="areaButtons" class="mt-2"></div>
+			</div>
 
-	<label for="area"> 지역 : </label>
-	<div id="areaButtons"></div>
+			<div class="mb-3">
+				<label for="departureDate" class="form-label">떠날 날짜:</label>
+				<input type="date" id="departureDate" name="departureDate" class="form-control">
+			</div>
 
-	<label for="departureDate"> 떠날 날짜 : </label>
-	<input type="date" id="departureDate" name="departureDate" required>
+			<div class="mb-3">
+				<label for="arrivalDate" class="form-label">도착할 날짜:</label>
+				<input type="date" id="arrivalDate" name="arrivalDate" class="form-control">
+			</div>
 
-	<label for="arrivalDate"> 도착할 날짜 : </label>
-	<input type="date" id="arrivalDate" name="arrivalDate" required>
+			<button type="submit" class="btn btn-primary">검색</button>
+		</form>
+	</div>
 
-	<button type="submit"> 검색 </button>
-</form>
+	<script>
+		window.onload = () => {
+            loadKeywords();
+            loadAreas();
+        };
 
-<script>
-	// 페이지 로드 시 자동으로 키워드와 지역 버튼을 불러옵니다.
-    window.onload = function() {
-        loadKeywords();
-        loadAreas();
-    };
+        function loadKeywords() {
+            fetch('/api/keywords')
+                .then(response => response.json())
+                .then(data => {
+                    const keywordButtons = document.getElementById('keywordButtons');
+                    keywordButtons.innerHTML = '';
 
-    function loadKeywords() {
-        fetch('/api/keywords')
-            .then(response => response.json())
-            .then(data => {
-                const keywordButtons = document.getElementById('keywordButtons');
-                keywordButtons.innerHTML = ''; // 기존 버튼 초기화
-                data.forEach(keyword => {
-                    const button = document.createElement('button');
-                    button.innerText = keyword;
-                    button.type = 'button';
-                    button.onclick = () => selectKeyword(keyword);
-                    keywordButtons.appendChild(button);
+                    data.forEach(keyword => {
+                        const button = createButton(keyword, selectKeyword);
+                        keywordButtons.appendChild(button);
+                    });
                 });
-            });
-    }
+        }
 
-    function selectKeyword(keyword) {
-        const keywordInput = document.createElement('input');
-        keywordInput.type = 'hidden';
-        keywordInput.name = 'keyword';
-        keywordInput.value = keyword;
-        document.getElementById('searchForm').appendChild(keywordInput);
-        alert(`선택된 키워드: ${keyword}`);
-    }
+        function loadAreas() {
+            fetch('/api/areas')
+                .then(response => response.json())
+                .then(data => {
+                    const areaButtons = document.getElementById('areaButtons');
+                    areaButtons.innerHTML = '';
 
-    function loadAreas() {
-        fetch('/api/areas')
-            .then(response => response.json())
-            .then(data => {
-                const areaButtons = document.getElementById('areaButtons');
-                areaButtons.innerHTML = ''; // 기존 버튼 초기화
-                data.forEach(area => {
-                    const button = document.createElement('button');
-                    button.innerText = area;
-                    button.type = 'button';
-                    button.onclick = () => selectArea(area);
-                    areaButtons.appendChild(button);
+                    for (let i = 0; i < data.length; i += 2) {
+                        const row = document.createElement('div');
+                        row.className = 'button-row';
+
+                        const button1 = createButton(data[i], selectArea);
+                        row.appendChild(button1);
+
+                        if (i + 1 < data.length) {
+                            const button2 = createButton(data[i + 1], selectArea);
+                            row.appendChild(button2);
+                        }
+
+                        areaButtons.appendChild(row);
+                    }
                 });
-            });
-    }
+        }
 
-    function selectArea(area) {
-        const areaInput = document.createElement('input');
-        areaInput.type = 'hidden';
-        areaInput.name = 'area';
-        areaInput.value = area;
-        document.getElementById('searchForm').appendChild(areaInput);
-        alert(`선택된 지역: ${area}`);
-    }
-</script>
+        function createButton(text, onClick) {
+            const button = document.createElement('button');
+            button.innerText = text;
+            button.type = 'button';
+            button.className = 'my-button'; // 추가된 클래스
+            button.onclick = () => {
+                onClick(text);
+                setActiveButton(button); // 클릭한 버튼 활성화
+            };
+            return button;
+        }
+
+        function setActiveButton(activeButton) {
+            const buttons = document.querySelectorAll('.my-button');
+            buttons.forEach(button => {
+                button.classList.remove('active'); // 모든 버튼에서 active 클래스 제거
+            });
+            activeButton.classList.add('active'); // 클릭한 버튼에 active 클래스 추가
+        }
+
+        function selectKeyword(keyword) {
+            updateSelection('keyword', keyword);
+        }
+
+        function selectArea(area) {
+            updateSelection('area', area);
+        }
+
+        function updateSelection(type, value) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = type;
+            input.value = value;
+            document.getElementById('searchForm').appendChild(input);
+
+            document.getElementById(`selected${capitalize(type)}`).innerText = value;
+            document.getElementById(`reset${capitalize(type)}`).style.display = 'inline';
+        }
+
+        function capitalize(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        ['Keyword', 'Area'].forEach(type => {
+            document.getElementById(`reset${type}`).onclick = function() {
+                document.getElementById(`selected${type}`).innerText = '';
+                const input = document.querySelector(`input[name="${type.toLowerCase()}"]`);
+                if (input) input.remove();
+                this.style.display = 'none';
+            };
+        });
+
+        // Form submission validation
+        document.getElementById('searchForm').onsubmit = function(event) {
+            const keywordInput = document.querySelector('input[name="keyword"]');
+            const areaInput = document.querySelector('input[name="area"]');
+            if (!keywordInput || !areaInput) {
+                alert('키워드와 지역은 필수로 선택해야 합니다.');
+                event.preventDefault(); // 제출 막기
+            }
+        };
+	</script>
 
 </body>
 </html>
