@@ -16,6 +16,10 @@ public class CommunityController {
     public String Test() {
         return "main";
     }
+//    @GetMapping("/")
+//    public String Test() {
+//        return "main";
+//    }
 
     @GetMapping("/community")
     public String communityTest(Model model) {

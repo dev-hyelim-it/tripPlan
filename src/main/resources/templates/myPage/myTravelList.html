@@ -1,10 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>계획 리스트</title>
 </head>
 <body>
-    <h1>여행 계획 리스트</h1>
+<div id="myListContainer" class="myListContainer">
+    <h1>나의 여행 계획</h1>
+    <!--메뉴바 들어갈 곳 -->
+    <th:block th:replace="~{myPage/myMenu :: myMenu}"></th:block>
+
+    <!--내 정보 수정-->
+    <div>
+        <h3>여행 계획 중 하나 선택
+            <input type="radio" name="radio">
+            <input type="radio" name="radio"></h3>
+        <hr>
+        <form>
+            <button>이 여행계획 삭제</button>
+            <div>
+                <p> 키워드 : 힐링</p>
+            </div>
+            <div>
+                <p> 지역 : 가평</p>
+            </div>
+            <div>
+                <span> 출발일 : 24/08/21 </span>
+                <span> 도착일 : 24/08/22 </span>
+            </div>
+            <div>
+                <p>장소 : </p>
+                <p>00 풀빌라 <a href="">삭제</a></p>
+                <p>남이섬 <a href="">삭제</a></p>
+                <p>춘천 닭갈비 <a href="">삭제</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+<style>
+    .myListContainer {
+        text-align: center;
+    }
+</style>
 </body>
 </html>
