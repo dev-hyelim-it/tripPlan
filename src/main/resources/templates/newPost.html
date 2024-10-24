@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<title>Title</title>
@@ -14,8 +14,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>여행 1</td>
+            <tr th:each="travel : ${travelLists}">
+                <td th:text="travel">여행 1</td>
             </tr>
             <tr>
                 <td>여행 2</td>
@@ -32,60 +32,66 @@
         <!--  <p>데이터2(레스토랑)</p>-->
         <!--  <p>데이터3(관광지)</p>-->
     </div>
+    <br>
+    <form th:action="@{/community/create}" method="post" id="form" class="np-form">
+        <div class="container2">
+            <div>
+                <label>글 제목</label>
+                <input type="text" th:field="${dto.postTitle}">
+            </div>
+            <div>
+                <label>글 작성자</label>
+<!--                <input type="text" th:text="${session.loginId}">-->
+                <input type="text" th:field="${dto.users.userNickname}" th:value="${person.userNickname}">
+            </div>
 
-    <div class="container2">
-        <div>
-            <label>글 제목</label>
-            <input type="text">
-        </div>
-        <div>
-            <label>여행 장소</label>
-            <input type="text">
-        </div>
-        <div>
-            <label>여행 날짜</label>
-            <input type="date"> ~
-            <input type="date">
-        </div>
-        <div>
-            <label>이용한 숙소</label>
-            <input type="text">
-        </div>
-        <div>
-            <label>이용한 식당</label>
-            <input type="text">
-        </div>
-        <div>
-            <label>관광지</label>
-            <input type="text">
-        </div>
-        <div>
-            <input type="radio" value="추천해요" class="form-check-input">
-            <label class="form-check-label">추천해요</label>
-            <input type="radio" value="별로예요" class="form-check-input">
-            <label class="form-check-label">별로예요</label>
+            <div>
+                <label>여행 장소</label>
+                <input type="text" th:field="${dto.travel.place}">
+            </div>
+            <div>
+                <label>여행 날짜</label>
+                <input type="date"> ~
+                <input type="date">
+            </div>
+            <div>
+                <label>이용한 숙소</label>
+                <input type="text" th:field="${dto.postTitle}">
+            </div>
+            <div>
+                <label>이용한 식당</label>
+                <input type="text" th:field="${dto.postTitle}">
+            </div>
+            <div>
+                <label>관광지</label>
+                <input type="text" th:field="${dto.postTitle}">
+            </div>
+            <div>
+                <input type="radio" value="추천해요" class="form-check-input">
+                <label class="form-check-label">추천해요</label>
+                <input type="radio" value="별로예요" class="form-check-input">
+                <label class="form-check-label">별로예요</label>
 
-            <!--        <label></label>-->
-            <!--        <input type="radio">-->
+                <!--        <label></label>-->
+                <!--        <input type="radio">-->
 
-            <!--        <input type="radio" th:field="${dto.gender}" th:value="${gen.name()}" class="form-check-input">-->
-            <!--        <label th:for="${#ids.prev('gender')}" th:text="${gen.desc}" class="form-check-label"></label>-->
-            <!--                <input class="form-check-input" type="radio" id="inlineCheckbox1" value="option1">-->
-            <!--                <label class="form-check-label" for="inlineCheckbox1">1</label>-->
+                <!--        <input type="radio" th:field="${dto.gender}" th:value="${gen.name()}" class="form-check-input">-->
+                <!--        <label th:for="${#ids.prev('gender')}" th:text="${gen.desc}" class="form-check-label"></label>-->
+                <!--                <input class="form-check-input" type="radio" id="inlineCheckbox1" value="option1">-->
+                <!--                <label class="form-check-label" for="inlineCheckbox1">1</label>-->
+            </div>
         </div>
-    </div>
-    <div>
-        <label>메모</label>
-        <textarea cols="20" rows="7"></textarea>
-    </div>
+        <div>
+            <label>글쓰기</label>
+            <textarea cols="20" rows="7" th:field="${dto.postContent}"></textarea>
+        </div>
+        <input type="reset" value="취소">
+        <input type="submit" value="등록">
+    </form>
 
     <!--    <h2>내용</h2>-->
     <!--  <textarea>내용 입력. css 는 나중에 ㄱㄱ</textarea>-->
 </div>
-
-<input type="reset" value="취소">
-<input type="submit" value="등록">
-
 
 </body>
 </html>

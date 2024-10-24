@@ -22,11 +22,9 @@ public class Travel {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Users users;
-
 
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "travel",
@@ -42,10 +40,6 @@ public class Travel {
             mappedBy = "travel",
             cascade = CascadeType.PERSIST)
     List<TravelAccommodation> travelAccommodations = new ArrayList<>();
-
-
-
-
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "travel_id")
