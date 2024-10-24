@@ -25,6 +25,7 @@ public class ApiController {
 
     @GetMapping("/api/areas")
     public List<String> getAreas() {
-        return areaRepository.findAll().stream().map(Area::getArea).toList();
+        List<String> areas = areaRepository.findAll().stream().map(Area::getArea).toList();
+        return areas;
     }
 }
