@@ -38,7 +38,7 @@
 <div layout:fragment="content" class="content">
 	<div class="main">
 		<h3>검색 하기</h3>
-		<form id="searchForm" action="/map" method="POST" class="main_form">
+		<form id="searchForm" action="/result" method="POST" class="main_form">
 			<div class="form-row">
 				<div class="mb-3">
 					<label for="keyword" class="form-label">키워드:</label>
@@ -57,15 +57,17 @@
 
 				<div class="mb-3">
 					<label for="departureDate" class="form-label">떠날 날짜:</label>
-					<input type="date" id="departureDate" name="departureDate" class="form-control">
+					<input type="date" id="departureDate" name="departureDate" class="form-control" required>
 				</div>
 
 				<div class="mb-3">
 					<label for="arrivalDate" class="form-label">도착할 날짜:</label>
-					<input type="date" id="arrivalDate" name="arrivalDate" class="form-control">
+					<input type="date" id="arrivalDate" name="arrivalDate" class="form-control" required>
 				</div>
 			</div>
 
+			<input type="hidden" name="keyword" id="hiddenKeyword">
+			<input type="hidden" name="area" id="hiddenArea">
 			<button type="submit" class="btn btn-primary">검색</button>
 		</form>
 	</div>
@@ -161,38 +163,44 @@
         };
 
         function selectKeyword(keyword, button) {
-            if (selectedKeywords.has(keyword)) {
-                selectedKeywords.delete(keyword);
-                button.classList.remove('active');
-            } else {
-                selectedKeywords.add(keyword);
-                button.classList.add('active');
-            }
-            updateSelection('keyword', Array.from(selectedKeywords).join(', '));
-        }
+	    // 이미 선택된 키워드가 있으면 해제
+	    if (selectedKeyword) {
+	        const existingButton = Array.from(document.querySelectorAll('#keywordButtons .my-button'))
+	            .find(btn => btn.classList.contains('active'));
+	        if (existingButton) {
+	            existingButton.classList.remove('active');
+	        }
+	    }
 
-        function selectArea(area, button) {
-            if (selectedAreas.has(area)) {
-                selectedAreas.delete(area);
-                button.classList.remove('active'); // 선택 해제
-            } else {
-                selectedAreas.add(area);
-                button.classList.add('active'); // 선택
-            }
-            updateSelection('area', Array.from(selectedAreas).join(', '));
-        }
+	    selectedKeyword = keyword;
+	    button.classList.add('active');
+	    updateSelection('keyword', keyword);
+	    document.getElementById('keywordInput').value = keyword; // hidden input 업데이트
+	}
+
+	function selectArea(area, button) {
+	    // 이미 선택된 지역이 있으면 해제
+	    if (selectedArea) {
+	        const existingButton = Array.from(document.querySelectorAll('#areaButtons .my-button'))
+	            .find(btn => btn.classList.contains('active'));
+	        if (existingButton) {
+	            existingButton.classList.remove('active');
+	        }
+	    }
+
+	    selectedArea = area;
+	    button.classList.add('active');
+	    updateSelection('area', area);
+	    document.getElementById('areaInput').value = area; // hidden input 업데이트
+	}
 
         function updateSelection(type, value) {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = type;
-            input.value = value;
-            document.getElementById('searchForm').appendChild(input);
+        const input = document.getElementById(`hidden${capitalize(type)}`);
+        input.value = value;
 
-            document.getElementById(`selected${capitalize(type)}`).innerText = value || '선택된 항목이 없습니다.';
-
-            document.getElementById(`reset${capitalize(type)}`).style.display = value ? 'inline' : 'none';
-        }
+        document.getElementById(`selected${capitalize(type)}`).innerText = value || '선택된 항목이 없습니다.';
+        document.getElementById(`reset${capitalize(type)}`).style.display = value ? 'inline' : 'none';
+    }
 
         function capitalize(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
