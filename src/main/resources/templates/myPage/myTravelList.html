@@ -5,6 +5,46 @@
     <title>계획 리스트</title>
 </head>
 <body>
-    <h1>여행 계획 리스트</h1>
+<div id="myListContainer" class="myListContainer">
+    <h1>나의 여행 계획</h1>
+    <!--메뉴바 들어갈 곳 -->
+    <div>
+        메뉴바 들어갈 곳 (왼쪽 수직)
+    </div>
+
+    <!--내 정보 수정-->
+    <div>
+        <h3>여행 계획 중 하나 선택</h3>
+        <hr>
+        <form>
+            <div>
+                <label> 출발일 : </label>
+                <input type="text">
+                <label> 도착일 : </label>
+                <input type="text">
+            </div>
+            <div>
+                <label> 출발지 : </label>
+                <input type="text">
+                <label> 도착지 : </label>
+                <input type="text">
+            </div>
+            <div>
+                <label> 숙소 : </label>
+                <input type="text">
+            </div>
+            <div>
+                <label> 식당 : </label>
+                <input type="text">
+            </div>
+            <input type="submit" value="수정하기">
+        </form>
+    </div>
+</div>
+<style>
+    .myListContainer {
+        text-align: center;
+    }
+</style>
 </body>
 </html>

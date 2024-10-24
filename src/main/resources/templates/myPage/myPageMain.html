@@ -1,10 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>마이페이지</title>
 </head>
 <body>
-  <h1>마이페이지 메인</h1>
+<div id="myPageMainContainer" class="myPageMainContainer">
+    <h1>마이페이지 메인</h1>
+    <!--메뉴바 들어갈 곳 -->
+    <div>
+        메뉴바 들어갈 곳 (왼쪽 수직)
+    </div>
+
+    <!--내 정보 요약-->
+    <div>
+        <h3>(이름)님 안녕하세요</h3>
+        <hr>
+        <ul>
+            <button><a th:href="@{/myPage/info}">수정</a></button>
+            <li> 아이디 : user </li>
+            <li> 비밀번호 : 1111 </li>
+            <li> 이름 : 여행자 </li>
+            <li> 닉네임 : trip </li>
+            <li> 이메일 : tripPlan@naver.com </li>
+        </ul>
+    </div>
+
+    <!-- 계획 리스트 요약 -->
+    <div>
+        <h3>나의 계획 리스트</h3>
+        <hr>
+        <ul>
+            <button><a th:href="@{/myPage/list}">수정</a></button>
+            <li>출발지</li>
+            <li>도착지</li>
+            <li>출발일</li>
+            <li>도착일</li>
+            <li>숙소 : 신라호텔</li>
+            <li>식당 : 김밥천국</li>
+        </ul>
+    </div>
+
+    <!-- 커뮤니티 요약 -->
+    <div>
+        <h3>나의 커뮤니티 <a href="">커뮤니티로 이동</a></h3>
+        <hr>
+        <ul>
+            <li>글 제목 : 첫 게시글</li>
+            <li>글 내용 : 트립플랜입니다</li>
+            <li>글 게시일 : 2024년 10월 23일</li>
+            <li>내 댓글 : [글제목] - 재밌겠당</li>
+        </ul>
+    </div>
+</div>
+<style>
+    .myPageMainContainer {
+        text-align: center;
+    }
+    li {
+        list-style-type: none;
+    }
+</style>
+
 </body>
 </html>
