@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class CommunityController {
 
-    @GetMapping("/")
-    public String Test() {
-        return "main";
-    }
+//    @GetMapping("/")
+//    public String Test() {
+//        return "main";
+//    }
 
     @GetMapping("/community")
     public String communityTest() {
