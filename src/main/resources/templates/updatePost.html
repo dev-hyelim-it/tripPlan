@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<div>
+    <form action="/community/update" method="post" id="form" class="np-form">
+        <input type="hidden" th:field="${dto.postId}">
+        <div>
+            <label>글 제목</label>
+            <input type="text" th:field="${dto.postTitle}">
+        </div>
+        <div>
+            <label>글쓰기</label>
+            <textarea cols="20" rows="7" th:field="${dto.postContent}"></textarea>
+        </div>
+        <input type="reset" value="취소">
+        <input type="submit" value="등록">
+    </form>
+
+    <!--    <h2>내용</h2>-->
+    <!--  <textarea>내용 입력. css 는 나중에 ㄱㄱ</textarea>-->
+</div>
+
+</body>
+</html>

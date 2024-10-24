@@ -17,14 +17,16 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
-    @Column(nullable = false, length = 50)
+    @Column(length = 500)
     private String postTitle;
-    @Column(nullable = false, length = 1000)
+    @Column(length = 1000)
     private String postContent;
-    @Column(nullable = false)
     private LocalDateTime postDate;
-    @Column
     private int likes;
+
+    public Post() {
+        this.likes = 0;
+    }
 
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "post",
