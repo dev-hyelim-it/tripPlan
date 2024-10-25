@@ -11,8 +11,6 @@
 </head>
 <body>
 <div layout:fragment="content" class="content">
-    <h2>회원정보 수정 페이지</h2>
-
     <div class="admin_sidebar">
         <h2>관리자 메뉴</h2>
         <ul>회원 관리
@@ -29,7 +27,7 @@
 
     </div>
     <div class="admin_customer_content">
-        <p>여기에 관리자 콘텐츠 표시</p>
+        <h2>회원정보 목록</h2>
         <table class="table table-hover">
             <thead>
             <tr>
@@ -44,32 +42,20 @@
             </tr>
             </thead>
             <tbody class="table-group-divider">
-                <tr>
-                    <th scope="row"><input type="radio" name="customer"></th>
-                    <td>1</td>
-                    <td>abcdefg</td>
-                    <td>123456789</td>
-                    <td>Amy</td>
-                    <td>이창수</td>
-                    <td>email@gmail.com</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th scope="row"><input type="radio" name="customer"></th>
-                    <td>2</td>
-                    <td>ABCDEFG</td>
-                    <td>987654321</td>
-                    <td>Dr.Duck</td>
-                    <td>김해찬</td>
-                    <td>EMAIL@naver.com</td>
-                    <td></td>
-                </tr>
+            <tr th:each="user : ${usersList}" th:object="${user}">
+                <th scope="row"><input type="radio" name="customer"></th>
+                <td th:text="*{userNo}">2</td>
+                <td th:text="*{userId}">ABCDEFG</td>
+                <td th:text="*{userPassword}">987654321</td>
+                <td th:text="*{userNickname}">Dr.Duck</td>
+                <td th:text="*{userName}">김해찬</td>
+                <td th:text="*{userEmail}">EMAIL@naver.com</td>
+                <td></td>
+            </tr>
             </tbody>
         </table>
-        <button type="submit">탈퇴</button>
-
+        <button type="submit">회원삭제</button>
     </div>
-
 </div>
 </body>
 </html>
