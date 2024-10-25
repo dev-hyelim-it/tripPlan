@@ -30,7 +30,10 @@ INSERT INTO users (user_name, user_nickname, user_email, user_id, user_password)
 INSERT INTO post (likes, post_date, user_no, post_title, post_content) VALUES (100, '2024-07-23', 1, '부산 조아', '부산 개조음');
 INSERT INTO post (likes, post_date, user_no, post_title, post_content) VALUES (159, '2024-08-11', 2, '여수 조아', '여수 개조음');
 
---INSERT INTO travel (end_date, start_date, user_id, keyword, place) VALUES ('2024-07-21', '2024-07-19', 1, '호캉스', '부산')
+INSERT INTO comment (post_id, comment_content, comment_nickname) VALUES (1, '재밌었겠다ㅜㅜ', 'antty');
+INSERT INTO comment (post_id, comment_content, comment_nickname) VALUES (2, '우와! 대박', 'froggy');
+
+INSERT INTO travel (end_date, start_date, user_id, keyword, place) VALUES ('2024-07-21', '2024-07-19', 1, '호캉스', '부산');
 
 --INSERT INTO travel (accommodation_id, travel_id) VALUES (1, 1)
 --INSERT INTO travel (accommodation_id, travel_id) VALUES (1, 1)
@@ -118,10 +121,6 @@ INSERT INTO attraction (attraction_id, attraction_name, attraction_location, key
 INSERT INTO attraction (attraction_id, attraction_name, attraction_location, keyword) VALUES (72, '가산사', '충청북도 옥천군 안내면 안내회남로 671', '역사');
 INSERT INTO attraction (attraction_id, attraction_name, attraction_location, keyword) VALUES (73, '가섭사', '충청북도 음성군 음성읍 가섭길 494', '역사');
 INSERT INTO attraction (attraction_id, attraction_name, attraction_location, keyword) VALUES (74, '각연사(괴산)', '충청북도 괴산군 칠성면 태성리', '역사');
-
-
-
-
 
 
 INSERT INTO accommodation (accommodation_id, accommodation_name, accommodation_location, accommodation_grade, accommodation_call, keyword) VALUES (1, '더 리센츠 동대문 호텔', '서울특별시 동대문구 천호대로 383  (장안동)', '3성', '02-3390-7000', '호캉스');

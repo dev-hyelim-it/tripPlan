@@ -1,8 +1,10 @@
 package com.teamProject.tripPlan.controller;
 
+import com.teamProject.tripPlan.dto.CommentDTO;
 import com.teamProject.tripPlan.dto.PostDTO;
 import com.teamProject.tripPlan.entity.Post;
 import com.teamProject.tripPlan.entity.Users;
+import com.teamProject.tripPlan.service.CommentService;
 import com.teamProject.tripPlan.service.PostService;
 import com.teamProject.tripPlan.service.QueryService;
 import com.teamProject.tripPlan.service.UsersService;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @Controller
@@ -28,6 +32,9 @@ public class CommunityController {
 
     @Autowired
     UsersService usersService;
+
+    @Autowired
+    CommentService commentService;
 
 //    @GetMapping("/")
 //    public String Test() {
@@ -60,8 +67,7 @@ public class CommunityController {
     }
 
     @GetMapping("{id}")
-    public String showOneArticle(@PathVariable("id")Long id, Model model) {
-
+    public String showOnePost(@PathVariable("id") Long id, Model model) {
         PostDTO dto = postService.getOnePost(id);
         model.addAttribute("dto", dto);
         log.info("================== myId = " + id + " ==================");
@@ -79,7 +85,7 @@ public class CommunityController {
     }
 
     @GetMapping("{id}/update")
-    public String viewUpdateArticle(Model model, @PathVariable("id")Long postId) {
+    public String viewUpdateArticle(Model model, @PathVariable("id") Long postId) {
         model.addAttribute("dto", postService.getOnePost(postId));
         log.info(postService.getOnePost(postId).toString());
         return "updatePost";
@@ -87,10 +93,44 @@ public class CommunityController {
 
     @PostMapping("update")
     public String updateArticle(PostDTO dto) {
-//        String url="redirect:/articles/"+dto.getId();
         System.out.println(dto);
         postService.updatePost(dto);
         return "redirect:/community";
     }
 
+    ///////////////////////////////////// 댓글 처리 //////////////////////////////////////////
+    @PostMapping("{id}/comments")
+    public String insertComment(CommentDTO dto, @PathVariable("id") Long postId) {
+//        dto.setCommentId(null);
+        System.out.println(dto.toString());
+        commentService.insertComment(postId, dto);
+        return "redirect:/community/" + postId;
+    }
+
+    @GetMapping("comments/{id}")
+    public String deleteComment(@PathVariable("id") Long commentId) {
+        Long postId = commentService.deleteComment(commentId);
+        return "redirect:/community/" + postId;
+    }
+
+    @GetMapping("comments/view/{id}")
+    public String updateCommentForm(Model model, @PathVariable("id") Long commentId) {
+        Map<String, Object> map = commentService.findByCommentId(commentId);
+        model.addAttribute("comment", map.get("comment"));
+        model.addAttribute("postId", map.get("postId"));
+        Long postId = (Long) map.get("postId");
+        PostDTO dto = postService.getOnePost(postId);
+        model.addAttribute("dto", dto);
+
+        return "updateComment";
+    }
+
+    @PostMapping("{postId}/comments/{commentId}")
+    public String updateComment(@PathVariable("postId") Long postId,
+                                @PathVariable("commentId") Long commentId,
+                                CommentDTO dto) {
+        dto.setCommentId(commentId);
+        commentService.updateComment(dto);
+        return "redirect:/community/" + postId;
+    }
 }
