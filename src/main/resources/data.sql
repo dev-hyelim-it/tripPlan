@@ -35,8 +35,8 @@ INSERT INTO comment (post_id, comment_content, comment_nickname) VALUES (2, '우
 
 INSERT INTO travel (end_date, start_date, user_id, keyword, place) VALUES ('2024-07-21', '2024-07-19', 1, '호캉스', '부산');
 
---INSERT INTO travel (accommodation_id, travel_id) VALUES (1, 1)
---INSERT INTO travel (accommodation_id, travel_id) VALUES (1, 1)
+--INSERT INTO travel (accommodation_id, travel_id) VALUES (1, 1);
+--INSERT INTO travel (accommodation_id, travel_id) VALUES (1, 1);
 
 
 --attraction, accommodation, restaurant 데이터
@@ -121,6 +121,10 @@ INSERT INTO attraction (attraction_id, attraction_name, attraction_location, key
 INSERT INTO attraction (attraction_id, attraction_name, attraction_location, keyword) VALUES (72, '가산사', '충청북도 옥천군 안내면 안내회남로 671', '역사');
 INSERT INTO attraction (attraction_id, attraction_name, attraction_location, keyword) VALUES (73, '가섭사', '충청북도 음성군 음성읍 가섭길 494', '역사');
 INSERT INTO attraction (attraction_id, attraction_name, attraction_location, keyword) VALUES (74, '각연사(괴산)', '충청북도 괴산군 칠성면 태성리', '역사');
+
+
+
+
 
 
 INSERT INTO accommodation (accommodation_id, accommodation_name, accommodation_location, accommodation_grade, accommodation_call, keyword) VALUES (1, '더 리센츠 동대문 호텔', '서울특별시 동대문구 천호대로 383  (장안동)', '3성', '02-3390-7000', '호캉스');

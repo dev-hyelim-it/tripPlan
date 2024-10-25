@@ -71,6 +71,7 @@ public class CommunityController {
         PostDTO dto = postService.getOnePost(id);
         model.addAttribute("dto", dto);
         log.info("================== myId = " + id + " ==================");
+        postService.calculateLikes(id);
         return "showPost";
     }
 

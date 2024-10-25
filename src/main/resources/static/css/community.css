@@ -1,0 +1,153 @@
+/* COMMUNITY PAGE NEW POST */
+#cum_container {
+    display: flex;
+    justify-content: space-between; /* 섹션 사이 공간 균형 잡기 */
+    align-items: flex-start; /* 두 섹션의 상단을 정렬 */
+    gap: 30px; /* 섹션 간격 */
+    margin: 30px;
+    padding: 20px;
+}
+
+/* 왼쪽 섹션 스타일 */
+.com_left_section {
+    flex: 1; /* 섹션 크기를 동일하게 배분 */
+    max-width: 400px; /* 최대 너비를 설정하여 지나치게 커지지 않도록 제한 */
+    border: 2px solid #007BFF;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.com_left_section h2 {
+    text-align: center;
+    color: #007BFF;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background-color: #007BFF;
+    color: white;
+}
+
+td {
+    background-color: #f0f8ff;
+    cursor: pointer;
+}
+
+td:hover {
+    background-color: #d6e4ff;
+}
+
+/* 오른쪽 섹션 스타일 */
+.com_right_section {
+    flex: 2; /* 오른쪽 섹션을 더 넓게 */
+    border: 2px solid #007BFF;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #fff;
+    box-sizing: border-box;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.com_right_section h2 {
+    text-align: center;
+    color: #007BFF;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.com_np_form {
+    margin-bottom: 15px;
+}
+
+.com_np_form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+.com_np_form input[type="text"],
+.com_np_form input[type="date"],
+.com_np_form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+}
+
+.com_np_form input[type="date"] {
+    width: 48.5%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+textarea {
+    height: 120px;
+    resize: none;
+    background-color: #f9f9f9;
+}
+
+.com_btn_newPost {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.com_btn_newPost button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.com_btn_newPost button:hover {
+    background-color: #0056b3;
+}
+
+#com_reset {
+    background-color: #6c757d;
+}
+
+#com_reset:hover {
+    background-color: #5a6268;
+}
+
+.com_right_section input[type="reset"],
+.com_right_section input[type="submit"] {
+    padding: 10px 20px;
+    margin-top: 15px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+/* 활성화된 필드 (disabled가 아닌 필드, 버튼 제외) */
+.com_right_section input:not([disabled]):not([type="submit"]):not([type="reset"]),
+.com_right_section textarea:not([disabled]) {
+    background-color: #fff; /* 비활성화되지 않은 필드의 배경색을 흰색으로 설정 */
+}

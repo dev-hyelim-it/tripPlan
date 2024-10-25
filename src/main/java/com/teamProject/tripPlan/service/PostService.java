@@ -42,6 +42,10 @@ public class PostService {
         dao.updatePost(dto);
     }
 
+    public void calculateLikes(Long id) {
+        dao.calculateLikes(id);
+    }
+
 //    public List<PostDTO> findAllPost() {
 //        return postRepository.findAll().stream().map(x->PostDTO.fromEntity(x)).toList();
 //    }
