@@ -32,7 +32,7 @@ public class Post {
             mappedBy = "post",
             cascade = {CascadeType.PERSIST,
                     CascadeType.REMOVE})
-    List<Comment> comments = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_no")
