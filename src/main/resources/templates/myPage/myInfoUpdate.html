@@ -1,48 +1,86 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>내 정보 관리</title>
-</head>
-<body>
-    <div id="myInfoContainer" class="myInfoContainer">
-        <h1>내 정보 관리</h1>
-        <!--메뉴바 들어갈 곳 -->
-        <th:block th:replace="~{myPage/myMenu :: myMenu}"></th:block>
-
-        <!--내 정보 수정-->
-        <div>
-            <h3>정보 변경 시 주의사항 ! 들어갈 곳</h3>
-            <hr>
-            <form>
-                <div>
-                    <label> 아이디 : </label>
-                    <input type="text">
-                </div>
-                <div>
-                    <label> 비밀번호 : </label>
-                    <input type="text">
-                </div>
-                <div>
-                    <label> 이름 : </label>
-                    <input type="text">
-                </div>
-                <div>
-                    <label> 닉네임 : </label>
-                    <input type="text">
-                </div>
-                <div>
-                    <label> 이메일 : </label>
-                    <input type="text">
-                </div>
-                <input type="submit" value="수정하기">
-            </form>
-        </div>
-    </div>
+    <title>내 정보 관리 수정</title>
+    <th:block layout:fragment="css"></th:block>
+    <th:block layout:fragment="script"></th:block>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .myInfoContainer {
             text-align: center;
         }
+        li {
+        list-style-type: none;
+        }
+        /* 수직 메뉴바 스타일 */
+        .nav {
+            background-color: #343a40; /* 어두운 회색 */
+            padding: 15px;
+            border-radius: 5px; /* 모서리 둥글게 */
+        }
+
+        .nav-link {
+            color: #d6d6d6; /* 메뉴 링크 색상 */
+        }
     </style>
+</head>
+<body>
+<div layout:fragment="content" class="content">
+    <div id="myInfoContainer" class="myInfoContainer">
+        <h1>내 정보 관리</h1>
+        <!-- 수직 메뉴바 -->
+        <div class="d-flex">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/myPage/{id}(id=1)}">마이페이지</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/myPage/info/{id}(id=1)}">내 정보 관리</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/myPage/list}">나의 계획</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/myPage/community/{id}(id=1)}">내 커뮤니티</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" aria-disabled="true">건의함</a>
+                </li>
+            </ul>
+            <!--내 정보 수정-->
+            <div class="ml-4">
+                <h3>정보 변경 시 주의사항 ! 들어갈 곳</h3>
+                <hr>
+                <form th:action="@{/myPage/update}" method="post" th:object="${dto}">
+                    <input type="hidden" th:value="*{userNo}" name="userNo">
+                    <div>
+                        <label> 아이디 : </label>
+                        <input id="userId" th:value="*{userId}" type="text" name="userId">
+                    </div>
+                    <div>
+                        <label> 비밀번호 : </label>
+                        <input id="userPassword" th:value="*{userPassword}" type="text" name="userPassword">
+                    </div>
+                    <div>
+                        <label> 이름 : </label>
+                        <input id="userName" th:value="*{userName}" type="text" name="userName">
+                    </div>
+                    <div>
+                        <label> 닉네임 : </label>
+                        <input id="userNickname" th:value="*{userNickname}" type="text" name="userNickname">
+                    </div>
+                    <div>
+                        <label> 이메일 : </label>
+                        <input id="userEmail" th:value="*{userEmail}" type="text" name="userEmail">
+                    </div>
+                    <input type="submit" value="수정하기">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

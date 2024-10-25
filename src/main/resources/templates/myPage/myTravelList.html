@@ -34,16 +34,16 @@
         <div class="d-flex">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/myPage">마이페이지</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{/myPage/{id}(id=1)}">마이페이지</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/myPage/info">내 정보 관리</a>
+                    <a class="nav-link" th:href="@{/myPage/info/{id}(id=1)}">내 정보 관리</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/myPage/list">나의 계획</a>
+                    <a class="nav-link" th:href="@{/myPage/list}">나의 계획</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/myPage/community">내 커뮤니티</a>
+                    <a class="nav-link" th:href="@{/myPage/community/{id}(id=1)}">내 커뮤니티</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link disabled" aria-disabled="true">건의함</a>
