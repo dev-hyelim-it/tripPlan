@@ -2,6 +2,7 @@ package com.teamProject.tripPlan.controller;
 
 import com.teamProject.tripPlan.dto.PostDTO;
 import com.teamProject.tripPlan.dto.UsersDTO;
+import com.teamProject.tripPlan.entity.Travel;
 import com.teamProject.tripPlan.repository.PostRepository;
 import com.teamProject.tripPlan.repository.UserRepository;
 import com.teamProject.tripPlan.service.MyPageService;
@@ -10,15 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/myPage")
 public class MyPageController {
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    PostRepository postRepository;
-
     @Autowired
     MyPageService myPageService;
 
@@ -27,20 +24,16 @@ public class MyPageController {
                              @PathVariable("id")Long id) {
         UsersDTO user = myPageService.findLoginUser(id);
         model.addAttribute("dto", user);
+        List<Travel> travels = myPageService.findUserList(id);
+        model.addAttribute("list", travels);
         return "/myPage/myPageMain";
     }
 
-    @GetMapping("/list")
-    public String myTravelList(Model model) {
-        return "/myPage/myTravelList";
-    }
-
-    @PostMapping("/list/{id}")
-    public String showTravelList(@RequestParam(required = false) String keyword,
-                                 @RequestParam(required = false) String area,
-                                 Model model) {
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("area", area);
+    @GetMapping("/list/{id}")
+    public String myTravelList(Model model,
+                               @PathVariable("id")Long id) {
+        List<Travel> travels = myPageService.findUserList(id);
+        model.addAttribute("list", travels);
         return "/myPage/myTravelList";
     }
 
