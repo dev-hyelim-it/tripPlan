@@ -13,6 +13,10 @@
             text-align: center;
         }
 
+        .form-section {
+            display: none;
+        }
+
         /* 수직 메뉴바 스타일 */
         .nav {
             background-color: #343a40; /* 어두운 회색 */
@@ -34,16 +38,16 @@
         <div class="d-flex">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/myPage">마이페이지</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{/myPage/{id}(id=1)}">마이페이지</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/myPage/info">내 정보 관리</a>
+                    <a class="nav-link" th:href="@{/myPage/info/{id}(id=1)}">내 정보 관리</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/myPage/list">나의 계획</a>
+                    <a class="nav-link" th:href="@{/myPage/list/{id}(id=1)}">나의 계획</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/myPage/community">내 커뮤니티</a>
+                    <a class="nav-link" th:href="@{/myPage/community/{id}(id=1)}">내 커뮤니티</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link disabled" aria-disabled="true">건의함</a>
@@ -52,26 +56,33 @@
 
             <!-- 내 정보 수정 부분 -->
             <div class="ml-4">
-                <h3>여행 계획 중 하나 선택
-                    <input type="radio" name="radio">
-                    <input type="radio" name="radio">
-                </h3>
+                <h3>여행 계획 중 하나 선택</h3>
+                <span th:each="travel : ${list}" th:object="${travel}">
+                        <input type="radio" name="radio" th:value="*{travelId}" onclick="showForm(this.value)" checked>
+                        <span th:text="${#strings.substring(travel.startDate, 0, 4)}"></span><span>년</span>
+                        <span th:text="${#strings.substring(travel.startDate, 6, 7)}"></span><span>월</span>
+                        <span th:text="*{place}"></span>
+                </span>
                 <hr>
-                <form>
+                <form class="form-section" th:each="travel : ${list}" th:object="${travel}" th:id="*{travelId}">
                     <button type="submit" class="btn btn-danger">이 여행계획 삭제</button>
                     <p>
                         <label>키워드 : </label>
-                        <span>힐링</span>
+                        <span th:text="*{keyword}">힐링</span>
                     </p>
                     <p>
                         <label>지역 : </label>
-                        <span>가평</span>
+                        <span th:text="*{place}">가평</span>
                     </p>
                     <p>
                         <label>출발일 : </label>
-                        <span>24/08/21</span>
+                        <span th:text="${#strings.substring(travel.startDate, 0, 4)}"></span><span>년</span>
+                        <span th:text="${#strings.substring(travel.startDate, 6, 7)}"></span><span>월</span>
+                        <span th:text="${#strings.substring(travel.startDate, 9, 10)}"></span><span>일</span>
                         <label>도착일 : </label>
-                        <span>24/08/22</span>
+                        <span th:text="${#strings.substring(travel.endDate, 0, 4)}"></span><span>년</span>
+                        <span th:text="${#strings.substring(travel.endDate, 6, 7)}"></span><span>월</span>
+                        <span th:text="${#strings.substring(travel.endDate, 9, 10)}"></span><span>일</span>
                     </p>
                     <p>
                         <label>숙박 : </label>
@@ -85,6 +96,24 @@
                 </form>
             </div>
         </div>
+        <script>
+            function showForm(selectedValue) {
+                document.querySelectorAll('.form-section').forEach(form => {
+                    form.style.display = 'none';
+                });
+
+                const targetForm = document.getElementById(selectedValue);
+                if (targetForm) {
+                    targetForm.style.display = 'block';
+                }
+            }
+            window.onload = function() {
+                const selectedRadio = document.querySelector('input[name="radio"]:checked');
+                if (selectedRadio) {
+                showForm(selectedRadio.value);
+                }
+            }
+        </script>
     </div>
 </div>
 </body>

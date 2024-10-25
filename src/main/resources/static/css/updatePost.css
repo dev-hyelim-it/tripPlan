@@ -1,0 +1,90 @@
+/* COMMUNITY PAGE UPDATE POST */
+#udp-form {
+    display: flex;
+    justify-content: center; /* 폼을 화면 가운데로 정렬 */
+    margin: 30px;
+}
+
+/* 오른쪽 섹션 스타일 */
+.com_right_section {
+    width: 100%; /* 섹션이 화면 전체 너비에 맞게 확장되도록 설정 */
+    flex: 2; /* 오른쪽 섹션을 더 넓게 */
+    border: 2px solid #007BFF;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #fff;
+    box-sizing: border-box;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.com_right_section h2 {
+    text-align: center;
+    color: #007BFF;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.com_right_section label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+.com_right_section input[type="text"],
+.com_right_section input[type="date"],
+.com_right_section textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+}
+
+.com_right_section input[type="date"] {
+    width: 47%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+}
+
+textarea {
+    height: 120px;
+    resize: none;
+    background-color: #f9f9f9;
+}
+
+/* 버튼 스타일 */
+.com_right_section input[type="reset"],
+.com_right_section input[type="submit"] {
+    padding: 10px 20px;
+    margin-top: 15px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.com_right_section input[type="reset"] {
+    background-color: #6c757d;
+}
+
+.com_right_section input[type="reset"]:hover {
+    background-color: #5a6268;
+}
+
+.com_right_section input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* 활성화된 필드 (disabled가 아닌 필드, 버튼 제외) */
+.com_right_section input:not([disabled]):not([type="submit"]):not([type="reset"]),
+.com_right_section textarea:not([disabled]) {
+    background-color: #fff; /* 비활성화되지 않은 필드의 배경색을 흰색으로 설정 */
+}

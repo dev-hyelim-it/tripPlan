@@ -1,27 +1,91 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org">
-<head>
-	<meta charset="UTF-8">
-	<title>Title</title>
-</head>
+<html xmlns:th="www.thymeleaf.org"
+      xmlns:layout="www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<meta charset="UTF-8">
+
+<!-- 전체 적용될 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/updatePost.css}">
+</th:block>
+
+<!-- 전체 적용될 스크립트 -->
+<th:block layout:fragment="script"></th:block>
+
 <body>
-<div>
-    <form action="/community/update" method="post" id="form" class="np-form">
-        <input type="hidden" th:field="${dto.postId}">
-        <div>
-            <label>글 제목</label>
-            <input type="text" th:field="${dto.postTitle}">
+<div layout:fragment="content" class="content">
+    <form action="/community/update" method="post" id="udp-form" class="udp-form">
+        <div class="com_right_section">
+            <input type="hidden" th:field="${dto.postId}">
+            <div>
+                <label>글 제목</label>
+                <input type="text" th:field="${dto.postTitle}">
+            </div>
+            <div>
+                <label>글 작성자</label>
+                <!--                <input type="text" th:text="${session.loginId}">-->
+                <input type="text" th:field="${dto.users.userNickname}" th:value="${dto.users.userNickname}" disabled>
+            </div>
+
+            <div>
+                <label>여행 장소</label>
+                <input type="text" th:field="${dto.travel.place}" disabled>
+            </div>
+            <div>
+                <label>여행 날짜</label>
+                <input type="date" id="startDate" disabled> ~ <input type="date" id="endDate" disabled>
+            </div>
+            <div>
+                <label>이용한 숙소</label>
+                <input type="text" disabled>
+            </div>
+            <div>
+                <label>이용한 식당</label>
+                <input type="text" disabled>
+            </div>
+            <div>
+                <label>관광지</label>
+                <input type="text" disabled>
+            </div>
+            <!--            <div>-->
+            <!--                <input type="radio" value="추천해요" class="form-check-input">-->
+            <!--                <label class="form-check-label">추천해요</label>-->
+            <!--                <input type="radio" value="별로예요" class="form-check-input">-->
+            <!--                <label class="form-check-label">별로예요</label>-->
+
+            <!--        <label></label>-->
+            <!--        <input type="radio">-->
+
+            <!--        <input type="radio" th:field="${dto.gender}" th:value="${gen.name()}" class="form-check-input">-->
+            <!--        <label th:for="${#ids.prev('gender')}" th:text="${gen.desc}" class="form-check-label"></label>-->
+            <!--                <input class="form-check-input" type="radio" id="inlineCheckbox1" value="option1">-->
+            <!--                <label class="form-check-label" for="inlineCheckbox1">1</label>-->
+            <!--            </div>-->
+            <div>
+                <label>글쓰기</label>
+                <textarea cols="20" rows="7" th:field="${dto.postContent}"></textarea>
+            </div>
+            <input type="reset" value="취소">
+            <input type="submit" value="등록">
         </div>
-        <div>
-            <label>글쓰기</label>
-            <textarea cols="20" rows="7" th:field="${dto.postContent}"></textarea>
-        </div>
-        <input type="reset" value="취소">
-        <input type="submit" value="등록">
+
     </form>
 
-    <!--    <h2>내용</h2>-->
-    <!--  <textarea>내용 입력. css 는 나중에 ㄱㄱ</textarea>-->
+
+<!--    <form action="/community/update" method="post" id="form" class="np-form">-->
+<!--        <input type="hidden" th:field="${dto.postId}">-->
+<!--        <div>-->
+<!--            <label>글 제목</label>-->
+<!--            <input type="text" th:field="${dto.postTitle}">-->
+<!--        </div>-->
+<!--        <div>-->
+<!--            <label>글쓰기</label>-->
+<!--            <textarea cols="20" rows="7" th:field="${dto.postContent}"></textarea>-->
+<!--        </div>-->
+<!--        <input type="reset" value="취소">-->
+<!--        <input type="submit" value="등록">-->
+<!--    </form>-->
+
 </div>
 
 </body>
