@@ -9,18 +9,54 @@
     <div class="join"><hr>
         <form th:action="@{/joinProc}" method="post" name="joinForm">
             이름 : <input id="username" type="text" name="name"><br>
+            <!--오류가 있을 시 오류 메세지 출력-->
+            <span th:errors="*{name}"></span>
+
             아이디 : <input id="userId" type="text" name="userId"><br>
+            <span th:errors="*{id}"></span>
+
             비밀번호 : <input id="password" type="password" name="password"><br>
+            <span th:errors="*{password}"></span>
+
             비밀번호 확인 : <input id="passwordCheck" type="password" name="passwordCheck"><br>
+            <!--password 와 passwordCheck 가 일치하지 않을 시 에러 출력-->
+            <span th:errors="*{passwordCheck}"></span>
+
             이메일 : <input id="email" type="email" name="email"><br>
+            <!--올바른 이메일 형식이 아닐 시에 오류 에러 출력-->
+            <span th:errors="*{email}"></span>
+
             닉네임 : <input id="nickname" type="text" name="nickname"><br>
             <input type="submit" value="회원가입"/>
+            <span th:errors="*{nickname}"></span>
         </form>
     </div>
 
-    <!--완료를 누르면 회원가입 성공-->
-    <input type="submit" value="완료" th:href="@{/login}" />
-    <!--회원가입 취소-->
-    <input type="submit" value="취소" th:href="@{/login}" />
+    <!--완료를 누르면 회원가입 성공, 회원가입 정보를 가지고 로그인으로 돌아감-->
+    <a th:href="@{/login}">
+        <button type="button">완료</button>
+    </a>
+    <!--회원가입 취소, 아무것도 없이 로그인 페이지로 돌아감-->
+    <a th:href="@{/login}">
+        <button type="button">취소</button>
+    </a>
+
+    <script th:inline="javascript">
+    $(document).ready(function() {
+        $("form").on("submit",function() {
+            event.preventDefault();
+            let myName = [[${msg}]];
+            console.log("myName = " + myName);
+            if($("#name").val().length == 0) {
+                alert("이름을 입력하세요")
+                $("#name").focus();
+            };
+            if($("#name").val() == myName) {
+            alert("메세지를 확인했습니다")
+            $("#name").focus();
+            };
+        });
+    });
+    </script>
 </body>
 </html>
