@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>키워드 수정 페이지</title>
+    <th:block layout:fragment="css"></th:block>
+    <th:block layout:fragment="script"></th:block>
+
+</head>
+<body>
+<div layout:fragment="content" class="content">
+    <h2>키워드 수정 페이지</h2>
+
+    <div class="admin_sidebar">
+        <h2>관리자 메뉴</h2>
+        <ul>회원 관리
+            <li><a th:href="@{/admin/customer}">회원조회</a></li>
+        </ul>
+        <ul>키워드 관리
+            <li><a th:href="@{/admin/keyword}">키워드 추가</a></li>
+            <li><a th:href="@{/admin/keyword}">키워드 수정</a></li>
+            <li><a th:href="@{/admin/keyword}">키워드 삭제</a></li>
+        </ul>
+        <ul>커뮤니티 관리
+            <li><a th:href="@{/admin/community}">게시글 삭제</a></li>
+        </ul>
+
+    </div>
+    <div class="admin_keyword_content">
+        <p>여기에 관리자 콘텐츠 표시</p>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">KeyWord</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        <tr>
+            <th scope="row"><input type="radio" name="keyword"></th>
+            <td>호캉스</td>
+        </tr>
+        <tr>
+            <th scope="row"><input type="radio" name="keyword"></th>
+            <td>역사</td>
+        </tr>
+
+        </tbody>
+    </table>
+    <button type="submit">추가</button>
+    <button type="submit">수정</button>
+    <button type="submit">삭제</button>
+</div>
+</body>
+</html>
