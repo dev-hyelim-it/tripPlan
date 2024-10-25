@@ -38,19 +38,17 @@
 <div layout:fragment="content" class="content">
 	<div class="main">
 		<h3>검색 하기</h3>
-		<form id="searchForm" action="/result" method="POST" class="main_form">
+		<form id="searchForm" action="/result" method="POST" class="main_form" onsubmit="return validateForm()">
 			<div class="form-row">
 				<div class="mb-3">
 					<label for="keyword" class="form-label">키워드:</label>
 					<span id="selectedKeyword" style="margin-left: 10px;"></span>
-					<button type="button" id="resetKeyword" class="cancel-button btn btn-danger" style="display:none;">취소</button>
 					<div id="keywordButtons" class="keyword-row mt-2"></div>
 				</div>
 
 				<div class="mb-3">
 					<label for="area" class="form-label">지역:</label>
 					<span id="selectedArea" style="margin-left: 10px;"></span>
-					<button type="button" id="resetArea" class="cancel-button btn btn-danger" style="display:none;">취소</button>
 					<div id="areaButtons" class="area-row mt-2"></div>
 					<button type="button" id="showMoreAreas" class="btn btn-secondary mt-2">▼ 더 보기</button>
 				</div>
@@ -66,8 +64,8 @@
 				</div>
 			</div>
 
-			<input type="hidden" name="keyword" id="hiddenKeyword">
-			<input type="hidden" name="area" id="hiddenArea">
+			<input type="hidden" name="keyword" id="hiddenKeyword" required>
+			<input type="hidden" name="area" id="hiddenArea" required>
 			<button type="submit" class="btn btn-primary">검색</button>
 		</form>
 	</div>
@@ -75,10 +73,17 @@
 	<script>
 		let allAreas = [];
         let isAllAreasVisible = false;
-        let selectedKeywords = new Set();
-        let selectedAreas = new Set();
+        let selectedKeyword = ''; // 수정
+        let selectedArea = ''; // 수정
 
         window.onload = () => {
+            // 오늘 날짜 설정
+            const today = new Date().toISOString().split('T')[0];
+
+            // 떠날 날짜와 도착 날짜의 min 속성을 오늘로 설정
+            document.getElementById('departureDate').min = today;
+            document.getElementById('arrivalDate').min = today;
+
             loadKeywords();
             loadAreas();
         };
@@ -128,7 +133,7 @@
                 areaButtons.appendChild(button);
 
                 // 선택된 지역이면 색상 유지
-                if (selectedAreas.has(area)) {
+                if (selectedArea === area) {
                     button.classList.add('active');
                 }
             });
@@ -152,80 +157,95 @@
                 isAllAreasVisible = false;
 
                 // 선택된 지역의 버튼 색상 유지
-                selectedAreas.forEach(area => {
+                if (selectedArea) {
                     const button = Array.from(document.querySelectorAll('#areaButtons .my-button'))
-                        .find(btn => btn.innerText === area);
+                        .find(btn => btn.innerText === selectedArea);
                     if (button) {
                         button.classList.add('active'); // 선택된 버튼 색상 유지
                     }
-                });
+                }
             }
         };
 
         function selectKeyword(keyword, button) {
-	    // 이미 선택된 키워드가 있으면 해제
-	    if (selectedKeyword) {
-	        const existingButton = Array.from(document.querySelectorAll('#keywordButtons .my-button'))
-	            .find(btn => btn.classList.contains('active'));
-	        if (existingButton) {
-	            existingButton.classList.remove('active');
-	        }
-	    }
+            // 이미 선택된 키워드가 있으면 해제
+            if (selectedKeyword) {
+                const existingButton = Array.from(document.querySelectorAll('#keywordButtons .my-button'))
+                    .find(btn => btn.classList.contains('active'));
+                if (existingButton) {
+                    existingButton.classList.remove('active');
+                }
+            }
 
-	    selectedKeyword = keyword;
-	    button.classList.add('active');
-	    updateSelection('keyword', keyword);
-	    document.getElementById('keywordInput').value = keyword; // hidden input 업데이트
-	}
+            selectedKeyword = keyword;
+            button.classList.add('active');
+            updateSelection('keyword', keyword);
+        }
 
-	function selectArea(area, button) {
-	    // 이미 선택된 지역이 있으면 해제
-	    if (selectedArea) {
-	        const existingButton = Array.from(document.querySelectorAll('#areaButtons .my-button'))
-	            .find(btn => btn.classList.contains('active'));
-	        if (existingButton) {
-	            existingButton.classList.remove('active');
-	        }
-	    }
+        function selectArea(area, button) {
+            // 이미 선택된 지역이 있으면 해제
+            if (selectedArea) {
+                const existingButton = Array.from(document.querySelectorAll('#areaButtons .my-button'))
+                    .find(btn => btn.classList.contains('active'));
+                if (existingButton) {
+                    existingButton.classList.remove('active');
+                }
+            }
 
-	    selectedArea = area;
-	    button.classList.add('active');
-	    updateSelection('area', area);
-	    document.getElementById('areaInput').value = area; // hidden input 업데이트
-	}
+            selectedArea = area;
+            button.classList.add('active');
+            updateSelection('area', area);
+        }
 
         function updateSelection(type, value) {
-        const input = document.getElementById(`hidden${capitalize(type)}`);
-        input.value = value;
+            const input = document.getElementById(`hidden${capitalize(type)}`);
+            input.value = value;
 
-        document.getElementById(`selected${capitalize(type)}`).innerText = value || '선택된 항목이 없습니다.';
-        document.getElementById(`reset${capitalize(type)}`).style.display = value ? 'inline' : 'none';
-    }
+            document.getElementById(`selected${capitalize(type)}`).innerText = value || '선택된 항목이 없습니다.';
+        }
 
         function capitalize(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
 
-        ['Keyword', 'Area'].forEach(type => {
-            document.getElementById(`reset${type}`).onclick = function() {
-                document.getElementById(`selected${type}`).innerText = '';
-                const input = document.querySelector(`input[name="${type.toLowerCase()}"]`);
-                if (input) input.remove();
-                this.style.display = 'none';
+        function validateForm() {
+            let isValid = true;
+            let messages = []; // 경고 메시지를 저장할 배열
 
-                if (type === 'Keyword') {
-                    selectedKeywords.clear();
-                    document.querySelectorAll('#keywordButtons .my-button').forEach(button => {
-                        button.classList.remove('active');
-                    });
-                } else if (type === 'Area') {
-                    selectedAreas.clear();
-                    document.querySelectorAll('#areaButtons .my-button').forEach(button => {
-                        button.classList.remove('active');
-                    });
-                }
-            };
-        });
+            // 키워드 확인
+            if (!selectedKeyword) {
+                messages.push("키워드를 선택해주세요.");
+                isValid = false; // 유효성 검사 실패
+            }
+
+            // 지역 확인
+            if (!selectedArea) {
+                messages.push("지역을 선택해주세요.");
+                isValid = false; // 유효성 검사 실패
+            }
+
+            // 날짜 확인
+            const departureDate = document.getElementById('departureDate').value;
+            const arrivalDate = document.getElementById('arrivalDate').value;
+
+            if (!departureDate) {
+                messages.push("떠날 날짜를 선택해주세요.");
+                isValid = false;
+            } else if (!arrivalDate) {
+                messages.push("도착할 날짜를 선택해주세요.");
+                isValid = false;
+            } else if (departureDate > arrivalDate) {
+                messages.push("떠날 날짜는 도착할 날짜보다 이전이어야 합니다.");
+                isValid = false;
+            }
+
+            // 경고 메시지가 있을 경우 표시
+            if (!isValid) {
+                alert(messages.join("\n")); // 배열을 줄바꿈으로 연결하여 출력
+            }
+
+            return isValid; // 유효성 검사 결과 반환
+        }
 	</script>
 
 </div>

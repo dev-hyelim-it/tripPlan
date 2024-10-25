@@ -17,12 +17,6 @@ public class MainController {
 
     @PostMapping("/result")
     public String submit(@ModelAttribute MainDTO mainDTO, Model model) {
-        // 받은 데이터 출력
-//        System.out.println("Keyword: " + mainDTO.getKeyword());
-//        System.out.println("Area: " + mainDTO.getArea());
-//        System.out.println("Travel ID: " + mainDTO.getTravelId());
-//        System.out.println("Departure Date: " + mainDTO.getDepartureDate());
-//        System.out.println("Arrival Date: " + mainDTO.getArrivalDate());
 
         model.addAttribute("searchResult", mainDTO);
         // 결과 페이지로 리다이렉트 또는 이동
