@@ -35,16 +35,16 @@
         <div class="d-flex">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/myPage">마이페이지</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{/myPage/{id}(id=1)}">마이페이지</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/myPage/info">내 정보 관리</a>
+                    <a class="nav-link" th:href="@{/myPage/info/{id}(id=1)}">내 정보 관리</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/myPage/list">나의 계획</a>
+                    <a class="nav-link" th:href="@{/myPage/list}">나의 계획</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/myPage/community">내 커뮤니티</a>
+                    <a class="nav-link" th:href="@{/myPage/community/{id}(id=1)}">내 커뮤니티</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link disabled" aria-disabled="true">건의함</a>
@@ -54,7 +54,7 @@
             <div class="ml-4">
                 <h3>정보 변경 시 주의사항 ! 들어갈 곳</h3>
                 <hr>
-                <form action="/myPage/update" th:each="user : ${users}" th:object="${user}">
+                <form th:action="@{/myPage/update/{id}(id=1)}" th:each="user : ${dto}" th:object="${user}">
                     <div>
                         <label> 아이디 : </label>
                         <span id="userId" th:text="*{userId}"></span>
@@ -71,7 +71,10 @@
                         <label> 이메일 : </label>
                         <span id="userEmail" th:text="*{userEmail}"></span>
                     </div>
-                    <input type="submit" value="수정하기">
+                    <p>
+                        <button type="submit">수정하기</button>
+                        <a th:href="@{/myPage/delete/{id}(id=*{userNo})}">탈퇴하기</a>
+                    </p>
                 </form>
             </div>
             <script>
@@ -81,8 +84,8 @@
                     const userEmailElement = document.getElementById('userEmail');
 
                     const userId = userIdElement.textContent;
-                    const userName = userIdElement.textContent;
-                    const userEmail = userIdElement.textContent;
+                    const userName = userNameElement.textContent;
+                    const userEmail = userEmailElement.textContent;
 
                     // 이메일을 @으로 구분지어 아이디 일부분 블라인드
                     const emailParts = userEmail.split('@');
@@ -91,7 +94,7 @@
                     const maskedPart = part1[0] + '*'.repeat(userId.length - 1);
 
                     const maskedId = userId.substring(0, 2) + '*'.repeat(userId.length - 2);
-                    const maskedName = userName.substring(0, 2) + '*'.repeat(userName.length - 1);
+                    const maskedName = userName.substring(0, 1) + '*'.repeat(userName.length - 1);
                     const maskedEmail = maskedPart + '@' + part2;
 
                     userIdElement.textContent = maskedId;
