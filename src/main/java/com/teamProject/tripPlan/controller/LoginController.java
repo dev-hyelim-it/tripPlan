@@ -1,10 +1,13 @@
 package com.teamProject.tripPlan.controller;
 
+import com.teamProject.tripPlan.dto.UsersDTO;
 import com.teamProject.tripPlan.service.LoginService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
@@ -14,28 +17,39 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class LoginController {
-    @Autowired
-    private LoginService loginService;
+    private final LoginService loginService;
+
+    public LoginController(LoginService loginService) {
+        this.loginService = loginService;
+    }
 
     @GetMapping("/login")
     public String login() {
-        return "/member/login";
+        return "member/login";
     }
 
     @GetMapping("/join")
     public String join() {
-        return "/member/join";
+        return "member/join";
     }
 
-    @GetMapping("/forgot-username")
-    public String forgotUsernameForm() {
-        return "forgot-username";
+    @PostMapping("/joinProc")
+    public String joinProcess(UsersDTO usersDTO) {
+        LoginService.joinProcess(usersDTO);
+        return "redirect:member/login";
     }
 
-    @PostMapping("/forgot-username")
-    public String forgotUsername(@RequestParam("email")String email, Model model) {
-        String username = loginService.findUsernameByEmail(email);
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response) {
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
 
-        return "forgot-username";
+        if (!ObjectUtils.isEmpty(authentication)) {
+            new SecurityContextLogoutHandler()
+                    .logout(request, response, authentication);
+        }
+
+        return "redirect:/member/login";
     }
 }

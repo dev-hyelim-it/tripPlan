@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
@@ -8,12 +8,30 @@
   <h2>로그인 페이지</h2>
   <hr>
     <form th:action="@{/loginProc}" method="post" name="loginForm">
-      아이디 : <input id="id"  type="id" name="id"><br>
-      비밀번호 : <input id="password" type="password" name="password"><br>
-      <input type="submit" value="login"/>
+      <div class="login">
+        아이디 : <input id="id"  type="text" name="id"><br>
+        비밀번호 : <input id="password" type="password" name="password"><br>
+        <input type="submit" value="로그인"/>
+      </div>
+
+      <!-- 로그인 실패 시 메시지 출력 -->
+      <div th:if="${param.error}">
+        <p th:text="${errorMessage}">아이디 또는 비밀번호가 일치하지 않습니다.</p>
+      </div>
+
+      <!-- 로그아웃 성공 시 메시지 출력 -->
+      <div th:if="${param.logout}">
+        <p style="color: green;">성공적으로 로그아웃되었습니다.</p>
+      </div>
     </form>
-  <input th:href="@{/join}" value="회원가입" />
-  <input th:href="@{/forgot-username}" value="아이디 찾기" />
-  <input th:href="@{/forgot-password}" value="비밀번호 찾기" />
+
+  <!--  회원가입-->
+  <a th:href="@{/join}">
+    <button type="button">회원가입</button>
+  </a><br>
+
+  <!--  아이디, 비밀번호 찾기 버튼-->
+  <button type="button" onclick="">아이디 찾기</button>
+  <button type="button" onclick="">비밀번호 찾기</button>
 </body>
 </html>
