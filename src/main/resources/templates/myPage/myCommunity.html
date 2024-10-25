@@ -1,35 +1,66 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>마이페이지</title>
+    <title>내 커뮤니티 목록</title>
+    <th:block layout:fragment="css"></th:block>
+    <th:block layout:fragment="script"></th:block>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .myCommunityContainer {
+            text-align: center;
+        }
+        li {
+        list-style-type: none;
+        }
+        /* 수직 메뉴바 스타일 */
+        .nav {
+            background-color: #343a40; /* 어두운 회색 */
+            padding: 15px;
+            border-radius: 5px; /* 모서리 둥글게 */
+        }
+
+        .nav-link {
+            color: #d6d6d6; /* 메뉴 링크 색상 */
+        }
+    </style>
 </head>
 <body>
-<div id="myCommunityContainer" class="myCommunityContainer">
-    <h1>마이페이지 커뮤니티</h1>
-    <!--메뉴바 들어갈 곳 -->
-    <th:block th:replace="~{myPage/myMenu :: myMenu}"></th:block>
-    <div>
-        <h3>커뮤니티에 게시한 글 목록</h3>
-        <hr>
-        <ul>
-            <li> 2024/10/24 <b>부산 여행기</b></li>
-            <li> 2024/11/01 <b>@@@@ 다녀왔어요</b></li>
-            <li> 2024/11/23 <b>생일기념 여행</b></li>
-            <li> 2024/12/02 <b>부천 맛집 추천</b></li>
-            <li> 2024/12/13 <b>크리스마스 기념 파티</b></li>
-        </ul>
+<div layout:fragment="content" class="content">
+    <div id="myCommunityContainer" class="myCommunityContainer">
+        <h1>마이페이지 커뮤니티</h1>
+        <!-- 수직 메뉴바 -->
+        <div class="d-flex">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/myPage">마이페이지</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/myPage/info">내 정보 관리</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/myPage/list">나의 계획</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/myPage/community">내 커뮤니티</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" aria-disabled="true">건의함</a>
+                </li>
+            </ul>
+            <div  class="ml-4">
+                <h3>커뮤니티에 게시한 글 목록
+                    <a th:href="@{/community}">커뮤니티로 이동</a></h3>
+                <hr>
+                <div th:each="post : ${posts}" th:object="${post}">
+                    <label th:text="*{postDate}"> 2024 / 10 /23 </label>
+                    <span><a href="" th:text="*{postTitle}">부산여행기</a></span>
+                </div>
+            </div>
+        </div>
     </div>
-    <p><a th:href="@{/community}">커뮤니티로 이동</a></p>
 </div>
-<style>
-    .myCommunityContainer {
-        text-align: center;
-    }
-    li {
-        list-style-type: none;
-    }
-</style>
-
 </body>
 </html>
