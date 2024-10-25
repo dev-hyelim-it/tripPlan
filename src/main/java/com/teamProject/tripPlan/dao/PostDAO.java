@@ -48,4 +48,9 @@ public class PostDAO {
 //        em.persist(post);
     }
 
+    public void calculateLikes(Long id) {
+        Post post = getOnePost(id);
+        post.setLikes(post.getLikes()+1);
+        em.persist(post);
+    }
 }

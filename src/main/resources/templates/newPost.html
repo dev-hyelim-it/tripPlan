@@ -1,18 +1,48 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org">
-<head>
-	<meta charset="UTF-8">
-	<title>Title</title>
-</head>
+<html xmlns:th="www.thymeleaf.org"
+      xmlns:layout="www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<meta charset="UTF-8">
+
+<!-- 전체 적용될 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/community.css}">
+</th:block>
+
+<!-- 전체 적용될 스크립트 -->
+<th:block layout:fragment="script"></th:block>
+
 <body>
-<div action="/community">
-    <div class="container1">
+<div layout:fragment="content" action="/community" class="content" id="myListContainer">
+
+<!--    <div class="com_left_section">-->
+<!--        <ul class="nav flex-column">-->
+<!--            <li class="nav-item">-->
+<!--                <h2>내 여행 목록</h2>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <button><a>여행 1</a></button>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <button><a>여행 2</a></button>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <button><a>여행 3</a></button>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <button><a>여행 4</a></button>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </div>-->
+
+    <div class="com_left_section">
         <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">나의 여행 목록</th>
-            </tr>
-            </thead>
+            <h2>나의 여행 목록</h2>
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th scope="col"><h2>나의 여행 목록</h2></th>-->
+<!--            </tr>-->
+<!--            </thead>-->
             <tbody>
             <tr th:each="travel : ${travelLists}">
                 <td th:text="travel">여행 1</td>
@@ -26,15 +56,15 @@
 
             </tbody>
         </table>
-
-        <!--    <button>불러오기</button>-->
-        <!--  <p>데이터1(호텔)</p>-->
-        <!--  <p>데이터2(레스토랑)</p>-->
-        <!--  <p>데이터3(관광지)</p>-->
     </div>
+<!--        &lt;!&ndash;    <button>불러오기</button>&ndash;&gt;-->
+<!--        &lt;!&ndash;  <p>데이터1(호텔)</p>&ndash;&gt;-->
+<!--        &lt;!&ndash;  <p>데이터2(레스토랑)</p>&ndash;&gt;-->
+<!--        &lt;!&ndash;  <p>데이터3(관광지)</p>&ndash;&gt;-->
+
     <br>
-    <form th:action="@{/community/create}" method="post" id="form" class="np-form">
-        <div class="container2">
+    <form th:action="@{/community/create}" method="post" id="com_np_form" class="com_np_form">
+        <div class="com_right_section">
             <div>
                 <label>글 제목</label>
                 <input type="text" th:field="${dto.postTitle}">
@@ -42,35 +72,34 @@
             <div>
                 <label>글 작성자</label>
 <!--                <input type="text" th:text="${session.loginId}">-->
-                <input type="text" th:field="${dto.users.userNickname}" th:value="${person.userNickname}">
+                <input type="text" th:field="${dto.users.userNickname}" th:value="${person.userNickname}" disabled>
             </div>
 
             <div>
                 <label>여행 장소</label>
-                <input type="text" th:field="${dto.travel.place}">
+                <input type="text" th:field="${dto.travel.place}" disabled>
             </div>
             <div>
                 <label>여행 날짜</label>
-                <input type="date"> ~
-                <input type="date">
+                <input type="date" id="startDate" disabled> ~ <input type="date" id="endDate" disabled>
             </div>
             <div>
                 <label>이용한 숙소</label>
-                <input type="text">
+                <input type="text" disabled>
             </div>
             <div>
                 <label>이용한 식당</label>
-                <input type="text">
+                <input type="text" disabled>
             </div>
             <div>
                 <label>관광지</label>
-                <input type="text">
+                <input type="text" disabled>
             </div>
-            <div>
-                <input type="radio" value="추천해요" class="form-check-input">
-                <label class="form-check-label">추천해요</label>
-                <input type="radio" value="별로예요" class="form-check-input">
-                <label class="form-check-label">별로예요</label>
+<!--            <div>-->
+<!--                <input type="radio" value="추천해요" class="form-check-input">-->
+<!--                <label class="form-check-label">추천해요</label>-->
+<!--                <input type="radio" value="별로예요" class="form-check-input">-->
+<!--                <label class="form-check-label">별로예요</label>-->
 
                 <!--        <label></label>-->
                 <!--        <input type="radio">-->
@@ -79,14 +108,15 @@
                 <!--        <label th:for="${#ids.prev('gender')}" th:text="${gen.desc}" class="form-check-label"></label>-->
                 <!--                <input class="form-check-input" type="radio" id="inlineCheckbox1" value="option1">-->
                 <!--                <label class="form-check-label" for="inlineCheckbox1">1</label>-->
+<!--            </div>-->
+            <div>
+                <label>글쓰기</label>
+                <textarea cols="20" rows="7" th:field="${dto.postContent}"></textarea>
             </div>
+            <input class="com_btn_newPost" id="com_reset" type="reset" value="취소">
+            <input class="com_btn_newPost" id="com_new_okay" type="submit" value="등록">
         </div>
-        <div>
-            <label>글쓰기</label>
-            <textarea cols="20" rows="7" th:field="${dto.postContent}"></textarea>
-        </div>
-        <input type="reset" value="취소">
-        <input type="submit" value="등록">
+
     </form>
 
     <!--    <h2>내용</h2>-->
