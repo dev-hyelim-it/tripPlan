@@ -11,8 +11,6 @@
 </head>
 <body>
 <div layout:fragment="content" class="content">
-    <h2>키워드 수정 페이지</h2>
-
     <div class="admin_sidebar">
         <h2>관리자 메뉴</h2>
         <ul>회원 관리
@@ -29,9 +27,8 @@
 
     </div>
     <div class="admin_keyword_content">
-        <p>여기에 관리자 콘텐츠 표시</p>
+        <h2>키워드 목록</h2>
     </div>
-
     <table class="table table-hover">
         <thead>
         <tr>
@@ -40,20 +37,21 @@
         </tr>
         </thead>
         <tbody class="table-group-divider">
-        <tr>
-            <th scope="row"><input type="radio" name="keyword"></th>
-            <td>호캉스</td>
+        <tr th:each="keyword : ${keywords}" th:object="${keyword}">
+            <th scope="row">
+                <input type="radio" name="keyword" th:text="*{keyword}">
+            </th>
+            <td th:text="*{keyword}">호캉스</td>
         </tr>
-        <tr>
-            <th scope="row"><input type="radio" name="keyword"></th>
-            <td>역사</td>
-        </tr>
-
         </tbody>
     </table>
-    <button type="submit">추가</button>
+<!--    <input type="submit" class="btn btn-primary" value="추가" th:href="@{/admin/insert/keyword}">-->
+    <span><a th:href="@{/admin/insert/keyword}">추가</a></span>
     <button type="submit">수정</button>
-    <button type="submit">삭제</button>
+<!--    <a th:href="@{/articles/{id}/update(id=${dto.id})}" class="btn btn-primary">Edit</a>-->
+    <!--    <button type="submit">삭제</button>-->
+    <a th:href="@{/admin/{keywordId}/delete(keywordId=${dto.keywordId})}" class="btn btn-danger">Delete</a>
+
 </div>
 </body>
 </html>

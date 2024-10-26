@@ -7,27 +7,86 @@
   <title>관리자 페이지</title>
   <th:block layout:fragment="css"></th:block>
   <th:block layout:fragment="script"></th:block>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+
+  <style>
+    /* 사이드바 스타일 */
+.admin_sidebar {
+    width: 250px;
+    background-color: #2F3A4A;
+    color: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 20px;
+}
+
+/* 헤더 스타일 */
+.admin_sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 24px;
+}
+
+/* 메뉴 그룹 스타일 */
+.admin_sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+.admin_sidebar ul li {
+    margin: 5px 0;
+}
+
+/* 메뉴 제목 스타일 */
+.admin_sidebar ul::before {
+    content: attr(data-title);
+    display: block;
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* 링크 스타일 */
+.admin_sidebar li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 15px;
+    display: block;
+    border-radius: 5px;
+    transition: background 0.3s;
+    text-align: center;
+}
+
+.admin_sidebar li a:hover {
+    background-color: #1F2833;
+}
+    body {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+  </style>
 
 </head>
 <body>
 <div layout:fragment="content" class="content">
-<div class="admin_sidebar">
-  <h2>관리자 메뉴</h2>
-  <ul>회원 관리
-    <li><a th:href="@{/admin/customer}">회원조회</a></li>
-  </ul>
-  <ul>키워드 관리
-    <li><a th:href="@{/admin/keyword}">키워드 추가</a></li>
-    <li><a th:href="@{/admin/keyword}">키워드 수정</a></li>
-    <li><a th:href="@{/admin/keyword}">키워드 삭제</a></li>
-  </ul>
-  <ul>커뮤니티 관리
-    <li><a th:href="@{/admin/community}">게시글 삭제</a></li>
-  </ul>
-
-</div>
+  <div class="admin_sidebar">
+    <h2>관리자 메뉴</h2>
+    <ul data-title="회원 관리">
+      <li><a th:href="@{/admin/customer}">회원조회</a></li>
+    </ul>
+    <ul data-title="키워드 관리">
+      <li><a th:href="@{/admin/keyword}">키워드 추가</a></li>
+      <li><a th:href="@{/admin/keyword}">키워드 수정</a></li>
+      <li><a th:href="@{/admin/keyword}">키워드 삭제</a></li>
+    </ul>
+    <ul data-title="커뮤니티 관리">
+      <li><a th:href="@{/admin/community}">게시글 삭제</a></li>
+    </ul>
+  </div>
 <div class="admin_main_content">
-  <p>여기에 관리자 콘텐츠 표시</p>
+  <p >여기에 관리자 콘텐츠 표시</p>
 </div>
 </div>
 </body>
