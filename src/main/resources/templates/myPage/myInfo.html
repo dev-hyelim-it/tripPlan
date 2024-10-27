@@ -30,7 +30,6 @@
 <body>
 <div layout:fragment="content" class="content">
     <div id="myInfoContainer" class="myInfoContainer">
-        <h1>내 정보 관리</h1>
         <!-- 수직 메뉴바 -->
         <div class="d-flex">
             <ul class="nav flex-column">
@@ -52,25 +51,26 @@
             </ul>
             <!--내 정보-->
             <div class="ml-4">
-                <h3>정보 변경 시 주의사항 ! 들어갈 곳</h3>
+                <h3>정보 변경 시 주의사항</h3>
+                <h5>주의해 주세요</h5>
                 <hr>
                 <form th:action="@{/myPage/update/{id}(id=1)}" th:each="user : ${dto}" th:object="${user}">
-                    <div>
+                    <p>
                         <label> 아이디 : </label>
                         <span id="userId" th:text="*{userId}"></span>
-                    </div>
-                    <div>
+                    </p>
+                    <p>
                         <label> 이름 : </label>
                         <span id="userName" th:text="*{userName}"></span>
-                    </div>
-                    <div>
+                    </p>
+                    <p>
                         <label> 닉네임 : </label>
                         <span id="userNickname" th:text="*{userNickname}"></span>
-                    </div>
-                    <div>
+                    </p>
+                    <p>
                         <label> 이메일 : </label>
                         <span id="userEmail" th:text="*{userEmail}"></span>
-                    </div>
+                    </p>
                     <p>
                         <button type="submit">수정하기</button>
                         <a th:href="@{/myPage/delete/{id}(id=*{userNo})}">탈퇴하기</a>
