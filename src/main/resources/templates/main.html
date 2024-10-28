@@ -8,6 +8,8 @@
 	<th:block layout:fragment="css"></th:block>
 	<th:block layout:fragment="script"></th:block>
 	<link rel="stylesheet" th:href="@{css/style.css}">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey={YOUR_API_KEY}" async></script>
 </head>
 
 <body>
@@ -44,10 +46,16 @@
 			<input type="hidden" name="area" id="hiddenArea" required>
 			<button type="submit" class="btn btn-primary">검색</button>
 		</form>
-		<div class="map map_box">
-			<h2>지도api</h2>
-			<div id="map"></div>
-			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ebcca49838b45dd8d299c3c5afed9d1"></script>
+		<div class="map-container">
+			<div class="map map_box">
+				<h2>지도api</h2>
+				<div id="map"></div>
+			</div>
+			<div class="weather-container">
+				<div class="weather-slides"></div>
+				<button class="prev" onclick="prevSlide()">◀</button>
+				<button class="next" onclick="nextSlide()">▶</button>
+			</div>
 		</div>
 		<script th:src="@{js/main.js}"></script>
 	</div>
