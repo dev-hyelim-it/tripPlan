@@ -1,4 +1,4 @@
-##Mysql 셋팅
+##postgresql 셋팅
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -15,5 +15,5 @@ spring:
       ddl-auto: create
     properties:
       hibernate:
-      show_sql: true
-      format_sql: true
+        show_sql: true
+        format_sql: true
