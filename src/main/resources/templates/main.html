@@ -31,6 +31,11 @@
             flex: 1 1 calc(20% - 10px); /* 5열 배치로 조정 */
             min-width: 80px; /* 크기 조정 */
         }
+
+		#map {
+			width: 100%;
+			height: 600px;
+		}
 	</style>
 </head>
 
@@ -69,7 +74,46 @@
 			<button type="submit" class="btn btn-primary">검색</button>
 		</form>
 	</div>
+	<div class="map map_box">
+		<h2>지도api</h2>
+		<div id="map">
 
+			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ebcca49838b45dd8d299c3c5afed9d1"></script>
+			<script>
+				var container = document.getElementById('map');
+                var options = {
+                    center: new kakao.maps.LatLng(33.450701, 126.570667),
+                    level: 3
+                    };
+                var map = new kakao.maps.Map(container, options);
+
+				// 마커 생성
+				var markerPosition = new kakao.maps.LatLng(37.5665, 126.9780); // 마커 위치 (예시 좌표)
+				var marker = new kakao.maps.Marker({
+					position: markerPosition
+				});
+				marker.setMap(map);
+
+				// 정보 창 생성
+				var infoWindow = new kakao.maps.InfoWindow({
+					content: '<div style="padding:10px; font-size:12px;">여기에 장소 이름이나 설명을 입력하세요.<br>주소: 서울시 예시 주소</div>'
+				});
+
+				// 마커 클릭 이벤트 추가
+				kakao.maps.event.addListener(marker, 'click', function() {
+					infoWindow.open(map, marker);
+				});
+
+				// 지도 클릭 시 정보 창 닫기
+				kakao.maps.event.addListener(map, 'click', function() {
+					infoWindow.close();
+				});
+
+			</script>
+		</div>
+
+<!--		<script th:src="@{js/map.js}"></script>-->
+	</div>
 	<script>
 		let allAreas = [];
         let isAllAreasVisible = false;
