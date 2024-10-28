@@ -15,11 +15,11 @@ public class MainController {
         return "main";
     }
 
-    @PostMapping("/result")
+    @PostMapping("/main")
     public String submit(@ModelAttribute MainDTO mainDTO, Model model) {
 
         model.addAttribute("searchResult", mainDTO);
         // 결과 페이지로 리다이렉트 또는 이동
-        return "result"; // result.html 페이지로 이동
+        return "main"; // result.html 페이지로 이동
     }
 }
