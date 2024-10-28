@@ -1,185 +1,223 @@
-let mapContainer = document.getElementById('map'), // 지도를 표시할 div
-            mapOption = {
-                center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-                level: 3 // 지도의 확대 레벨
-            };
+ let mapContainer = document.getElementById('map'),
+     mapOption = {
+         center: new kakao.maps.LatLng(33.450701, 126.570667),
+         level: 3
+     };
 
-        // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-        let map = new kakao.maps.Map(mapContainer, mapOption);
+ let map = new kakao.maps.Map(mapContainer, mapOption);
 
 // 키워드 지역 버튼 설정 영역
 let allAreas = [];
-        let isAllAreasVisible = false;
-        let selectedKeyword = ''; // 수정
-        let selectedArea = ''; // 수정
+let isAllAreasVisible = false;
+let selectedKeyword = '';
+let selectedArea = '';
 
-        window.onload = () => {
-            // 오늘 날짜 설정
-            const today = new Date().toISOString().split('T')[0];
+window.onload = () => {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('departureDate').min = today;
+    document.getElementById('arrivalDate').min = today;
 
-            // 떠날 날짜와 도착 날짜의 min 속성을 오늘로 설정
-            document.getElementById('departureDate').min = today;
-            document.getElementById('arrivalDate').min = today;
+    loadKeywords();
+    loadAreas();
+};
 
-            loadKeywords();
-            loadAreas();
-        };
+function loadKeywords() {
+    fetch('/api/keywords')
+        .then(response => response.json())
+        .then(data => {
+            const keywordButtons = document.getElementById('keywordButtons');
+            keywordButtons.innerHTML = '';
 
-        function loadKeywords() {
-                    fetch('/api/keywords')
-                        .then(response => response.json())
-                        .then(data => {
-                            const keywordButtons = document.getElementById('keywordButtons');
-                            keywordButtons.innerHTML = '';
-
-                            data.forEach(keyword => {
-                                const button = createButton(keyword, selectKeyword, 'keyword-button');
-                                keywordButtons.appendChild(button);
-                            });
-                        });
-                }
-
-        function loadAreas() {
-            fetch('/api/areas')
-                .then(response => response.json())
-                .then(data => {
-                    allAreas = data;
-                    displayAreas(allAreas.slice(0, 2)); // 처음 2개만 보여줌
-                });
-        }
-
-        function createButton(text, onClick, buttonClass) {
-            const button = document.createElement('button');
-            button.innerText = text;
-            button.type = 'button';
-            button.className = `my-button ${buttonClass}`;
-
-            button.onclick = () => {
-                onClick(text, button);
-            };
-
-            return button;
-        }
-
-        function displayAreas(areas) {
-            const areaButtons = document.getElementById('areaButtons');
-            areaButtons.innerHTML = ''; // 기존 버튼을 지우고 새로 표시
-
-            areas.forEach((area) => {
-                const button = createButton(area, selectArea, 'area-button');
-                areaButtons.appendChild(button);
-
-                // 선택된 지역이면 색상 유지
-                if (selectedArea === area) {
-                    button.classList.add('active');
-                }
+            data.forEach(keyword => {
+                const button = createButton(keyword, selectKeyword, 'keyword-button');
+                keywordButtons.appendChild(button);
             });
+        });
+}
 
-            updateShowMoreButton();
-        }
+function loadAreas() {
+    fetch('/api/areas')
+        .then(response => response.json())
+        .then(data => {
+            allAreas = data;
+            displayAreas(allAreas.slice(0, 2));
+        });
+}
 
-        function updateShowMoreButton() {
-            const showMoreButton = document.getElementById('showMoreAreas');
-            showMoreButton.style.display = allAreas.length > 2 ? 'block' : 'none';
-        }
+function createButton(text, onClick, buttonClass) {
+    const button = document.createElement('button');
+    button.innerText = text;
+    button.type = 'button';
+    button.className = `my-button ${buttonClass}`;
+    button.onclick = () => onClick(text, button);
+    return button;
+}
 
-        document.getElementById('showMoreAreas').onclick = function() {
-            if (!isAllAreasVisible) {
-                displayAreas(allAreas); // 모든 지역 표시
-                this.innerText = '▲ 접기';
-                isAllAreasVisible = true;
-            } else {
-                displayAreas(allAreas.slice(0, 2)); // 처음 2개만 다시 표시
-                this.innerText = '▼ 더 보기';
-                isAllAreasVisible = false;
-
-                // 선택된 지역의 버튼 색상 유지
-                if (selectedArea) {
-                    const button = Array.from(document.querySelectorAll('#areaButtons .my-button'))
-                        .find(btn => btn.innerText === selectedArea);
-                    if (button) {
-                        button.classList.add('active'); // 선택된 버튼 색상 유지
-                    }
-                }
-            }
-        };
-
-        function selectKeyword(keyword, button) {
-            // 이미 선택된 키워드가 있으면 해제
-            if (selectedKeyword) {
-                const existingButton = Array.from(document.querySelectorAll('#keywordButtons .my-button'))
-                    .find(btn => btn.classList.contains('active'));
-                if (existingButton) {
-                    existingButton.classList.remove('active');
-                }
-            }
-
-            selectedKeyword = keyword;
+function displayAreas(areas) {
+    const areaButtons = document.getElementById('areaButtons');
+    areaButtons.innerHTML = '';
+    areas.forEach(area => {
+        const button = createButton(area, selectArea, 'area-button');
+        areaButtons.appendChild(button);
+        if (selectedArea === area) {
             button.classList.add('active');
-            updateSelection('keyword', keyword);
         }
+    });
+    updateShowMoreButton();
+}
 
-        function selectArea(area, button) {
-            // 이미 선택된 지역이 있으면 해제
-            if (selectedArea) {
-                const existingButton = Array.from(document.querySelectorAll('#areaButtons .my-button'))
-                    .find(btn => btn.classList.contains('active'));
-                if (existingButton) {
-                    existingButton.classList.remove('active');
-                }
+function updateShowMoreButton() {
+    const showMoreButton = document.getElementById('showMoreAreas');
+    showMoreButton.style.display = allAreas.length > 2 ? 'block' : 'none';
+}
+
+document.getElementById('showMoreAreas').onclick = function() {
+    if (!isAllAreasVisible) {
+        displayAreas(allAreas);
+        this.innerText = '▲ 접기';
+        isAllAreasVisible = true;
+    } else {
+        displayAreas(allAreas.slice(0, 2));
+        this.innerText = '▼ 더 보기';
+        isAllAreasVisible = false;
+
+        if (selectedArea) {
+            const button = Array.from(document.querySelectorAll('#areaButtons .my-button'))
+                .find(btn => btn.innerText === selectedArea);
+            if (button) {
+                button.classList.add('active');
             }
-
-            selectedArea = area;
-            button.classList.add('active');
-            updateSelection('area', area);
         }
+    }
+};
 
-        function updateSelection(type, value) {
-            const input = document.getElementById(`hidden${capitalize(type)}`);
-            input.value = value;
-
-            document.getElementById(`selected${capitalize(type)}`).innerText = value || '선택된 항목이 없습니다.';
+function selectKeyword(keyword, button) {
+    if (selectedKeyword) {
+        const existingButton = Array.from(document.querySelectorAll('#keywordButtons .my-button'))
+            .find(btn => btn.classList.contains('active'));
+        if (existingButton) {
+            existingButton.classList.remove('active');
         }
+    }
 
-        function capitalize(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
+    selectedKeyword = keyword;
+    button.classList.add('active');
+    updateSelection('keyword', keyword);
+}
+
+function selectArea(area, button) {
+    if (selectedArea) {
+        const existingButton = Array.from(document.querySelectorAll('#areaButtons .my-button'))
+            .find(btn => btn.classList.contains('active'));
+        if (existingButton) {
+            existingButton.classList.remove('active');
         }
+    }
 
-        function validateForm() {
-            let isValid = true;
-            let messages = []; // 경고 메시지를 저장할 배열
+    selectedArea = area;
+    button.classList.add('active');
+    updateSelection('area', area);
+}
 
-            // 키워드 확인
-            if (!selectedKeyword) {
-                messages.push("키워드를 선택해주세요.");
-                isValid = false; // 유효성 검사 실패
-            }
+function updateSelection(type, value) {
+    const input = document.getElementById(`hidden${capitalize(type)}`);
+    input.value = value;
+    document.getElementById(`selected${capitalize(type)}`).innerText = value || '선택된 항목이 없습니다.';
+}
 
-            // 지역 확인
-            if (!selectedArea) {
-                messages.push("지역을 선택해주세요.");
-                isValid = false; // 유효성 검사 실패
-            }
+function capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
-            // 날짜 확인
-            const departureDate = document.getElementById('departureDate').value;
-            const arrivalDate = document.getElementById('arrivalDate').value;
+function validateForm() {
+    let isValid = true;
+    let messages = [];
 
-            if (!departureDate) {
-                messages.push("떠날 날짜를 선택해주세요.");
-                isValid = false;
-            } else if (!arrivalDate) {
-                messages.push("도착할 날짜를 선택해주세요.");
-                isValid = false;
-            } else if (departureDate > arrivalDate) {
-                messages.push("떠날 날짜는 도착할 날짜보다 이전이어야 합니다.");
-                isValid = false;
-            }
+    if (!selectedKeyword) {
+        messages.push("키워드를 선택해주세요.");
+        isValid = false;
+    }
 
-            // 경고 메시지가 있을 경우 표시
-            if (!isValid) {
-                alert(messages.join("\n")); // 배열을 줄바꿈으로 연결하여 출력
-            }
+    if (!selectedArea) {
+        messages.push("지역을 선택해주세요.");
+        isValid = false;
+    }
 
-            return isValid; // 유효성 검사 결과 반환
+    const departureDate = document.getElementById('departureDate').value;
+    const arrivalDate = document.getElementById('arrivalDate').value;
+
+    if (!departureDate) {
+        messages.push("떠날 날짜를 선택해주세요.");
+        isValid = false;
+    } else if (!arrivalDate) {
+        messages.push("도착할 날짜를 선택해주세요.");
+        isValid = false;
+    } else if (departureDate > arrivalDate) {
+        messages.push("떠날 날짜는 도착할 날짜보다 이전이어야 합니다.");
+        isValid = false;
+    }
+
+    if (!isValid) {
+        alert(messages.join("\n"));
+    }
+
+    return isValid;
+}
+
+// 날씨 슬라이드 관련 코드
+let cities = ['Seoul', 'Daejeon', 'Incheon', 'Sokcho', 'Gangneung', 'Chuncheon', 'Gwangju', 'Ulsan', 'Busan', 'Mokpo', 'Jeju City'];
+let apiKey = '{YOUR_API_KEY}'; // OpenWeatherMap API 키로 교체
+
+let requests = cities.map(city => {
+    let weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    return $.ajax({
+        url: weatherUrl,
+        type: 'GET',
+        success: function(data) {
+            let temp = data.main.temp;
+            let weatherDescription = data.weather[0].description;
+            let icon = data.weather[0].icon;
+
+            $('.weather-slides').append(`
+                <div class="weather-slide">
+                    <h2>${city}</h2>
+                    <img src="https://openweathermap.org/img/wn/${icon}.png" alt="${weatherDescription}" style="width: 50px;"/>
+                    <p>${temp} °C / ${weatherDescription}</p>
+                </div>
+            `);
+        },
+        error: function() {
+            $('.weather-slides').append('<div class="weather-slide">날씨 정보를 가져오는데 실패했습니다.</div>');
         }
+    });
+});
+
+let currentIndex = 0;
+
+function updateSlide() {
+    let offset = -currentIndex * 100; // 현재 인덱스에 따라 오프셋 계산
+    $('.weather-slides').css('transform', 'translateX(' + offset + '%)');
+}
+
+function startAutoSlide() {
+    intervalId = setInterval(function() {
+        currentIndex = (currentIndex + 1) % cities.length;
+        updateSlide();
+    }, 8000);
+}
+
+function prevSlide() {
+    currentIndex = (currentIndex - 1 + cities.length) % cities.length;
+    updateSlide();
+}
+
+function nextSlide() {
+    currentIndex = (currentIndex + 1) % cities.length;
+    updateSlide();
+}
+
+$.when(...requests).then(function() {
+    updateSlide();
+    startAutoSlide();
+});
