@@ -1,0 +1,23 @@
+.form-row {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .my-button {
+            flex: 1;
+            min-width: 80px; /* 키워드 버튼 크기 줄임 */
+        }
+
+        .keyword-row, .area-row {
+            display: flex;
+            flex-wrap: wrap; /* 자동 줄바꿈 */
+            gap: 10px; /* 버튼 간 간격 */
+            margin-bottom: 10px;
+        }
+
+        .keyword-button, .area-button {
+            flex: 1 1 calc(20% - 10px); /* 5열 배치로 조정 */
+            min-width: 80px; /* 크기 조정 */
+        }
