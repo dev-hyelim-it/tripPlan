@@ -2,7 +2,9 @@ package com.teamProject.tripPlan.controller;
 
 import com.teamProject.tripPlan.dto.PostDTO;
 import com.teamProject.tripPlan.dto.UsersDTO;
+import com.teamProject.tripPlan.entity.Accommodation;
 import com.teamProject.tripPlan.entity.Travel;
+import com.teamProject.tripPlan.entity.TravelAccommodation;
 import com.teamProject.tripPlan.repository.PostRepository;
 import com.teamProject.tripPlan.repository.UserRepository;
 import com.teamProject.tripPlan.service.MyPageService;
