@@ -47,7 +47,7 @@ public class LoginUserController {
             session.setAttribute("loginId", users.getUserId());
             // 세션 만료 시간
             session.setMaxInactiveInterval(60*30);
-            return "redirect:/user/login";
+            return "redirect:/main";
         }
     }
 

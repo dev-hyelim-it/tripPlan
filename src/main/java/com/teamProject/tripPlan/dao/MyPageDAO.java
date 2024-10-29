@@ -27,12 +27,13 @@ public class MyPageDAO {
         return post;
     }
 
-    public void updateInfo(UsersDTO dto) {
+    public Users updateInfo(UsersDTO dto) {
         Users users = em.find(Users.class, dto.getUserNo());
         users.setUserId(dto.getUserId());
         users.setUserName(dto.getUserName());
         users.setUserNickname(dto.getUserNickname());
         users.setUserEmail(dto.getUserEmail());
+        return users;
     }
 
     public void deleteInfo(Long id) {
