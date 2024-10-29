@@ -30,8 +30,7 @@ public class Post {
 
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "post",
-            cascade = {CascadeType.PERSIST,
-                    CascadeType.REMOVE})
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comment> comments = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -41,4 +40,11 @@ public class Post {
     @OneToOne(mappedBy = "post", fetch = FetchType.LAZY)
     private Travel travel;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "post_keyword",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "keyword_id")
+    )
+    private List<Keyword> keywords = new ArrayList<>();
 }

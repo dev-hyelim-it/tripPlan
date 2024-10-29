@@ -1,14 +1,14 @@
 package com.teamProject.tripPlan.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-//Getter, Setter || Data 다 오류나길래 일단 모든 entity 다 getter, setter 적었어요..!
+import java.util.ArrayList;
+import java.util.List;
+
+//Getter, Setter || Data 다 오류나길래 일단 모든 entity 다 getter, setter 적었어요!
 @Entity
 public class Keyword {
 
@@ -18,15 +18,14 @@ public class Keyword {
 
     private String keyword;
 
-
+    @ManyToMany(mappedBy = "keywords", fetch = FetchType.LAZY)
+    private List<Post> posts = new ArrayList<>();
 
     public Keyword() {}
-
 
     public Keyword(String keyword) {
         this.keyword = keyword;
     }
-
 
     public Long getKeywordId() {
         return keywordId;
@@ -35,7 +34,6 @@ public class Keyword {
     public String getKeyword() {
         return keyword;
     }
-
 
     public void setKeywordId(Long keywordId) {
         this.keywordId = keywordId;

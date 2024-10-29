@@ -1,72 +1,71 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org"
-      xmlns:layout="www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
-<!--<head>-->
-	<meta charset="UTF-8">
-	<title>Title</title>
+<head>
+    <meta charset="UTF-8">
+    <title>자유게시판</title>
     <th:block layout:fragment="css"></th:block>
     <th:block layout:fragment="script"></th:block>
-<!--    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">-->
-<!--    <style>-->
-<!--        /* 페이지 전체 설정 */-->
-<!--        body {-->
-<!--            font-family: Arial, sans-serif;-->
-<!--            margin: 20px;-->
-<!--        }-->
+    <style>
+        .keyword-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .keyword-row div {
+            margin-right: 15px;
+            margin-bottom: 10px;
+        }
+        .keyword-row input[type="checkbox"] {
+            margin-right: 5px;
+        }
+    </style>
+    <script>
+        function filterPostsBySelectedKeyword() {
+            const selectedKeyword = document.getElementById('keywordSelect').value;
 
-<!--        /* 테이블 스타일링 */-->
-<!--        table {-->
-<!--            width: 100%;-->
-<!--            border-collapse: collapse;-->
-<!--            margin: 20px 0;-->
-<!--        }-->
-
-<!--        th, td {-->
-<!--            border: 1px solid black;-->
-<!--            padding: 10px;-->
-<!--            text-align: center;-->
-<!--        }-->
-
-<!--        th {-->
-<!--            background-color: #f0f0f0;-->
-<!--            font-weight: bold;-->
-<!--        }-->
-
-<!--        td {-->
-<!--            background-color: #e0e0e0;-->
-<!--        }-->
-
-<!--        /* 버튼 스타일링 */-->
-<!--        #newPost, #GoBackToMain {-->
-<!--            display: block;-->
-<!--            margin: 20px auto;-->
-<!--            padding: 10px 20px;-->
-<!--            font-size: 16px;-->
-<!--            background-color: #f0f0f0;-->
-<!--            border: 2px solid #000;-->
-<!--            cursor: pointer;-->
-<!--        }-->
-
-<!--        button:hover {-->
-<!--            background-color: #e0e0e0;-->
-<!--        }-->
-
-<!--        /* 상단 제목 영역 */-->
-<!--        .com-title {-->
-<!--            text-align: center;-->
-<!--            font-size: 24px;-->
-<!--            margin-bottom: 20px;-->
-<!--            border-bottom: 1px solid black;-->
-<!--            padding-bottom: 10px;-->
-<!--        }-->
-<!--    </style>-->
-
-<!--</head>-->
+            if (selectedKeyword) {
+                fetch(`/community/filter?keywords=${encodeURIComponent(selectedKeyword)}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text();
+                    })
+                    .then(html => {
+                        document.querySelector('.table tbody').innerHTML = html;
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+            } else {
+                // 선택된 키워드가 없으면 모든 게시글 로드
+                fetch(`/community/filter?keywords=`) // 빈 키워드로 요청
+                    .then(response => response.text())
+                    .then(html => {
+                        document.querySelector('.table tbody').innerHTML = html;
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+            }
+        }
+    </script>
+</head>
 <body>
 <div layout:fragment="content" class="content">
     <h2 class="com-title">자유게시판</h2>
-    <form id="form" th:action="@{/community/new}">
+    <div class="mb-3">
+        <label for="keyword" class="form-label">키워드:</label>
+        <select id="keywordSelect" class="form-select" onchange="filterPostsBySelectedKeyword()">
+            <option value="">모든 키워드</option>
+            <th:block th:each="keyword : ${allKeywords}">
+                <option th:value="${keyword.keyword}" th:text="${keyword.keyword}"></option>
+            </th:block>
+        </select>
+    </div>
+    <form id="form" th:action="@{/community/new}" method="post">
         <table class="table">
             <thead>
             <tr>
@@ -75,29 +74,29 @@
                 <th scope="col">작성자</th>
                 <th scope="col">작성일</th>
                 <th scope="col">조회수</th>
+                <th scope="col">키워드</th>
             </tr>
             </thead>
-            <tbody>
-            <div>
-                <tr th:each="post : ${posts}" th:object="${post}">
-                    <th th:text="*{postId}"></th>
-                    <td>
-                        <a th:href="@{/community/{id}(id=*{postId})}" th:text="*{postTitle}">부산 여행 추천해요</a>
-                    </td>
-                    <td th:text="*{users.userNickname}">개구리</td>
-                    <td th:text="*{postDate}">2024-09-12</td>
-                    <td th:text="*{likes}">100</td>
-                </tr>
-
-            </div>
+            <tbody th:fragment="postList">
+            <tr th:each="post : ${posts}">
+                <th th:text="${post.postId}"></th>
+                <td>
+                    <a th:href="@{/community/{id}(id=${post.postId})}" th:text="${post.postTitle}"></a>
+                </td>
+                <td th:if="${post.users != null}" th:text="${post.users.userNickname}">작성자 없음</td>
+                <td th:if="${post.users == null}">작성자 없음</td>
+                <td th:text="${post.postDate}"></td>
+                <td th:text="${post.likes}"></td>
+                <td>
+                    <span th:each="keyword : ${post.keywords}" th:text="${keyword.keyword}"></span>
+                </td>
+            </tr>
             </tbody>
         </table>
         <input type="submit" value="글쓰기" id="newPost">
-        <button id="GoBackToMain"><a href="/main">메인</a></button>
+        <a href="/main" class="btn btn-secondary">메인</a>
         <br>
-
     </form>
 </div>
-
 </body>
 </html>
