@@ -56,7 +56,6 @@ public class LoginUserController {
                 return "redirect:/main";
 
             }
-
         }
     }
 

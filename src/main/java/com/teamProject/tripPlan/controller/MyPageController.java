@@ -8,6 +8,7 @@ import com.teamProject.tripPlan.entity.TravelAccommodation;
 import com.teamProject.tripPlan.repository.PostRepository;
 import com.teamProject.tripPlan.repository.UserRepository;
 import com.teamProject.tripPlan.service.MyPageService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,9 +62,11 @@ public class MyPageController {
     }
 
     @PostMapping("/update")
-    public String infoUpdate(UsersDTO dto) {
-        String redirectUrl = "redirect:/myPage/info/1";
-        myPageService.updateInfo(dto);
+    public String infoUpdate(UsersDTO dto,
+                             HttpSession session) {
+        UsersDTO usersDTO = myPageService.updateInfo(dto);
+        String redirectUrl = "redirect:/myPage/info/" + dto.getUserId();
+        session.setAttribute("loginId", usersDTO.getUserId());
         return redirectUrl;
     }
 
@@ -77,10 +80,11 @@ public class MyPageController {
     }
 
     @GetMapping("/delete/{userId}")
-    public String infoDelete(
-            @PathVariable("userId")String userId) {
+    public String infoDelete(@PathVariable("userId")String userId,
+                             HttpSession session) {
         Long id = myPageService.findUserId(userId);
         myPageService.deleteInfo(id);
-        return "redirect:/";
+        session.invalidate();
+        return "redirect:/main";
     }
 }

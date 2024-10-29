@@ -31,8 +31,9 @@ public class MyPageService {
         return PostDTO.fromEntity(post);
     }
 
-    public void updateInfo(UsersDTO dto) {
-        myPageDAO.updateInfo(dto);
+    public UsersDTO updateInfo(UsersDTO dto) {
+        Users users = myPageDAO.updateInfo(dto);
+        return UsersDTO.fromEntity(users);
     }
 
     public void deleteInfo(Long id) {
