@@ -20,13 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginUserController {
     @Autowired
     UsersService usersService;
+
     @GetMapping("/login")
     public String showLogin() {
         return "/member/login";
     }
 
     @PostMapping("/login")
-    public String login(@Valid @ModelAttribute("dto")UsersDTO dto,
+    public String login(@Valid @ModelAttribute("dto") UsersDTO dto,
                         BindingResult bindingResult, HttpSession session, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("loginError", "Invalid login details");
@@ -43,11 +44,19 @@ public class LoginUserController {
             model.addAttribute("loginError", "비밀번호가 일치하지 않습니다");
             return "/member/login";
         } else {
-            // 로그인 성공
-            session.setAttribute("loginId", users.getUserId());
-            // 세션 만료 시간
-            session.setMaxInactiveInterval(60*30);
-            return "redirect:/user/login";
+            if (users.getUserId().equals("admin")) {
+                // 로그인 아이디가 관리자인지 체크
+                session.setAttribute("loginId", users.getUserId());
+                session.setMaxInactiveInterval(60 * 30);
+                return "redirect:/main";
+            } else {
+                // 로그인 성공
+                session.setAttribute("loginId", users.getUserId());
+                session.setMaxInactiveInterval(60 * 30);
+                return "redirect:/main";
+
+            }
+
         }
     }
 

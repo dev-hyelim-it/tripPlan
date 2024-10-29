@@ -16,8 +16,19 @@ public class Interceptor implements HandlerInterceptor {
         if (ObjectUtils.isEmpty(loginId)) {
             response.sendRedirect("/user/login");
             return false;
-        } else {
+        }
+
+        if ("admin".equals(loginId)) {
             return true;
+        }
+
+        // "role"이 "admin"이 아니면 특정 페이지 접근만 허용
+        String requestURI = request.getRequestURI();
+        if (request.getRequestURI().matches("/myPage(/.*)?")) {
+            return true;
+        } else {
+            response.sendRedirect("/main");
+            return false;
         }
     }
 }
