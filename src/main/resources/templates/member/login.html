@@ -23,7 +23,7 @@
         <input type="password" id="userPassword" name="userPassword">
     </div>
     <p>
-        <input type="submit" value="로그인"/>
+        <input type="submit" value="로그인" id="login"/>
     </p>
 </form>
 <a th:href="@{/myPage/1}">마이페이지로 이동</a>
@@ -33,4 +33,20 @@
 <!--<input th:href="@{/forgot-username}" value="아이디 찾기"/>-->
 <!--<input th:href="@{/forgot-password}" value="비밀번호 찾기"/>-->
 </body>
+<script>
+    document.getElementById("login").addEventListener("click", function() {
+        var userId = document.getElementById("userId").value;
+        var userPw = document.getElementById("userPassword").value;
+
+        if (userId == "") {
+            alert("아이디를 입력해주세요.");
+            event.preventDefault();
+            return;
+        }
+        if (userPw == "") {
+            alert("비밀번호를 입력해주세요.");
+            event.preventDefault();
+        }
+    });
+</script>
 </html>
