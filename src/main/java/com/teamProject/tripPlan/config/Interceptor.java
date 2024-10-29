@@ -13,7 +13,6 @@ public class Interceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();
         String loginId = (String) session.getAttribute("loginId");
-
         if (ObjectUtils.isEmpty(loginId)) {
             response.sendRedirect("/user/login");
             return false;
