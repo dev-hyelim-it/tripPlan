@@ -172,7 +172,7 @@ function validateForm() {
 
 // 날씨 슬라이드 관련 코드
 let cities = ['Seoul', 'Daejeon', 'Incheon', 'Sokcho', 'Gangneung', 'Chuncheon', 'Gwangju', 'Ulsan', 'Busan', 'Mokpo', 'Jeju City'];
-let apiKey = '04755e2affa51884138930dc31807981'; // OpenWeatherMap API 키로 교체
+let apiKey = '{API KEY}'; // OpenWeatherMap API 키로 교체
 
 let requests = cities.map(city => {
     let weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
