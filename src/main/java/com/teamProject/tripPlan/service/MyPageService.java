@@ -48,4 +48,9 @@ public class MyPageService {
         List<Accommodation> accommodation = myPageDAO.findUserAccommodation(id);
         return accommodation;
     }
+
+    public Long findUserId(String userId) {
+        Long id = myPageDAO.findUserId(userId);
+        return id;
+    }
 }
