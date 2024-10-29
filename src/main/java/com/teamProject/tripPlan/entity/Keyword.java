@@ -15,7 +15,6 @@ public class Keyword {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long keywordId;
-
     private String keyword;
 
     @ManyToMany(mappedBy = "keywords", fetch = FetchType.LAZY)

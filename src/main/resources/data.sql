@@ -29,6 +29,7 @@ INSERT INTO users (user_name, user_nickname, user_email, user_id, user_password)
 INSERT INTO users (user_name, user_nickname, user_email, user_id, user_password) VALUES ('1111', '1111', '1111@naver.com', '1111', '1111');
 
 INSERT INTO post (likes, post_date, user_no, post_title, post_content)
+
 VALUES (100, '2024-07-23', 1, '부산 조아', '부산 개조음');
 INSERT INTO post_keyword (post_id, keyword_id)
 VALUES (
@@ -37,6 +38,7 @@ VALUES (
 );
 
 INSERT INTO post (likes, post_date, user_no, post_title, post_content)
+
 VALUES (159, '2024-08-11', 2, '여수 조아', '여수 개조음');
 INSERT INTO post_keyword (post_id, keyword_id)
 VALUES (
