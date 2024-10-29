@@ -58,7 +58,7 @@
                 <span th:each="travel : ${list}" th:object="${travel}">
                         <input type="radio" name="radio" th:value="*{travelId}" onclick="showForm(this.value)" checked>
                         <span th:text="${#strings.substring(travel.startDate, 0, 4)}"></span><span>년</span>
-                        <span th:text="${#strings.substring(travel.startDate, 6, 7)}"></span><span>월</span>
+                        <span th:text="${#strings.substring(travel.startDate, 5, 7)}"></span><span>월</span>
                         <span th:text="*{place}"></span>
                 </span>
                 <hr>
@@ -75,12 +75,12 @@
                     <p>
                         <label>출발일 : </label>
                         <span th:text="${#strings.substring(travel.startDate, 0, 4)}"></span><span>년</span>
-                        <span th:text="${#strings.substring(travel.startDate, 6, 7)}"></span><span>월</span>
-                        <span th:text="${#strings.substring(travel.startDate, 9, 10)}"></span><span>일</span>
+                        <span th:text="${#strings.substring(travel.startDate, 5, 7)}"></span><span>월</span>
+                        <span th:text="${#strings.substring(travel.startDate, 8, 10)}"></span><span>일</span>
                         <label>도착일 : </label>
                         <span th:text="${#strings.substring(travel.endDate, 0, 4)}"></span><span>년</span>
-                        <span th:text="${#strings.substring(travel.endDate, 6, 7)}"></span><span>월</span>
-                        <span th:text="${#strings.substring(travel.endDate, 9, 10)}"></span><span>일</span>
+                        <span th:text="${#strings.substring(travel.endDate, 5, 7)}"></span><span>월</span>
+                        <span th:text="${#strings.substring(travel.endDate, 8, 10)}"></span><span>일</span>
                     </p>
                     <p>
                         <label>숙박 : </label>
