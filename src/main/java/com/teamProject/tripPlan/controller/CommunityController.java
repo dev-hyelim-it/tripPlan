@@ -49,7 +49,8 @@ public class CommunityController {
 
     @GetMapping("/filter")
     public String filterPostsByKeywords(@RequestParam(value = "keywords", required = false) List<String> keywords, Model model) {
-        if (keywords == null || keywords.isEmpty() || keywords.get(0).isEmpty()) {
+        if (keywords == null || keywords.isEmpty() ||
+                keywords.get(0).isEmpty()) {
             // 모든 게시글을 반환
             List<PostDTO> allPosts = postService.findAllPost();
             model.addAttribute("posts", allPosts);

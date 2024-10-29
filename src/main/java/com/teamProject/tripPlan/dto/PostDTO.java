@@ -26,6 +26,7 @@ public class PostDTO {
     private Users users;
     private List<CommentDTO> comments = new ArrayList<>();
     private Travel travel;
+
     // 추가: keywords 필드
     private List<Keyword> keywords = new ArrayList<>();
 

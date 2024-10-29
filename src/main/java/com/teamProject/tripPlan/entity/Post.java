@@ -27,8 +27,7 @@ public class Post {
         this.likes = 0;
     }
 
-    @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "post",
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comment> comments = new ArrayList<>();
 

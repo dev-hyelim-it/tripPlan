@@ -26,8 +26,7 @@ public class PostDAO {
     }
 
     public List<Post> findAllPost() {
-        return em.createQuery("SELECT p FROM Post p LEFT JOIN FETCH p.keywords", Post.class)
-                .getResultList();
+        return em.createQuery("SELECT p FROM Post p LEFT JOIN FETCH p.keywords", Post.class).getResultList();
     }
 
     public Post getOnePost(Long postId) {

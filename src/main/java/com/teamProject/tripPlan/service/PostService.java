@@ -28,6 +28,7 @@ public class PostService {
 
     public PostDTO getOnePost(Long postId) {
         Post post = dao.getOnePost(postId);
+
         if (ObjectUtils.isEmpty(post)) {
             return null;
         }
