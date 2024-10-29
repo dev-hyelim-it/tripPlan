@@ -2,6 +2,7 @@ package com.teamProject.tripPlan.repository;
 
 import com.teamProject.tripPlan.entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 public interface LoginEntityRepository extends JpaRepository<Users, String> {
 
@@ -9,7 +10,4 @@ public interface LoginEntityRepository extends JpaRepository<Users, String> {
 
     Users findByUserEmail(String userEmail);
 
-    Boolean existByEmail(String email);
-
-    Users findByEmail(String email);
 }
