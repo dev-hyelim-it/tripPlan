@@ -16,6 +16,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/myPage/**")
                 .addPathPatterns("/community");
     }
-
-
 }

@@ -1,12 +1,3 @@
- let mapContainer = document.getElementById('map'),
-     mapOption = {
-         center: new kakao.maps.LatLng(33.450701, 126.570667),
-         level: 3
-     };
-
- let map = new kakao.maps.Map(mapContainer, mapOption);
-
-// 키워드 지역 버튼 설정 영역
 let allAreas = [];
 let isAllAreasVisible = false;
 let selectedKeyword = '';
@@ -16,6 +7,21 @@ window.onload = () => {
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('departureDate').min = today;
     document.getElementById('arrivalDate').min = today;
+
+    // departureDate의 이벤트 리스너 추가
+    document.getElementById('departureDate').addEventListener('change', function() {
+        const selectedDepartureDate = this.value;
+        document.getElementById('arrivalDate').min = selectedDepartureDate; // 도착 날짜의 최소값을 떠날 날짜로 설정
+    });
+
+    // 지도 초기화
+//    let mapContainer = document.getElementById('map'),
+//        mapOption = {
+//            center: new kakao.maps.LatLng(33.450701, 126.570667),
+//            level: 3
+//        };
+//
+//    let map = new kakao.maps.Map(mapContainer, mapOption);
 
     loadKeywords();
     loadAreas();
@@ -166,7 +172,7 @@ function validateForm() {
 
 // 날씨 슬라이드 관련 코드
 let cities = ['Seoul', 'Daejeon', 'Incheon', 'Sokcho', 'Gangneung', 'Chuncheon', 'Gwangju', 'Ulsan', 'Busan', 'Mokpo', 'Jeju City'];
-let apiKey = '{YOUR_API_KEY}'; // OpenWeatherMap API 키로 교체
+let apiKey = '{API KEY}'; // OpenWeatherMap API 키로 교체
 
 let requests = cities.map(city => {
     let weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
