@@ -23,9 +23,7 @@ public class PostService {
 
     public List<PostDTO> findAllPost() {
         // 키워드를 포함하여 모든 게시물을 가져오는 메소드 호출
-        return dao.findAllPost().stream()
-                .map(PostDTO::fromEntity)
-                .toList();
+        return dao.findAllPost().stream().map(PostDTO::fromEntity).toList();
     }
 
     public PostDTO getOnePost(Long postId) {

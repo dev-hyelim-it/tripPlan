@@ -44,7 +44,6 @@ public class PostDAO {
         Post post = em.find(Post.class, dto.getPostId());
         post.setPostTitle(dto.getPostTitle());
         post.setPostContent(dto.getPostContent());
-//        em.persist(post);
     }
 
     public void calculateLikes(Long id) {

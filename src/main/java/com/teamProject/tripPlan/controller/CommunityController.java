@@ -76,7 +76,6 @@ public class CommunityController {
         return "redirect:/community";
     }
 
-
     @GetMapping("{id}")
     public String showOnePost(@PathVariable("id") Long id, Model model) {
         PostDTO dto = postService.getOnePost(id);
@@ -89,9 +88,6 @@ public class CommunityController {
     @GetMapping("{id}/delete")
     public String deleteArticle(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         postService.deletePost(id);
-
-//        log.info("================== deleteId = " + id + " ==================");
-//        queryService.deleteById(id);
         redirectAttributes.addFlashAttribute("msg", "정상적으로 삭제되었습니다.");
         return "redirect:/community";
     }

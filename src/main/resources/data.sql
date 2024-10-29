@@ -27,11 +27,8 @@ INSERT INTO area (area) VALUES ('제주특별자치도');
 INSERT INTO users (user_name, user_nickname, user_email, user_id, user_password) VALUES ('frog', 'froggy', 'frog@naver.com', 'froggg', 'frogfrog');
 INSERT INTO users (user_name, user_nickname, user_email, user_id, user_password) VALUES ('ant', 'antty', 'ant@naver.com', 'anttt', 'antant');
 
--- 첫 번째 포스트 삽입
 INSERT INTO post (likes, post_date, user_no, post_title, post_content)
 VALUES (100, '2024-07-23', 1, '부산 조아', '부산 개조음');
-
--- 첫 번째 포스트에 키워드 삽입 (맛집)
 INSERT INTO post_keyword (post_id, keyword_id)
 VALUES (
     (SELECT post_id FROM post WHERE post_title = '부산 조아'),
