@@ -1,4 +1,4 @@
-##Mysql 셋팅
+##postgresql 셋팅
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -7,7 +7,7 @@ spring:
     password: ${DB_PW}
   sql:
     init:
-      mode: never
+      mode: always
 # always : 매번, embedded : 내장 DB만, never : 모든 동작 안함.
   jpa:
     defer-datasource-initialization: true
@@ -15,5 +15,5 @@ spring:
       ddl-auto: create
     properties:
       hibernate:
-      show_sql: true
-      format_sql: true
+        show_sql: true
+        format_sql: true
