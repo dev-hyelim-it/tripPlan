@@ -42,31 +42,33 @@ public class MyPageDAO {
 
     // 유저에 해당하는 여행 계획 리스트 가져오기 (키워드, 지역, 날짜)
     public List<Travel> findUserList(Long id) {
-        Long id1 = 1L;
         String sql = "SELECT t FROM Travel t " +
                 "JOIN t.users u " +
-                "WHERE u.userNo = " + id1;
+                "WHERE u.userNo = " + id;
         Query query = em.createQuery(sql);
         List<Travel> travels = query.getResultList();
-//        for (Travel travel : travels) {
-//            System.out.println(travel.getPlace());
-//        }
         return travels;
     }
 
     // 해당 유저의 여행 계획 리스트 가져오기 (숙소)
     public List<Accommodation> findUserAccommodation(Long id) {
-        Long id1 = 1L;
         String sql = "SELECT a FROM Accommodation a " +
                 "JOIN TravelAccommodation ta " +
                 "ON a.accommodationId = ta.accommodation.accommodationId " +
                 "JOIN ta.travel t " +
-                "ON ta.travel.travelId = " + id1;
+                "ON ta.travel.travelId = " + id;
         Query query = em.createQuery(sql);
         List<Accommodation> accommodation = query.getResultList();
-        for (Accommodation accommodation1 : accommodation) {
-            System.out.println(accommodation1.getAccommodationId()+accommodation1.getAccommodationName());
-        }
         return accommodation;
+    }
+
+    public Long findUserId(String userId) {
+        String sql = "SELECT u FROM Users u " +
+                "WHERE u.userId = '" + userId + "'";
+        Query query = em.createQuery(sql);
+        Users users = (Users) query.getSingleResult();
+        Long id = users.getUserNo();
+        System.out.println(id);
+        return id;
     }
 }
