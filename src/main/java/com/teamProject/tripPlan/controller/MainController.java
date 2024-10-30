@@ -1,15 +1,14 @@
 package com.teamProject.tripPlan.controller;
 
+import com.teamProject.tripPlan.dto.KakaoApiResponseDTO;
 import com.teamProject.tripPlan.dto.MainDTO;
 import org.springframework.security.core.context.SecurityContextHolder;
 import com.teamProject.tripPlan.entity.MbtiTestResult;
 import com.teamProject.tripPlan.entity.Users;
+import com.teamProject.tripPlan.service.KakaoKeywordSearchService;
 import com.teamProject.tripPlan.service.MbtiTestResultService;
 import com.teamProject.tripPlan.service.QueryService;
-import com.teamProject.tripPlan.service.UsersService;
 import lombok.extern.slf4j.Slf4j;
-import com.teamProject.tripPlan.dto.KakaoApiResponseDTO;
-import com.teamProject.tripPlan.service.KakaoKeywordSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @Controller
 public class MainController {
+
     @Autowired
     QueryService queryService;
 
@@ -47,7 +47,6 @@ public class MainController {
 
     @PostMapping("/main")
     public String submit(@ModelAttribute MainDTO mainDTO, Model model) {
-
         model.addAttribute("searchResult", mainDTO);
         // 결과 페이지로 리다이렉트 또는 이동
         return "main"; // result.html 페이지로 이동
