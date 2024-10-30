@@ -3,6 +3,7 @@ package com.teamProject.tripPlan.dto;
 import com.teamProject.tripPlan.entity.Post;
 import com.teamProject.tripPlan.entity.UserRole;
 import com.teamProject.tripPlan.entity.Suggestion;
+import com.teamProject.tripPlan.entity.UserRole;
 import com.teamProject.tripPlan.entity.Users;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
@@ -38,7 +39,6 @@ public class UsersDTO {
                 users.getUserEmail(),
                 users.getPosts(),
                 users.getRole(),
-                users.getPosts(),
                 users.getSuggestions()
         );
     }
