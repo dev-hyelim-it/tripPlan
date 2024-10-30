@@ -22,6 +22,18 @@
             <li>[[ ${myResult.areaDescription2} ]]</li>
         </ul>
     </div>
+  <button><a th:href="@{/typeTest}">다시 테스트하기</a></button>
+  <button><a th:href="@{/main}">여행하러 가자~!</a></button>
 
+  <script>
+      // 세션 스토리지에서 'visitedResultPage' 플래그 확인
+      if (sessionStorage.getItem('visitedResultPage')) {
+          // 플래그가 이미 존재하면 리다이렉트
+          window.location.href = "/typeTest";
+      } else {
+          // 처음 방문 시 플래그 설정
+          sessionStorage.setItem('visitedResultPage', 'true');
+      }
+  </script>
 </body>
 </html>

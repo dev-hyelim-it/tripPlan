@@ -25,8 +25,8 @@ INSERT INTO area (area) VALUES ('경상남도');
 INSERT INTO area (area) VALUES ('제주특별자치도');
 
 
-INSERT INTO users (user_name, user_nickname, user_email, user_id, user_password, result_type) VALUES ('frog', 'froggy', 'frog@naver.com', 'froggg', 'frogfrog', 'HN');
-INSERT INTO users (user_name, user_nickname, user_email, user_id, user_password, result_type) VALUES ('ant', 'antty', 'ant@naver.com', 'anttt', 'antant', 'AC');
+INSERT INTO users (user_name, user_nickname, user_email, user_id, user_password) VALUES ('frog', 'froggy', 'frog@naver.com', 'froggg', 'frogfrog');
+INSERT INTO users (user_name, user_nickname, user_email, user_id, user_password) VALUES ('ant', 'antty', 'ant@naver.com', 'anttt', 'antant');
 INSERT INTO users (user_name, user_nickname, user_email, user_id, user_password) VALUES ('1111', '1111', '1111@naver.com', '1111', '1111');
 
 INSERT INTO post (likes, post_date, user_no, post_title, post_content)
@@ -44,6 +44,15 @@ VALUES (159, '2024-08-11', 2, '여수 조아', '여수 개조음');
 INSERT INTO post_keyword (post_id, keyword_id)
 VALUES (
     (SELECT post_id FROM post WHERE post_title = '여수 조아'),
+    (SELECT keyword_id FROM keyword WHERE keyword = '문화')
+);
+
+INSERT INTO post (likes, post_date, user_no, post_title, post_content)
+
+VALUES (60, '2024-09-15', 3, '목포 조아', '목포 개조음');
+INSERT INTO post_keyword (post_id, keyword_id)
+VALUES (
+    (SELECT post_id FROM post WHERE post_title = '목포 조아'),
     (SELECT keyword_id FROM keyword WHERE keyword = '문화')
 );
 

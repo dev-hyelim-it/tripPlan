@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -100,7 +102,6 @@ public class MbtiController {
 
     }
 
-
 //    @PostMapping("insertUsersAnswer")
 //    public String insertUsersAnswer(UsersMbtiAnswerDTO dto, @RequestParam("questionId") Long questionId) {
 //        log.info(questionId.toString());
@@ -114,7 +115,7 @@ public class MbtiController {
 //    }
 
     @GetMapping("result")
-    public String resultPage(Model model) {
+    public String resultPage(Model model, Principal principal, RedirectAttributes redirectAttributes) {
         model.addAttribute("results", mbtiTestResultService.findAll());
         Users users = queryService.findOneUser("froggg"); // 로그인한 아이디로 변경
         List<UsersMbtiAnswer> usersMbtiAnswers = usersMbtiAnswerService.findByUserNo(users.getUserNo());
@@ -157,6 +158,10 @@ public class MbtiController {
 //        mbtiTestResult.getDescription()
 
         model.addAttribute("myResult", mbtiTestResult);
+        users.setResultType(myResultType);
+
+        // 결과가 생성된 후 usersMbtiAnswer 데이터 삭제
+        usersMbtiAnswerService.deleteByUserNo(users.getUserNo());
 
         return "mbti/testResult";
     }

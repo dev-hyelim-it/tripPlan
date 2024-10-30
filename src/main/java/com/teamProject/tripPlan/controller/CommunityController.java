@@ -72,7 +72,7 @@ public class CommunityController {
 
     @PostMapping("create")
     public String createPost(PostDTO dto, Model model, Principal principal) {
-        Users users = queryService.findOneUser(principal.getName()); // 현재 로그인한 사용자의 이름으로 조회
+        Users users = queryService.findOneUser("froggg"); // 현재 로그인한 사용자의 이름으로 조회
         usersService.insertPost(users.getUserNo(), dto);
         return "redirect:/community";
     }
