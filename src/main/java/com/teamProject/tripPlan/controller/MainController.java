@@ -1,22 +1,19 @@
 package com.teamProject.tripPlan.controller;
 
+import com.teamProject.tripPlan.dto.KakaoApiResponseDTO;
 import com.teamProject.tripPlan.dto.MainDTO;
+import org.springframework.security.core.context.SecurityContextHolder;
 import com.teamProject.tripPlan.entity.MbtiTestResult;
 import com.teamProject.tripPlan.entity.Users;
+import com.teamProject.tripPlan.service.KakaoKeywordSearchService;
 import com.teamProject.tripPlan.service.MbtiTestResultService;
 import com.teamProject.tripPlan.service.QueryService;
-import com.teamProject.tripPlan.service.UsersService;
 import lombok.extern.slf4j.Slf4j;
-import com.teamProject.tripPlan.dto.KakaoApiResponseDTO;
-import com.teamProject.tripPlan.service.KakaoKeywordSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 @Slf4j
@@ -28,7 +25,7 @@ public class MainController {
 
     @Autowired
     MbtiTestResultService mbtiTestResultService;
-  
+
     private final KakaoKeywordSearchService keywordSearchService;
 
     @Autowired
@@ -45,6 +42,7 @@ public class MainController {
             model.addAttribute("userType", mbtiTestResult);
         }
         return "main";
+
     }
 
     @PostMapping("/main")
