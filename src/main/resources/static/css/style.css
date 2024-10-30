@@ -1,4 +1,4 @@
-		.form-row {
+.form-row {
             display: flex;
             gap: 20px;
             align-items: center;
@@ -22,35 +22,84 @@
             min-width: 80px; /* 크기 조정 */
         }
 
-        /* 지도 및 날씨 슬라이드 높이 설정 */
-        .map-container {
-            display: flex; /* 나란히 배치 */
-            gap: 20px; /* 간격 조정 */
-            margin-top: 20px; /* 위쪽 여백 */
-        }
+.map_search_box {
+margin-bottom: 15px;
+width: 100%;
+}
 
-        .map {
-            flex: 1; /* 비율에 따라 넓이 조정 */
-            min-height: 400px; /* 최소 높이 설정 */
-        }
+.map_section {
+display: flex;
+}
 
-        .weather-container {
-            width: 300px; /* 날씨 슬라이드 너비 고정 */
-            overflow: hidden; /* 넘치는 부분 숨김 */
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            position: relative;
-        }
+.map_box1{
+position: relative;
+width: 100%;
+height: 600px;
+}
 
-        .weather-slides {
-            display: flex;
-            transition: transform 0.5s ease;
-        }
+#map {
+width: 100%;
+height: 600px;
+margin-bottom 150px;
+}
 
-        .weather-slide {
-            min-width: 100%; /* 각 슬라이드의 폭을 100%로 설정 */
-            box-sizing: border-box; /* 패딩과 보더가 폭에 포함되도록 설정 */
-            padding: 10px; /* 슬라이드 내 여백 추가 */
-            text-align: center; /* 내용 중앙 정렬 */
-        }
+#list{
+display: none;
+position: absolute;
+top: 0;
+left: 0;
+width: 20%;
+height: 600px;
+background: rgba(255,255,255,0.8);
+overflow-y: scroll;
+z-index: 10;
+}
+
+#list > div {
+padding: 10px;
+border-bottom: 1px solid #aaa;
+}
+
+#list h3 {
+    margin-bottom: 10px;
+width: 80%;
+    height: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#list p {
+    margin-bottom: 10px;
+width: 100%;
+    font-size: 16px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#list button {
+    margin: 0;
+    padding: 7px;
+width: 84px;
+    box-sizing: border-box;
+}
+
+.map_box2 {
+width: 20%;
+height: 600px;
+}
+
+
+#menu_wrap {
+position: absolute;
+top: 450px;
+left: 0;
+background: rgba(255,255,255,0.8);
+overflow-y: scroll;
+z-index: 10;
+}
 
