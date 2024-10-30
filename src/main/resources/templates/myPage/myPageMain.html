@@ -8,6 +8,7 @@
     <th:block layout:fragment="css"></th:block>
     <th:block layout:fragment="script"></th:block>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         .myPageMainContainer {
             text-align: center;
@@ -35,16 +36,16 @@
         <div class="d-flex">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/myPage/{id}(id=1)}">마이페이지</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{/myPage/{userId}(userId=${session.loginId})}">마이페이지</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/info/{id}(id=1)}">내 정보 관리</a>
+                    <a class="nav-link" th:href="@{/myPage/info/{userId}(userId=${session.loginId})}">내 정보 관리</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/list/{id}(id=1)}">나의 계획</a>
+                    <a class="nav-link" th:href="@{/myPage/list/{userId}(userId=${session.loginId})}">나의 계획</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/community/{id}(id=1)}">내 커뮤니티</a>
+                    <a class="nav-link" th:href="@{/myPage/community/{userId}(userId=${session.loginId})}">내 커뮤니티</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link disabled" aria-disabled="true">건의함</a>
@@ -55,7 +56,7 @@
                 <div class="ml-4">
                     <h3>[[${dto.userId}]]님의 마이페이지입니다</h3>
                     <hr>
-                    <a th:href="@{/myPage/info/{id}(id=1)}">수정</a>
+                    <a th:href="@{/myPage/info/{userId}(userId=${session.loginId})}">수정</a>
                     <div th:each="user : ${dto}" th:object="${user}">
                         <p>
                             <label> 아이디 : </label>
@@ -80,13 +81,15 @@
                 <div class="ml-4">
                     <h3>나의 계획 리스트</h3>
                     <hr>
-                    <p th:each="travel : ${list}" th:object="${travel}">
+                    <span th:each="travel : ${list}" th:object="${travel}">
                         <input type="radio" name="radio" th:value="*{travelId}" onclick="showForm(this.value)" checked>
                         <span th:text="${#strings.substring(travel.startDate, 0, 4)}"></span><span>년</span>
-                        <span th:text="${#strings.substring(travel.startDate, 6, 7)}"></span><span>월</span>
+                        <span th:text="${#strings.substring(travel.startDate, 5, 7)}"></span><span>월</span>
                         <span th:text="*{place}"></span>
+                    </span>
+                    <p>
+                        <a th:href="@{/myPage/list/{userId}(userId=${session.loginId})}">수정</a>
                     </p>
-                    <a th:href="@{/myPage/list/{id}(id=1)}">수정</a>
                     <form class="form-section" th:each="travel : ${list}" th:object="${travel}" th:id="*{travelId}">
                         <p>
                             <label>키워드 : </label>
@@ -99,20 +102,18 @@
                         <p>
                             <label>출발일 : </label>
                             <span th:text="${#strings.substring(travel.startDate, 0, 4)}"></span><span>년</span>
-                            <span th:text="${#strings.substring(travel.startDate, 6, 7)}"></span><span>월</span>
+                            <span th:text="${#strings.substring(travel.startDate, 5, 7)}"></span><span>월</span>
                             <label>도착일 : </label>
                             <span th:text="${#strings.substring(travel.endDate, 0, 4)}"></span><span>년</span>
-                            <span th:text="${#strings.substring(travel.endDate, 6, 7)}"></span><span>월</span>
+                            <span th:text="${#strings.substring(travel.endDate, 5, 7)}"></span><span>월</span>
                         </p>
-                        <p>
-                            <label>숙박 : </label>
-                            <span>00 풀빌라</span>
-                        </p>
-                        <p>
+                        <label>숙박 : </label>
+                        <div th:each="ac : ${accom}" th:object="${ac}">
+                            <p th:text="*{accommodationName}">00 풀빌라</p>
+                        </div>
                         <p>장소 : </p>
                         <p>남이섬</p>
                         <p>춘천 닭갈비</p>
-                        </p>
                     </form>
                 </div>
 

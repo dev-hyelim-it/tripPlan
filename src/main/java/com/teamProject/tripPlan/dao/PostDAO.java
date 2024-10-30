@@ -26,9 +26,7 @@ public class PostDAO {
     }
 
     public List<Post> findAllPost() {
-        String sql = "SELECT p FROM Post p ORDER BY p.postId DESC";
-        List<Post> posts = em.createQuery(sql).getResultList();
-        return posts;
+        return em.createQuery("SELECT p FROM Post p LEFT JOIN FETCH p.keywords", Post.class).getResultList();
     }
 
     public Post getOnePost(Long postId) {
@@ -45,12 +43,18 @@ public class PostDAO {
         Post post = em.find(Post.class, dto.getPostId());
         post.setPostTitle(dto.getPostTitle());
         post.setPostContent(dto.getPostContent());
-//        em.persist(post);
     }
 
     public void calculateLikes(Long id) {
         Post post = getOnePost(id);
         post.setLikes(post.getLikes()+1);
         em.persist(post);
+    }
+
+    public List<Post> findPostsByKeywords(List<String> keywords) {
+        String jpql = "SELECT DISTINCT p FROM Post p JOIN p.keywords k WHERE k.keyword IN :keywords";
+        return em.createQuery(jpql, Post.class)
+                .setParameter("keywords", keywords)
+                .getResultList();
     }
 }

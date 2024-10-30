@@ -2,12 +2,10 @@ package com.teamProject.tripPlan.controller;
 
 import com.teamProject.tripPlan.dto.CommentDTO;
 import com.teamProject.tripPlan.dto.PostDTO;
+import com.teamProject.tripPlan.entity.Keyword;
 import com.teamProject.tripPlan.entity.Post;
 import com.teamProject.tripPlan.entity.Users;
-import com.teamProject.tripPlan.service.CommentService;
-import com.teamProject.tripPlan.service.PostService;
-import com.teamProject.tripPlan.service.QueryService;
-import com.teamProject.tripPlan.service.UsersService;
+import com.teamProject.tripPlan.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -36,16 +35,30 @@ public class CommunityController {
     @Autowired
     CommentService commentService;
 
-//    @GetMapping("/")
-//    public String Test() {
-//        return "main";
-//    }
+    @Autowired
+    KeywordService keywordService;
 
     @GetMapping("")
-    public String communityTest(Model model) {
+    public String getAllPosts(Model model) {
         List<PostDTO> posts = postService.findAllPost();
+        List<Keyword> allKeywords = keywordService.findAllKeywords();
         model.addAttribute("posts", posts);
-        return "community";
+        model.addAttribute("allKeywords", allKeywords);
+        return "community"; // 템플릿 이름
+    }
+
+    @GetMapping("/filter")
+    public String filterPostsByKeywords(@RequestParam(value = "keywords", required = false) List<String> keywords, Model model) {
+        if (keywords == null || keywords.isEmpty() ||
+                keywords.get(0).isEmpty()) {
+            // 모든 게시글을 반환
+            List<PostDTO> allPosts = postService.findAllPost();
+            model.addAttribute("posts", allPosts);
+        } else {
+            List<PostDTO> filteredPosts = postService.findPostsByKeyword(keywords);
+            model.addAttribute("posts", filteredPosts);
+        }
+        return "community :: postList"; // 부분 업데이트를 위한 fragment 이름
     }
 
     @GetMapping("/new")
@@ -58,11 +71,9 @@ public class CommunityController {
     }
 
     @PostMapping("create")
-    public String createPost(PostDTO dto) {
-//        postService.insertPost(dto);
-        Users users = queryService.findOneUser("froggg");
+    public String createPost(PostDTO dto, Model model, Principal principal) {
+        Users users = queryService.findOneUser(principal.getName()); // 현재 로그인한 사용자의 이름으로 조회
         usersService.insertPost(users.getUserNo(), dto);
-        // 로그인한 사람의 아이디가 동일한 사람 찾기
         return "redirect:/community";
     }
 
@@ -78,9 +89,6 @@ public class CommunityController {
     @GetMapping("{id}/delete")
     public String deleteArticle(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         postService.deletePost(id);
-
-//        log.info("================== deleteId = " + id + " ==================");
-//        queryService.deleteById(id);
         redirectAttributes.addFlashAttribute("msg", "정상적으로 삭제되었습니다.");
         return "redirect:/community";
     }
