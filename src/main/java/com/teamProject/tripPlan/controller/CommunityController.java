@@ -58,7 +58,7 @@ public class CommunityController {
     }
 
     @PostMapping("create")
-    public String createPost(PostDTO dto, Model model) {
+    public String createPost(PostDTO dto) {
 //        postService.insertPost(dto);
         Users users = queryService.findOneUser("froggg");
         usersService.insertPost(users.getUserNo(), dto);
