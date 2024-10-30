@@ -44,4 +44,7 @@ public class Travel {
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "travel_id")
     private Post post;
+
+//    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "MyList", fetch = FetchType.LAZY)
+//    List<MyList> myLists = new ArrayList<>();
 }
