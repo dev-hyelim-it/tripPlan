@@ -14,7 +14,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(interceptor)
                 .addPathPatterns("/myPage/**")
-                .addPathPatterns("/admin/**")
-                .addPathPatterns("/community");
+                .addPathPatterns("/admin/**");
+//                .addPathPatterns("/community");
     }
 }

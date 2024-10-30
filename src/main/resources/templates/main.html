@@ -16,6 +16,12 @@
 
 <body>
 <div layout:fragment="content" class="content">
+	<div th:if="${userType}!=null">
+		<span><b>00님의 여행 성향 테스트 결과 추전 지역</b></span>
+		<p>1. [[ ${userType.recommendArea1} ]]-[[ ${userType.areaName1} ]]</p>
+		<p>2. [[ ${userType.recommendArea2} ]]-[[ ${userType.areaName2} ]]</p>
+	</div>
+
 	<div class="main">
 		<h3>여행지 검색 하기</h3>
 		<div class="map">

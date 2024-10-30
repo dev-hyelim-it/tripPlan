@@ -11,6 +11,10 @@
         <input id="btn_test_start" type="button" value="시작">
     </form>
 
+    <script>
+        // 초기 페이지 로드 시 플래그 초기화
+        sessionStorage.removeItem('visitedResultPage');
+    </script>
 </body>
 <script th:inline="javascript">
     $(document).ready(function(){

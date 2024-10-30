@@ -7,6 +7,7 @@ import com.teamProject.tripPlan.dto.PostDTO;
 import com.teamProject.tripPlan.dto.SuggestionDTO;
 import com.teamProject.tripPlan.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.teamProject.tripPlan.dto.UsersDTO;
@@ -54,4 +55,5 @@ public class UsersService {
             return UsersDTO.fromEntity(users);
         }
     }
+
 }
