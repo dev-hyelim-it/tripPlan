@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jQuery.js"></script>
+</head>
+<body>
+<form th:action="@{/typeTest/insertUsersAnswer}" method="post" id="submit_answer">
+    <div th:object="${question}">
+        <div class="question_num">
+            <h2>Q[[ *{questionId} ]]</h2>
+            <input type="hidden" name="questionId" th:value="*{questionId}">
+<!--            <input type="hidden" th:field="${dto.mbtiQuestion.questionId}" th:value="*{questionId}">-->
+        </div>
+        <div class="question_text">
+            [[ *{questionText} ]]
+        </div>
+
+        <div>
+            <input type="hidden" name="optionId" id="selectedOptionId">
+
+            <button type="button" class="btn_answer" id="btn_mbti_answer1" th:data-option-id="${answer1.optionId}">[[ ${answer1.optionText} ]]</button>
+            <button type="button" class="btn_answer" id="btn_mbti_answer2" th:data-option-id="${answer2.optionId}">[[ ${answer2.optionText} ]]</button>
+
+<!--            <input type="hidden" th:field="${dto.answerOptions.optionId}">-->
+            <!--        <input type="hidden" th:name="|${dto.answerOptions.optionId}|" th:value="${dto.answerOptions.optionId}">-->
+<!--            <button class="btn_answer" id="btn_mbti_answer1" name="optionId" th:value="${answer1.optionId}">[[ ${answer1.optionText} ]]</button>-->
+<!--            <input type="hidden" th:field="${dto.answerOptions.optionId}" th:value="${answer1.optionId}">-->
+<!--            <button class="btn_answer" id="btn_mbti_answer2" name="optionId" th:value="${answer2.optionId}">[[ ${answer2.optionText} ]]</button>-->
+<!--            <input type="hidden" th:field="${dto.answerOptions.optionId}" th:value="${answer2.optionId}">-->
+<!--            <input type="hidden" name="selectedOptionId" id="selectedOptionId">-->
+        </div>
+<!--        <button th:if="*{questionId}!=1" class="btn_mbti_con" id="btn_previous">이전</button>-->
+<!--        <button th:if="*{questionId}!=6" class="btn_mbti_con" id="btn_next">다음</button>-->
+<!--        <button th:if="*{questionId}==6" class="btn_mbti_con" id="btn_fin">완료</button>-->
+        <input type="hidden" th:value="*{questionId}">
+    </div>
+</form>
+
+
+</body>
+<script th:inline="javascript">
+    $(document).ready(function(){
+        console.log("JavaScript loaded successfully");
+
+        $(document).on("click", "#btn_mbti_answer1, #btn_mbti_answer2", function() {
+            let optionId = $(this).data("option-id"); // data 속성에서 optionId 가져오기
+            $("input[name='optionId']").val(optionId); // 숨겨진 필드에 optionId 값 설정
+            $(this).closest("form").submit(); // 폼 제출
+        });
+
+//        $(document).on("click", "#btn_mbti_answer1", function(){
+//            let optionId = parseInt($(this).next().val());
+           //alert(optionId)
+ //           $("input[name='dto.answerOptions.optionId']").val(optionId);
+ //       });
+
+ //       $(document).on("click", "#btn_mbti_answer2", function(){
+ //           let optionId = parseInt($(this).next().val());
+ //           //alert(optionId)
+ //           $("input[name='dto.answerOptions.optionId']").val(optionId);
+ //       });
+
+//        $(document).on("click", "#btn_previous", function(){
+//            let questionId = parseInt($(this).next().val())-1;
+ //           //alert(questionId)
+   //         location.href='/typeTest/question/'+questionId;
+     //   });
+
+       // $(document).on("click", "#btn_next", function(){
+        //    let questionId = parseInt($(this).next().val())+1;
+         //   //alert(questionId)
+          //  location.href='/typeTest/question/'+questionId;
+//        });
+
+//        $(document).on("click", "#btn_fin", function(){
+//            location.href='/typeTest/result';
+//        });
+
+    });
+
+
+</script>
+
+</html>
