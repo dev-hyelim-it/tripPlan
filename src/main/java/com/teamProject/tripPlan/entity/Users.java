@@ -29,5 +29,14 @@ public class Users {
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "users",
             cascade = CascadeType.PERSIST)
-    List<Post> posts = new ArrayList<>();
+    private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "users",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            fetch = FetchType.LAZY)
+    private List<UsersMbtiAnswer> usersMbtiAnswer = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private ResultType resultType;
+
 }

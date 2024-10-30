@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jQuery.js"></script>
+</head>
+<body>
+    <form th:action="@{/typeTest/question/{questionId}(questionId=${questionId})}" method="get">
+        <h1>나의 여행 성향 테스트 하러 가기!</h1>
+        <input id="btn_test_start" type="button" value="시작">
+    </form>
+
+</body>
+<script th:inline="javascript">
+    $(document).ready(function(){
+        console.log("JavaScript loaded successfully");
+
+        $(document).on("click", "#btn_test_start", function() {
+            let questionId = 1;
+            location.href='/typeTest/question/'+questionId;
+        });
+    });
+</script>
+
+</html>

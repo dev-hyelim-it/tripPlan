@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <h1>00님의 여행 성향 테스트 결과 페이지</h1>
+  <h2>[[ ${myResult.resultTitle} ]]</h2>
+    <h3>[[ ${myResult.description} ]]</h3>
+    <div>
+        <b>[[ ${myResult.recommendArea1} ]]</b>
+        <ul>
+            <li><b>[[ ${myResult.areaName1} ]]</b></li>
+            <li>[[ ${myResult.areaDescription1} ]]</li>
+        </ul>
+    </div>
+    <div>
+        <b>[[ ${myResult.recommendArea2} ]]</b>
+        <ul>
+            <li><b>[[ ${myResult.areaName2} ]]</b></li>
+            <li>[[ ${myResult.areaDescription2} ]]</li>
+        </ul>
+    </div>
+
+</body>
+</html>
