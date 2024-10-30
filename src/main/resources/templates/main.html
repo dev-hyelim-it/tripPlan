@@ -8,46 +8,35 @@
 	<th:block layout:fragment="css"></th:block>
 	<th:block layout:fragment="script"></th:block>
 	<link rel="stylesheet" th:href="@{css/style.css}">
+	<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=6ebcca49838b45dd8d299c3c5afed9d1&libraries=services"></script>
+	<script th:src="@{js/jQuery.js}"></script>
 </head>
 
 <body>
 <div layout:fragment="content" class="content">
 	<div class="main">
-		<h3>검색 하기</h3>
-		<form id="searchForm" action="/main" method="POST" class="main_form" onsubmit="return validateForm()">
-			<div class="form-row">
-				<div class="mb-3">
-					<label for="keyword" class="form-label">키워드:</label>
-					<span id="selectedKeyword" style="margin-left: 10px;"></span>
-					<div id="keywordButtons" class="keyword-row mt-2"></div>
+		<h3>여행지 검색 하기</h3>
+		<div class="map">
+			<div class="map_search_box">
+				<input type="text" id="keyword" size="15" placeholder="검색어를 입력하세요.">
+				<button id="searchBtn">검색</button> <!--onclick="main()"-->
+			</div>
+			<div class="map_section">
+				<div class="map_box1">
+					<div id="map"></div>
+					<div id="list"></div>
 				</div>
-
-				<div class="mb-3">
-					<label for="area" class="form-label">지역:</label>
-					<span id="selectedArea" style="margin-left: 10px;"></span>
-					<div id="areaButtons" class="area-row mt-2"></div>
-					<button type="button" id="showMoreAreas" class="btn btn-secondary mt-2">▼ 더 보기</button>
-				</div>
-
-				<div class="mb-3">
-					<label for="departureDate" class="form-label">떠날 날짜:</label>
-					<input type="date" id="departureDate" name="departureDate" class="form-control">
-				</div>
-
-				<div class="mb-3">
-					<label for="arrivalDate" class="form-label">도착할 날짜:</label>
-					<input type="date" id="arrivalDate" name="arrivalDate" class="form-control">
+				<div class="map_box2">
+					<div id="my-list"></div>
 				</div>
 			</div>
-
-			<input type="hidden" name="keyword" id="hiddenKeyword" required>
-			<input type="hidden" name="area" id="hiddenArea" required>
-			<button type="submit" class="btn btn-primary">검색</button>
-		</form>
-		<div class="map map_box">
-			<h2>지도api</h2>
-			<div id="map"></div>
-			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ebcca49838b45dd8d299c3c5afed9d1"></script>
+<!--		</div>-->
+		<div id="placeList">
+<!--			<li th:each="place : ${places}">-->
+<!--				<p th:text="${place.placeName}"></p>-->
+<!--				<p th:text="${place.addressName}"></p>-->
+<!--				<button onclick="addToMyList(/* 데이터 추가 함수 */)">여행 추가</button>-->
+<!--			</li>-->
 		</div>
 		<script th:src="@{js/main.js}"></script>
 	</div>

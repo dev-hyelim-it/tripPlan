@@ -21,3 +21,85 @@
             flex: 1 1 calc(20% - 10px); /* 5열 배치로 조정 */
             min-width: 80px; /* 크기 조정 */
         }
+
+.map_search_box {
+margin-bottom: 15px;
+width: 100%;
+}
+
+.map_section {
+display: flex;
+}
+
+.map_box1{
+position: relative;
+width: 100%;
+height: 600px;
+}
+
+#map {
+width: 100%;
+height: 600px;
+margin-bottom 150px;
+}
+
+#list{
+display: none;
+position: absolute;
+top: 0;
+left: 0;
+width: 20%;
+height: 600px;
+background: rgba(255,255,255,0.8);
+overflow-y: scroll;
+z-index: 10;
+}
+
+#list > div {
+padding: 10px;
+border-bottom: 1px solid #aaa;
+}
+
+#list h3 {
+    margin-bottom: 10px;
+width: 80%;
+    height: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#list p {
+    margin-bottom: 10px;
+width: 100%;
+    font-size: 16px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#list button {
+    margin: 0;
+    padding: 7px;
+width: 84px;
+    box-sizing: border-box;
+}
+
+.map_box2 {
+width: 20%;
+height: 600px;
+}
+
+
+#menu_wrap {
+position: absolute;
+top: 450px;
+left: 0;
+background: rgba(255,255,255,0.8);
+overflow-y: scroll;
+z-index: 10;
+}
+

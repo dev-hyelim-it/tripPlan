@@ -17,3 +17,12 @@ spring:
       hibernate:
       show_sql: true
       format_sql: true
+
+kakao:
+  rest:
+    api:
+      key: ${KAKAO_REST_API_KEY}
+      # 서버에서 사용하는 REST API 키
+  javascript:
+    key: ${KAKAO_JAVASCRIPT_KEY}
+    # 클라이언트에서 사용하는 JavaScript 키
