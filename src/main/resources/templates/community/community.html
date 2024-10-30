@@ -7,7 +7,6 @@
     <title>자유게시판</title>
     <th:block layout:fragment="css"></th:block>
     <th:block layout:fragment="script"></th:block>
-
     <style>
         .keyword-row {
             display: flex;
@@ -28,7 +27,7 @@
             const selectedKeyword = document.getElementById('keywordSelect').value;
 
             if (selectedKeyword) {
-                fetch(`/community/filter?keywords=${encodeURIComponent(selectedKeyword)}`)
+                fetch(/community/filter?keywords=${encodeURIComponent(selectedKeyword)})
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok');
@@ -42,8 +41,7 @@
                         console.error('There was a problem with the fetch operation:', error);
                     });
             } else {
-                // 선택된 키워드가 없으면 모든 게시글 로드
-                fetch(`/community/filter?keywords=`) // 빈 키워드로 요청
+                fetch(/community/filter?keywords=)
                     .then(response => response.text())
                     .then(html => {
                         document.querySelector('.table tbody').innerHTML = html;
@@ -63,42 +61,40 @@
         <select id="keywordSelect" class="form-select" onchange="filterPostsBySelectedKeyword()">
             <option value="">모든 키워드</option>
             <th:block th:each="keyword : ${allKeywords}">
-                <option th:value="${keyword.keyword}" th:text="${keyword.keyword}"></option>
+                <option th:value="${keyword.keywordId}" th:text="${keyword.keyword}"></option>
             </th:block>
         </select>
     </div>
-    <form id="form" th:action="@{/community/new}" method="get">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">글번호</th>
-                <th scope="col">제목</th>
-                <th scope="col">작성자</th>
-                <th scope="col">작성일</th>
-                <th scope="col">조회수</th>
-                <th scope="col">키워드</th>
-            </tr>
-            </thead>
-            <tbody th:fragment="postList">
-            <tr th:each="post : ${posts}">
-                <th th:text="${post.postId}"></th>
-                <td>
-                    <a th:href="@{/community/{id}(id=${post.postId})}" th:text="${post.postTitle}"></a>
-                </td>
-                <td th:if="${post.users != null}" th:text="${post.users.userNickname}">작성자 없음</td>
-                <td th:if="${post.users == null}">작성자 없음</td>
-                <td th:text="${post.postDate}"></td>
-                <td th:text="${post.likes}"></td>
-                <td>
-                    <span th:each="keyword : ${post.keywords}" th:text="${keyword.keyword}"></span>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <input type="submit" value="글쓰기" id="newPost">
-        <a href="/main" class="btn btn-secondary">메인</a>
-        <br>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">글번호</th>
+            <th scope="col">제목</th>
+            <th scope="col">작성자</th>
+            <th scope="col">작성일</th>
+            <th scope="col">조회수</th>
+            <th scope="col">키워드</th>
+        </tr>
+        </thead>
+        <tbody th:fragment="postList">
+        <tr th:each="post : ${posts}">
+            <th th:text="${post.postId}"></th>
+            <td>
+                <a th:href="@{/community/{id}(id=${post.postId})}" th:text="${post.postTitle}"></a>
+            </td>
+            <td th:if="${post.users != null}" th:text="${post.users.userNickname}">작성자 없음</td>
+            <td th:if="${post.users == null}">작성자 없음</td>
+            <td th:text="${post.postDate}"></td>
+            <td th:text="${post.likes}"></td>
+            <td th:each="keyword:${post.keywords}" th:text="${keyword.keyword}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <form action="/community/new" method="get">
+        <button type="submit" class="btn btn-primary">글쓰기</button>
     </form>
+    <a href="/main" class="btn btn-secondary">메인</a>
+    <br>
 </div>
 </body>
 </html>

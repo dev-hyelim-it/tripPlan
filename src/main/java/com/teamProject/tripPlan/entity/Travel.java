@@ -1,8 +1,7 @@
 package com.teamProject.tripPlan.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ public class Travel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long travelId;
+
     @Column(length = 20)
     private String keyword;
     private String place;
@@ -25,6 +25,10 @@ public class Travel {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Users users;
+
+    private String accommodation; // 이용한 숙소
+    private String restaurant; // 이용한 식당
+    private String attractions; // 관광지
 
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "travel",

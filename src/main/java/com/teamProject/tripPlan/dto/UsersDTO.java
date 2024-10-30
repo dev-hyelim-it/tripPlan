@@ -29,6 +29,7 @@ public class UsersDTO {
     private UserRole role;
     private List<Suggestion> suggestions = new ArrayList<>();
 
+
     public static UsersDTO fromEntity(Users users) {
         return new UsersDTO(
                 users.getUserNo(),

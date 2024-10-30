@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- 전체 적용될 css -->
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/showPost.css}">
+    </th:block>
+
+    <!-- 전체 적용될 스크립트 -->
+    <th:block layout:fragment="script"></th:block>
+</head>
+<body>
+<div layout:fragment="content" class="content">
+    <h1 th:text="${dto.postTitle}"></h1>
+    <p th:text="${dto.users.userNickname}"></p>
+    <p>
+        <strong>키워드:</strong>
+        <span th:each="keyword : ${dto.keywords}" th:text="${keyword.keyword}">키워드</span>
+    </p>
+    <div th:text="${dto.postContent}"></div>
+    <a th:href="@{/community/{id}/update(id=${dto.postId})}" class="btn btn-primary">수정</a>
+    <a th:href="@{/community/{id}/delete(id=${dto.postId})}" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+    <a href="/community">목록</a>
+    <br><br>
+
+    <div class="card m-2" th:each="comment : ${dto.comments}" th:object="${comment}">
+        <div class="card-header">
+            <span th:text="*{commentNickname}">Featured</span>
+            <a class="btn btn-sm btn-outline-primary comment-update-btn">수정</a>
+            <a class="btn btn-sm btn-outline-danger comment-delete-btn">삭제</a>
+            <input type="hidden" th:value="*{commentId}">
+        </div>
+        <div class="card-body">
+            <p class="card-text" th:text="*{commentContent}">With supporting text below as a natural lead-in to additional content.</p>
+        </div>
+    </div>
+
+    <form th:action="@{/community/{id}/comments(id=${dto.postId})}" method="post">
+        <!-- 닉네임 입력-->
+        <div class="m-2">
+            <label class="form-label">닉네임</label>
+            <input type="text" class="form-control" id="new-comment-nickname" name="commentNickname" >
+        </div>
+        <!-- 댓글 본문 입력-->
+        <div class="m-2">
+            <label class="form-label">댓글 내용</label>
+            <textarea type="text" class="form-control" rows="3" id="new-comment-body" name="commentContent"></textarea>
+        </div>
+        <!-- 전송버튼-->
+        <button type="button" id="comment-create-btn" class="btn btn-primary">댓글 작성</button>
+    </form>
+    <script src="/js/jQuery.js"></script>
+    <script th:inline="javascript">
+        $(document).ready(function(){
+            console.log("JavaScript loaded successfully");
+
+            $(document).on("click", ".comment-delete-btn", function(){
+                let commentId = $(this).closest('.card-header').find('input[type="hidden"]').val();
+                if(confirm("정말 삭제하시겠습니까?")) {
+                    location.href='/community/comments/' + commentId;
+                }
+            });
+
+            $(document).on("click", ".comment-update-btn", function(){
+                let commentId = $(this).closest('.card-header').find('input[type="hidden"]').val();
+                location.href='/community/comments/view/' + commentId;
+            });
+
+            $("#comment-create-btn").on("click", function(event){
+                event.preventDefault();
+                if($("#new-comment-nickname").val() === ""){
+                    alert("닉네임 입력하세요");
+                    $("#new-comment-nickname").focus();
+                    return;
+                }
+                if($("#new-comment-body").val() === ""){
+                    alert("내용 입력하세요");
+                    $("#new-comment-body").focus();
+                    return;
+                }
+                $("form").submit();
+            });
+        });
+    </script>
+</div>
+</body>
+</html>
