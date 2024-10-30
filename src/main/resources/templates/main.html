@@ -8,187 +8,37 @@
 	<th:block layout:fragment="css"></th:block>
 	<th:block layout:fragment="script"></th:block>
 	<link rel="stylesheet" th:href="@{css/style.css}">
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey={45eba8a04e39c19ff52df76714fcfc05}" async></script>
+<!-- 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey={45eba8a04e39c19ff52df76714fcfc05}" async></script> -->
+	<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=6ebcca49838b45dd8d299c3c5afed9d1&libraries=services"></script>
+	<script th:src="@{js/jQuery.js}"></script>
 </head>
 
 <body>
 <div layout:fragment="content" class="content">
 	<div class="main">
-		<h3>검색 하기</h3>
-		<form id="searchForm" action="/main" method="POST" class="main_form" onsubmit="return validateForm()">
-			<div class="form-row">
-				<div class="mb-3">
-					<label for="keyword" class="form-label">키워드:</label>
-					<span id="selectedKeyword" style="margin-left: 10px;"></span>
-					<div id="keywordButtons" class="keyword-row mt-2"></div>
+		<h3>여행지 검색 하기</h3>
+		<div class="map">
+			<div class="map_search_box">
+				<input type="text" id="keyword" size="15" placeholder="검색어를 입력하세요.">
+				<button id="searchBtn">검색</button> <!--onclick="main()"-->
+			</div>
+			<div class="map_section">
+				<div class="map_box1">
+					<div id="map"></div>
+					<div id="list"></div>
 				</div>
-
-				<div class="mb-3">
-					<label for="area" class="form-label">지역:</label>
-					<span id="selectedArea" style="margin-left: 10px;"></span>
-					<div id="areaButtons" class="area-row mt-2"></div>
-					<button type="button" id="showMoreAreas" class="btn btn-secondary mt-2">▼ 더 보기</button>
-				</div>
-
-				<div class="mb-3">
-					<label for="departureDate" class="form-label">떠날 날짜:</label>
-					<input type="date" id="departureDate" name="departureDate" class="form-control">
-				</div>
-
-				<div class="mb-3">
-					<label for="arrivalDate" class="form-label">도착할 날짜:</label>
-					<input type="date" id="arrivalDate" name="arrivalDate" class="form-control">
+				<div class="map_box2">
+					<div id="my-list"></div>
 				</div>
 			</div>
-
-			<input type="hidden" name="keyword" id="hiddenKeyword" required>
-			<input type="hidden" name="area" id="hiddenArea" required>
-			<button type="submit" class="btn btn-primary">검색</button>
-		</form>
-
-	</div>
-	<div class="map map_box">
-		<h2>지도api</h2>
-		<div id="map">
-
-			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ebcca49838b45dd8d299c3c5afed9d1"></script>
-			<script>
-				var container = document.getElementById('map');
-                var options = {
-                    center: new kakao.maps.LatLng(33.450701, 126.570667),
-                    level: 3
-                    };
-                var map = new kakao.maps.Map(container, options);
-
-                // 마커 위치 배열 (예시 좌표)
-				var markerPositions = [
-					{ lat: 37.4634017, lng: 127.037043 },
-					{ lat: 37.4634017, lng: 127.037043 },
-					{ lat: 37.525426, lng: 126.916351 },
-					{ lat: 37.55098855, lng: 126.9210678017725 },
-					{ lat: 37.5243115, lng: 127.0388733 },
-					{ lat: 37.5055387, lng: 127.0282047 },
-					{ lat: 37.5205566, lng: 127.0349259 },
-					{ lat: 37.4961183, lng: 127.11201297375482 },
-					{ lat: 37.4816974, lng: 126.8896107 },
-					{ lat: 37.5815454, lng: 126.985237 },
-					{ lat: 35.1171727, lng: 129.0357943 },
-					{ lat: 35.10788, lng: 129.03738 },
-					{ lat: 35.1507646, lng: 129.0580675 },
-					{ lat: 35.1645072, lng: 129.1694654 },
-					{ lat: 35.0988786, lng: 129.0289984 },
-					{ lat: 35.0228, lng: 128.81723 },
-					{ lat: 35.0105282, lng: 128.8294724 },
-					{ lat: 35.04505, lng: 128.81015 },
-					{ lat: 35.1518451, lng: 129.0343533 },
-					{ lat: 35.154827, lng: 128.5839067 },
-					{ lat: 37.6153033, lng: 126.6115158 },
-					{ lat: 37.3945, lng: 127.7318 },
-					{ lat: 37.7564376, lng: 126.9693075 },
-					{ lat: 35.64802, lng: 127.36365 },
-					{ lat: 38.057145, lng: 127.3855122 },
-					{ lat: 37.3917486, lng: 126.9932257 },
-					{ lat: 37.412602, lng: 126.8571863 },
-					{ lat: 37.3781229, lng: 126.996806 },
-					{ lat: 37.4831776, lng: 127.4977385 },
-					{ lat: 37.3435599, lng: 126.8999649118755 },
-					{ lat: 33.2640931, lng: 126.4120002 },
-					{ lat: 33.3142093, lng: 126.63061 },
-					{ lat: 33.390017650000004, lng: 126.36435252267728 },
-					{ lat: 33.321141, lng: 126.244566 },
-					{ lat: 33.3612361, lng: 126.7664714 },
-					{ lat: 33.49487, lng: 126.50508 },
-					{ lat: 33.3612361, lng: 126.7664714 },
-					{ lat: 33.243415600000006, lng: 126.24786871967214 },
-					{ lat: 33.16974, lng: 126.27136 },
-					{ lat: 33.25632, lng: 126.53351 },
-					{ lat: 34.45252, lng: 126.56961 },
-					{ lat: 34.7460199, lng: 127.6712373 },
-					{ lat: 34.69409, lng: 125.42259 },
-					{ lat: 37.39606, lng: 129.18109 },
-					{ lat: 35.9028552, lng: 127.0269328 },
-					{ lat: 35.38702, lng: 126.41131 },
-					{ lat: 34.47928, lng: 126.04737 },
-					{ lat: 34.38575, lng: 126.93048 },
-					{ lat: 35.51264, lng: 127.1498 },
-					{ lat: 35.30967, lng: 127.26786 },
-					{ lat: 35.3734946, lng: 129.1528663 },
-					{ lat: 35.2385875, lng: 128.65669285807854 },
-					{ lat: 34.73290435, lng: 128.62897718129648 },
-					{ lat: 35.2593349, lng: 128.90164773225237 },
-					{ lat: 35.22955, lng: 128.87727 },
-					{ lat: 34.75847, lng: 126.41168 },
-					{ lat: 34.9575549, lng: 128.5206818 },
-					{ lat: 35.70958, lng: 128.03782 },
-					{ lat: 35.2090327, lng: 128.6968823 },
-					{ lat: 34.9493873, lng: 128.0476227 },
-					{ lat: 36.1607264, lng: 127.0154861 },
-					{ lat: 36.1618415, lng: 127.0157724 },
-					{ lat: 36.3135718, lng: 126.5313674 },
-					{ lat: 36.7656941, lng: 126.5769903 },
-					{ lat: 36.6802266, lng: 126.1404 },
-					{ lat: 36.8353797, lng: 127.1847016 },
-					{ lat: 36.18113, lng: 126.90602 },
-					{ lat: 36.6890336, lng: 126.949619 },
-					{ lat: 35.36615, lng: 128.39151 },
-					{ lat: 38.5614326, lng: 125.450155 },
-					{ lat: 36.6200658, lng: 127.4341467 },
-					{ lat: 36.4077899, lng: 127.6242329 },
-					{ lat: 36.9590891, lng: 127.6991079 },
-					{ lat: 36.76485, lng: 127.91674 },
-				];
-
-				// 반복문으로 마커 생성 및 지도에 표시
-				markerPositions.forEach(function(pos) {
-					// 마커 위치 객체 생성
-					var markerPosition = new kakao.maps.LatLng(pos.lat, pos.lng);
-
-					// 마커 생성
-					var marker = new kakao.maps.Marker({
-						position: markerPosition
-					});
-
-					// 지도에 마커 표시
-					marker.setMap(map);
-
-					// 마커 클릭 이벤트 추가
-					kakao.maps.event.addListener(marker, 'click', function() {
-						infoWindow.open(map, marker);
-					});
-
-				});
-
-				// 마커 생성
-				// var markerPosition = new kakao.maps.LatLng(37.5665, 126.9780); // 마커 위치 (예시 좌표)
-				// var marker = new kakao.maps.Marker({
-				// 	position: markerPosition
-				// });
-				// marker.setMap(map);
-
-				// 정보 창 생성
-				var infoWindow = new kakao.maps.InfoWindow({
-					content: '<div style="padding:10px; font-size:12px;">여기에 장소 이름이나 설명을 입력하세요.<br>주소: 서울시 예시 주소</div>'
-				});
-
-				// 지도 클릭 시 정보 창 닫기
-				kakao.maps.event.addListener(map, 'click', function() {
-					infoWindow.close();
-				});
-
-			</script>
-
-		<div class="map-container">
-			<div class="map map_box">
-				<h2>지도api</h2>
-				<div id="map"></div>
-			</div>
-			<div class="weather-container">
-				<div class="weather-slides"></div>
-				<button class="prev" onclick="prevSlide()">◀</button>
-				<button class="next" onclick="nextSlide()">▶</button>
-			</div>
-
+<!--		</div>-->
+		<div id="placeList">
+<!--			<li th:each="place : ${places}">-->
+<!--				<p th:text="${place.placeName}"></p>-->
+<!--				<p th:text="${place.addressName}"></p>-->
+<!--				<button onclick="addToMyList(/* 데이터 추가 함수 */)">여행 추가</button>-->
+<!--			</li>-->
 		</div>
 		<script th:src="@{js/main.js}"></script>
 	</div>

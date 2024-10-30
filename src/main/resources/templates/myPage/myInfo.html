@@ -8,6 +8,7 @@
     <th:block layout:fragment="css"></th:block>
     <th:block layout:fragment="script"></th:block>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         .myInfoContainer {
             text-align: center;
@@ -34,16 +35,17 @@
         <div class="d-flex">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/myPage/{id}(id=1)}">마이페이지</a>
+                    <a class="nav-link active" aria-current="page"
+                       th:href="@{/myPage/{userId}(userId=${session.loginId})}">마이페이지</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/info/{id}(id=1)}">내 정보 관리</a>
+                    <a class="nav-link" th:href="@{/myPage/info/{userId}(userId=${session.loginId})}">내 정보 관리</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/list/{id}(id=1)}">나의 계획</a>
+                    <a class="nav-link" th:href="@{/myPage/list/{userId}(userId=${session.loginId})}">나의 계획</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/community/{id}(id=1)}">내 커뮤니티</a>
+                    <a class="nav-link" th:href="@{/myPage/community/{userId}(userId=${session.loginId})}">내 커뮤니티</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link disabled" aria-disabled="true">건의함</a>
@@ -54,7 +56,8 @@
                 <h3>정보 변경 시 주의사항</h3>
                 <h5>주의해 주세요</h5>
                 <hr>
-                <form th:action="@{/myPage/update/{id}(id=1)}" th:each="user : ${dto}" th:object="${user}">
+                <form th:action="@{/myPage/update/{userId}(userId=${session.loginId})}" th:each="user : ${dto}"
+                      th:object="${user}">
                     <p>
                         <label> 아이디 : </label>
                         <span id="userId" th:text="*{userId}"></span>
@@ -73,11 +76,17 @@
                     </p>
                     <p>
                         <button type="submit">수정하기</button>
-                        <a th:href="@{/myPage/delete/{id}(id=*{userNo})}">탈퇴하기</a>
+                        <a th:href="@{/myPage/delete/{userId}(userId=${session.loginId})}"
+                           onclick="return confirmDelete();">
+                            <input type="button" value="탈퇴하기">
+                        </a>
                     </p>
                 </form>
             </div>
             <script>
+                function confirmDelete() {
+                return confirm("탈퇴하시겠습니까?");
+                }
                 document.addEventListener('DOMContentLoaded', function() {
                     const userIdElement = document.getElementById('userId');
                     const userNameElement = document.getElementById('userName');

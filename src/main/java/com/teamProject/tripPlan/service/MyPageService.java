@@ -3,9 +3,7 @@ package com.teamProject.tripPlan.service;
 import com.teamProject.tripPlan.dao.MyPageDAO;
 import com.teamProject.tripPlan.dto.PostDTO;
 import com.teamProject.tripPlan.dto.UsersDTO;
-import com.teamProject.tripPlan.entity.Post;
-import com.teamProject.tripPlan.entity.Travel;
-import com.teamProject.tripPlan.entity.Users;
+import com.teamProject.tripPlan.entity.*;
 import com.teamProject.tripPlan.repository.PostRepository;
 import com.teamProject.tripPlan.repository.UserRepository;
 import jakarta.persistence.EntityManager;
@@ -33,8 +31,9 @@ public class MyPageService {
         return PostDTO.fromEntity(post);
     }
 
-    public void updateInfo(UsersDTO dto) {
-        myPageDAO.updateInfo(dto);
+    public UsersDTO updateInfo(UsersDTO dto) {
+        Users users = myPageDAO.updateInfo(dto);
+        return UsersDTO.fromEntity(users);
     }
 
     public void deleteInfo(Long id) {
@@ -44,5 +43,15 @@ public class MyPageService {
     public List<Travel> findUserList(Long id) {
         List<Travel> travels = myPageDAO.findUserList(id);
         return travels;
+    }
+
+    public List<Accommodation> findUserAccommodation(Long id) {
+        List<Accommodation> accommodation = myPageDAO.findUserAccommodation(id);
+        return accommodation;
+    }
+
+    public Long findUserId(String userId) {
+        Long id = myPageDAO.findUserId(userId);
+        return id;
     }
 }

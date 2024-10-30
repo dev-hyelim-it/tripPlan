@@ -2,6 +2,7 @@ package com.teamProject.tripPlan.service;
 
 import com.teamProject.tripPlan.dto.PostDTO;
 import com.teamProject.tripPlan.entity.Users;
+import com.teamProject.tripPlan.entity.UsersMbtiAnswer;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
@@ -18,6 +19,9 @@ public class QueryService {
     @Autowired
     EntityManager em;
 
+    @Autowired
+    UsersMbtiAnswerService usersMbtiAnswerService;
+
     public Users findOneUser(String userId) {
         String sql = "SELECT u FROM Users u WHERE u.userId = :userId";
 
@@ -26,4 +30,11 @@ public class QueryService {
 //        Query query = em.createQuery(sql).setParameter("id", id);
         return users;
     }
+
+//    public String findMyResult(Long userNo) {
+//        List<UsersMbtiAnswer> usersMbtiAnswers = usersMbtiAnswerService.findByUserNo(userNo);
+//
+//        return null;
+//    }
+
 }

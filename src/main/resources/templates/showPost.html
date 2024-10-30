@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org"
-      xmlns:layout="www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 <meta charset="UTF-8">
 
@@ -17,28 +17,13 @@
 <div layout:fragment="content" class="content">
     <h1>[[ ${dto.postTitle} ]]</h1>
     <p>[[ ${dto.users.userNickname} ]]</p>
+    <p>
+        <strong>키워드:</strong>
+        <span th:each="keyword : ${dto.keywords}" th:text="${keyword.keyword}">키워드</span>
+    </p>
     <div>
         [[ ${dto.postContent} ]]
     </div>
-<!--    <table class="table m-2">-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--            <th scope="col">Id</th>-->
-<!--            <th scope="col">Title</th>-->
-<!--            <th scope="col">Content</th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-<!--        <tr>-->
-<!--            &lt;!&ndash;            <th th:text="${article.id}" scope="row" >1</th>&ndash;&gt;-->
-<!--            &lt;!&ndash;            <td th:text="${article.title}">제목111</td>&ndash;&gt;-->
-<!--            &lt;!&ndash;            <td th:text="${article.content}">내용 1111</td>&ndash;&gt;-->
-<!--            <th th:text="${dto.postId}" scope="row">1</th>-->
-<!--            <td th:text="${dto.postTitle}">제목111</td>-->
-<!--            <td th:text="${dto.postContent}">내용 1111</td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--    </table>-->
     <a th:href="@{/community/{id}/update(id=${dto.postId})}" class="btn btn-primary">수정</a>
     <a th:href="@{/community/{id}/delete(id=${dto.postId})}" class="btn btn-danger">삭제</a>
     <a href="/community">목록</a>
@@ -56,19 +41,7 @@
         </div>
     </div>
 
-    <!--    <div class="card m-2">-->
-    <!--        <div class="card-header">-->
-    <!--            <span>Featured</span>-->
-    <!--            <a class="btn btn-sm btn-outline-primary">수정</a>-->
-    <!--            <a class="btn btn-sm btn-outline-primary" id="comment-delete-btn">삭제</a>-->
-    <!--        </div>-->
-    <!--        <div class="card-body">-->
-    <!--            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>-->
-    <!--        </div>-->
-    <!--    </div>-->
-
     <form th:action="@{/community/{id}/comments(id=${dto.postId})}" method="post">
-        <!--        <input type="hidden" th:field="${dto.id}">-->
         <!-- 닉네임 입력-->
         <div class="m-2">
             <label class="form-label">닉네임</label>
@@ -77,11 +50,10 @@
         <!-- 댓글 본문 입력-->
         <div class="m-2">
             <label class="form-label">댓글 내용</label>
-            <textarea  type="text" class="form-control" rows="3" id="new-comment-body" name="commentContent"></textarea>
+            <textarea type="text" class="form-control" rows="3" id="new-comment-body" name="commentContent"></textarea>
         </div>
         <!-- 전송버튼-->
         <button type="button" id="comment-create-btn" class="btn btn-primary">댓글 작성</button>
-        <!--        <input type="submit" class="btn btn-primary" id="comment-create-btn" value="댓글 작성"></input>-->
     </form>
     <script src="/js/jQuery.js"></script>
     <script th:inline="javascript">
@@ -114,10 +86,7 @@
                 $("form").submit();
             });
         });
-
     </script>
 </div>
 </body>
 </html>
-
-

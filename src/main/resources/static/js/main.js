@@ -1,223 +1,100 @@
- let mapContainer = document.getElementById('map'),
-     mapOption = {
-         center: new kakao.maps.LatLng(33.450701, 126.570667),
-         level: 3
-     };
+// 지도 표시를 위한 div 요소
+    const mapContainer = document.getElementById('map');
 
- let map = new kakao.maps.Map(mapContainer, mapOption);
+    // 지도 옵션 설정
+    const mapOptions = {
+        center: new kakao.maps.LatLng(37.566535, 126.9779692), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };
 
-// 키워드 지역 버튼 설정 영역
-let allAreas = [];
-let isAllAreasVisible = false;
-let selectedKeyword = '';
-let selectedArea = '';
+    // 지도 생성
+    const map = new kakao.maps.Map(mapContainer, mapOptions);
 
-window.onload = () => {
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('departureDate').min = today;
-    document.getElementById('arrivalDate').min = today;
+// 지도 초기화 함수
+function initMap(data) {
+    if (!data.documents || data.documents.length === 0) {
+        alert('검색 결과가 없습니다.');
+        return;
+    }
 
-    loadKeywords();
-    loadAreas();
-};
+    // 첫 번째 장소의 좌표를 지도 중심으로 설정
+    const firstPlace = data.documents[0];
+    const mapOptions = {
+        center: new kakao.maps.LatLng(firstPlace.y, firstPlace.x),
+        level: 3
+    };
+    map.setCenter(mapOptions.center); // 기존 지도 객체의 중심을 재설정
 
-function loadKeywords() {
-    fetch('/api/keywords')
-        .then(response => response.json())
-        .then(data => {
-            const keywordButtons = document.getElementById('keywordButtons');
-            keywordButtons.innerHTML = '';
-
-            data.forEach(keyword => {
-                const button = createButton(keyword, selectKeyword, 'keyword-button');
-                keywordButtons.appendChild(button);
-            });
+    // 마커 생성 및 지도에 표시
+    data.documents.forEach(place => {
+        const markerPosition = new kakao.maps.LatLng(place.y, place.x);
+        const marker = new kakao.maps.Marker({
+            position: markerPosition
         });
-}
-
-function loadAreas() {
-    fetch('/api/areas')
-        .then(response => response.json())
-        .then(data => {
-            allAreas = data;
-            displayAreas(allAreas.slice(0, 2));
-        });
-}
-
-function createButton(text, onClick, buttonClass) {
-    const button = document.createElement('button');
-    button.innerText = text;
-    button.type = 'button';
-    button.className = `my-button ${buttonClass}`;
-    button.onclick = () => onClick(text, button);
-    return button;
-}
-
-function displayAreas(areas) {
-    const areaButtons = document.getElementById('areaButtons');
-    areaButtons.innerHTML = '';
-    areas.forEach(area => {
-        const button = createButton(area, selectArea, 'area-button');
-        areaButtons.appendChild(button);
-        if (selectedArea === area) {
-            button.classList.add('active');
-        }
+        marker.setMap(map); // 지도에 마커 추가
     });
-    updateShowMoreButton();
 }
 
-function updateShowMoreButton() {
-    const showMoreButton = document.getElementById('showMoreAreas');
-    showMoreButton.style.display = allAreas.length > 2 ? 'block' : 'none';
-}
+// 검색 버튼 클릭 시 실행될 함수
+document.getElementById('searchBtn').addEventListener('click', function() {
+    const keyword = document.getElementById('keyword').value;
 
-document.getElementById('showMoreAreas').onclick = function() {
-    if (!isAllAreasVisible) {
-        displayAreas(allAreas);
-        this.innerText = '▲ 접기';
-        isAllAreasVisible = true;
-    } else {
-        displayAreas(allAreas.slice(0, 2));
-        this.innerText = '▼ 더 보기';
-        isAllAreasVisible = false;
-
-        if (selectedArea) {
-            const button = Array.from(document.querySelectorAll('#areaButtons .my-button'))
-                .find(btn => btn.innerText === selectedArea);
-            if (button) {
-                button.classList.add('active');
-            }
+    fetch(`/search?keyword=${encodeURIComponent(keyword)}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
         }
-    }
-};
-
-function selectKeyword(keyword, button) {
-    if (selectedKeyword) {
-        const existingButton = Array.from(document.querySelectorAll('#keywordButtons .my-button'))
-            .find(btn => btn.classList.contains('active'));
-        if (existingButton) {
-            existingButton.classList.remove('active');
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('네트워크 응답이 정상적이지 않습니다: ' + response.status);
         }
-    }
-
-    selectedKeyword = keyword;
-    button.classList.add('active');
-    updateSelection('keyword', keyword);
-}
-
-function selectArea(area, button) {
-    if (selectedArea) {
-        const existingButton = Array.from(document.querySelectorAll('#areaButtons .my-button'))
-            .find(btn => btn.classList.contains('active'));
-        if (existingButton) {
-            existingButton.classList.remove('active');
+        return response.json();
+    })
+    .then(data => {
+        console.log('서버 응답 데이터:', data); // 데이터 구조 확인을 위한 로그
+        if (data.documents && data.documents.length > 0) {
+            initMap(data); // 지도 초기화 함수 호출
+            displayPlaces(data.documents); // 장소 목록 표시 함수 호출
+        } else {
+            alert('검색 결과가 없습니다.');
         }
-    }
-
-    selectedArea = area;
-    button.classList.add('active');
-    updateSelection('area', area);
-}
-
-function updateSelection(type, value) {
-    const input = document.getElementById(`hidden${capitalize(type)}`);
-    input.value = value;
-    document.getElementById(`selected${capitalize(type)}`).innerText = value || '선택된 항목이 없습니다.';
-}
-
-function capitalize(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-function validateForm() {
-    let isValid = true;
-    let messages = [];
-
-    if (!selectedKeyword) {
-        messages.push("키워드를 선택해주세요.");
-        isValid = false;
-    }
-
-    if (!selectedArea) {
-        messages.push("지역을 선택해주세요.");
-        isValid = false;
-    }
-
-    const departureDate = document.getElementById('departureDate').value;
-    const arrivalDate = document.getElementById('arrivalDate').value;
-
-    if (!departureDate) {
-        messages.push("떠날 날짜를 선택해주세요.");
-        isValid = false;
-    } else if (!arrivalDate) {
-        messages.push("도착할 날짜를 선택해주세요.");
-        isValid = false;
-    } else if (departureDate > arrivalDate) {
-        messages.push("떠날 날짜는 도착할 날짜보다 이전이어야 합니다.");
-        isValid = false;
-    }
-
-    if (!isValid) {
-        alert(messages.join("\n"));
-    }
-
-    return isValid;
-}
-
-// 날씨 슬라이드 관련 코드
-let cities = ['Seoul', 'Daejeon', 'Incheon', 'Sokcho', 'Gangneung', 'Chuncheon', 'Gwangju', 'Ulsan', 'Busan', 'Mokpo', 'Jeju City'];
-let apiKey = '{YOUR_API_KEY}'; // OpenWeatherMap API 키로 교체
-
-let requests = cities.map(city => {
-    let weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-
-    return $.ajax({
-        url: weatherUrl,
-        type: 'GET',
-        success: function(data) {
-            let temp = data.main.temp;
-            let weatherDescription = data.weather[0].description;
-            let icon = data.weather[0].icon;
-
-            $('.weather-slides').append(`
-                <div class="weather-slide">
-                    <h2>${city}</h2>
-                    <img src="https://openweathermap.org/img/wn/${icon}.png" alt="${weatherDescription}" style="width: 50px;"/>
-                    <p>${temp} °C / ${weatherDescription}</p>
-                </div>
-            `);
-        },
-        error: function() {
-            $('.weather-slides').append('<div class="weather-slide">날씨 정보를 가져오는데 실패했습니다.</div>');
-        }
+    })
+    .catch(error => {
+        console.error('문제가 발생했습니다:', error.message); // 오류 메시지 콘솔에 출력
+        alert('검색 결과를 불러오는 중 문제가 발생했습니다.');
     });
 });
 
-let currentIndex = 0;
+// 장소 목록 표시 함수
+function displayPlaces(places) {
+    $('#list').css("display","block");
+    const placeList = $('#list'); // HTML의 장소 목록 표시할 요소
+    placeList.empty(); // 이전 검색 결과 제거
 
-function updateSlide() {
-    let offset = -currentIndex * 100; // 현재 인덱스에 따라 오프셋 계산
-    $('.weather-slides').css('transform', 'translateX(' + offset + '%)');
+    if (places.length === 0) {
+        placeList.append('<p>검색 결과가 없습니다.</p>');
+        return;
+    }
+
+    places.forEach(place => {
+        const coords = new kakao.maps.LatLng(place.y, place.x);
+        const marker = new kakao.maps.Marker({
+            map: map,
+            position: coords
+        });
+
+        placeList.append(`
+            <div>
+                <h3>${place.place_name}</h3>
+                <p>${place.address_name}</p>
+                <button onclick="addToMyList('${place.place_name}', '${place.address_name}')">여행 추가</button>
+            </div>
+        `);
+
+        kakao.maps.event.addListener(marker, 'click', function() {
+            displayInfoWindow(map, marker, place);
+        });
+    });
 }
-
-function startAutoSlide() {
-    intervalId = setInterval(function() {
-        currentIndex = (currentIndex + 1) % cities.length;
-        updateSlide();
-    }, 8000);
-}
-
-function prevSlide() {
-    currentIndex = (currentIndex - 1 + cities.length) % cities.length;
-    updateSlide();
-}
-
-function nextSlide() {
-    currentIndex = (currentIndex + 1) % cities.length;
-    updateSlide();
-}
-
-$.when(...requests).then(function() {
-    updateSlide();
-    startAutoSlide();
-});

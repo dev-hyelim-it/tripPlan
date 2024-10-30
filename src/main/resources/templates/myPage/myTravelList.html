@@ -8,6 +8,7 @@
     <th:block layout:fragment="css"></th:block>
     <th:block layout:fragment="script"></th:block>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         .myListContainer {
             text-align: center;
@@ -36,16 +37,16 @@
         <div class="d-flex">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/myPage/{id}(id=1)}">마이페이지</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{/myPage/{userId}(userId=${session.loginId})}">마이페이지</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/info/{id}(id=1)}">내 정보 관리</a>
+                    <a class="nav-link" th:href="@{/myPage/info/{userId}(userId=${session.loginId})}">내 정보 관리</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/list/{id}(id=1)}">나의 계획</a>
+                    <a class="nav-link" th:href="@{/myPage/list/{userId}(userId=${session.loginId})}">나의 계획</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/community/{id}(id=1)}">내 커뮤니티</a>
+                    <a class="nav-link" th:href="@{/myPage/community/{userId}(userId=${session.loginId})}">내 커뮤니티</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link disabled" aria-disabled="true">건의함</a>
@@ -58,7 +59,7 @@
                 <span th:each="travel : ${list}" th:object="${travel}">
                         <input type="radio" name="radio" th:value="*{travelId}" onclick="showForm(this.value)" checked>
                         <span th:text="${#strings.substring(travel.startDate, 0, 4)}"></span><span>년</span>
-                        <span th:text="${#strings.substring(travel.startDate, 6, 7)}"></span><span>월</span>
+                        <span th:text="${#strings.substring(travel.startDate, 5, 7)}"></span><span>월</span>
                         <span th:text="*{place}"></span>
                 </span>
                 <hr>
@@ -75,12 +76,12 @@
                     <p>
                         <label>출발일 : </label>
                         <span th:text="${#strings.substring(travel.startDate, 0, 4)}"></span><span>년</span>
-                        <span th:text="${#strings.substring(travel.startDate, 6, 7)}"></span><span>월</span>
-                        <span th:text="${#strings.substring(travel.startDate, 9, 10)}"></span><span>일</span>
+                        <span th:text="${#strings.substring(travel.startDate, 5, 7)}"></span><span>월</span>
+                        <span th:text="${#strings.substring(travel.startDate, 8, 10)}"></span><span>일</span>
                         <label>도착일 : </label>
                         <span th:text="${#strings.substring(travel.endDate, 0, 4)}"></span><span>년</span>
-                        <span th:text="${#strings.substring(travel.endDate, 6, 7)}"></span><span>월</span>
-                        <span th:text="${#strings.substring(travel.endDate, 9, 10)}"></span><span>일</span>
+                        <span th:text="${#strings.substring(travel.endDate, 5, 7)}"></span><span>월</span>
+                        <span th:text="${#strings.substring(travel.endDate, 8, 10)}"></span><span>일</span>
                     </p>
                     <p>
                         <label>숙박 : </label>
