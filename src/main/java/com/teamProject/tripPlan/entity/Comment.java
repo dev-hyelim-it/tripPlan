@@ -19,4 +19,8 @@ public class Comment {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "suggestion_id")
+    private Suggestion suggestion;
+
 }

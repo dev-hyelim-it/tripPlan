@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+      xmlns:layout="www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<!--<head>-->
+<meta charset="UTF-8">
+<title>Title</title>
+<th:block layout:fragment="css"></th:block>
+<th:block layout:fragment="script"></th:block>
+<body>
+<div layout:fragment="content" class="content">
+  <h2 class="com-title">건의함</h2>
+  <form id="form" th:action="@{/suggestion/new}">
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">글번호</th>
+        <th scope="col">제목</th>
+        <th scope="col">작성자</th>
+        <th scope="col">작성일</th>
+      </tr>
+      </thead>
+      <tbody>
+      <div>
+        <tr th:each="suggestion : ${suggestions}" th:object="${suggestion}">
+          <th th:text="*{suggestionId}"></th>
+          <td>
+            <a th:href="@{/suggestion/{id}(id=*{suggestionId})}" th:text="*{suggestionTitle}"></a>
+          </td>
+<!--          <td>개구리</td>-->
+          <td th:text="${suggestion.users != null ? suggestion.users.userNickname : '익명'}"></td>
+          <td th:text="*{suggestionDate}"></td>
+        </tr>
+
+      </div>
+      </tbody>
+    </table>
+    <input type="submit" value="글쓰기" id="newSuggestion">
+    <button id="GoBackToMain"><a href="/main">메인</a></button>
+    <br>
+
+  </form>
+</div>
+
+</body>
+</html>
