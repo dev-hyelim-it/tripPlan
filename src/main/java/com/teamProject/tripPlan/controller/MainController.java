@@ -1,6 +1,7 @@
 package com.teamProject.tripPlan.controller;
 
 import com.teamProject.tripPlan.dto.MainDTO;
+import org.springframework.security.core.context.SecurityContextHolder;
 import com.teamProject.tripPlan.entity.MbtiTestResult;
 import com.teamProject.tripPlan.entity.Users;
 import com.teamProject.tripPlan.service.MbtiTestResultService;
@@ -23,12 +24,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class MainController {
 
+    @GetMapping("/main")
+    public String Main() {
+        String id = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("메인입니당+========================="+id);
     @Autowired
     QueryService queryService;
 
     @Autowired
     MbtiTestResultService mbtiTestResultService;
-  
+
     private final KakaoKeywordSearchService keywordSearchService;
 
     @Autowired
@@ -45,6 +50,7 @@ public class MainController {
             model.addAttribute("userType", mbtiTestResult);
         }
         return "main";
+
     }
 
     @PostMapping("/main")
