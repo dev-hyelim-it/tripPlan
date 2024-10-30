@@ -4,7 +4,7 @@
       layout:decorate="~{layout/layout}">
 <head>
   <meta charset="UTF-8">
-  <title>키워드 추가 페이지</title>
+  <title>키워드 수정 페이지</title>
   <th:block layout:fragment="css"></th:block>
   <th:block layout:fragment="script"></th:block>
 
@@ -26,16 +26,17 @@
     </ul>
   </div>
 
-  <div class="admin_insert_keyword_content">
-    <h2>키워드 추가하기</h2>
-    <form th:action="@{/admin/keywordInsert}" th:object="${dto}" method="post">
+  <div class="admin_update_keyword_content">
+    <h2>키워드 수정하기</h2>
+    <form th:action="@{/admin/updateKeyword}" th:object="${dto}" method="post">
+      <input type="hidden" th:field="*{keywordId}">
       <ul>
-        <label for="keyword">키워드 : </label>
-        <input type="text" name="keyword" id="keyword">
+        <label class="form-label" for="keyword">키워드 : </label>
+        <input type="text" class="form-control" th:field="*{keyword}" name="keyword" id="keyword">
       </ul>
       <button type="submit" class="btn btn-primary">추가하기</button>
       <input type="button" value="돌아가기">
-<!--      <p><a th:href="@{/admin/keyword}">돌아가기</a></p>-->
+<!--            <p><a th:href="@{/admin/keyword}">돌아가기</a></p>-->
 
     </form>
   </div>

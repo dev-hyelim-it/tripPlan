@@ -26,6 +26,13 @@ public class KeywordDAO {
         em.remove(keywordOne);
     }
 
+    public Keyword findOneKeyword(Long keywordId) {
+        Keyword keyword = em.find(Keyword.class, keywordId);
+        return keyword;
+    }
 
-
+    public void updateKeyword(KeywordDTO dto) {
+        Keyword keyword = em.find(Keyword.class, dto.getKeywordId());
+        keyword.setKeyword(dto.getKeyword());
+    }
 }

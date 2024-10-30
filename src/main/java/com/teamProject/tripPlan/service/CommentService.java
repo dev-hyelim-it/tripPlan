@@ -18,11 +18,18 @@ public class CommentService {
 
     public void insertComment(Long postId, CommentDTO dto) {
         commentDAO.insertComment(postId, CommentDTO.fromDTO(dto));
+    }
 
+    public void insertSuggestionComment(Long suggestionId, CommentDTO dto) {
+        commentDAO.insertSuggestionComment(suggestionId, CommentDTO.fromDTO(dto));
     }
 
     public Long deleteComment(Long commentId) {
         return commentDAO.deleteComment(commentId);
+    }
+
+    public Long deleteSuggestionComment(Long commentId) {
+        return commentDAO.deleteSuggestionComment(commentId);
     }
 
     public Map<String, Object> findByCommentId(Long commentId) {
@@ -30,6 +37,14 @@ public class CommentService {
         Map<String, Object> map = new HashMap<>();
         map.put("comment", comment);
         map.put("postId", comment.getPost().getPostId());
+        return map;
+    }
+
+    public Map<String, Object> findBySuggestionCommentId(Long commentId) {
+        Comment comment = commentDAO.findByCommentId(commentId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("comment", comment);
+        map.put("suggestionId", comment.getSuggestion().getSuggestionId());
         return map;
     }
 
