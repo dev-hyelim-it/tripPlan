@@ -8,12 +8,12 @@
 <h2>회원가입</h2>
 <hr>
 <form th:action="@{/joinProc}" method="post" name="joinForm">
-    이름 : <input id="username" type="name" name="name"><br>
-    아이디 : <input id="userId" type="Id" name="userId"><br>
-    비밀번호 : <input id="password" type="password" name="password"><br>
+    이름 : <input id="userName" type="text" name="userName"><br>
+    아이디 : <input id="userId" type="text" name="userId"><br>
+    비밀번호 : <input id="userPassword" type="password" name="userPassword"><br>
     비밀번호 확인 : <input id="passwordCheck" type="password" name="passwordCheck"><br>
-    이메일 : <input id="email" type="email" name="email"><br>
-    닉네임 : <input id="nickname" type="" name="nickname"><br>
+    이메일 : <input id="userEmail" type="email" name="userEmail"><br>
+    닉네임 : <input id="userNickname" type="text" name="userNickname"><br>
 
     <input type="submit" value="회원가입"/>
 </form>

@@ -1,6 +1,7 @@
 package com.teamProject.tripPlan.controller;
 
 import com.teamProject.tripPlan.dto.MainDTO;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +13,10 @@ public class MainController {
 
     @GetMapping("/main")
     public String Main() {
+        String id = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("메인입니당+========================="+id);
         return "main";
+
     }
 
     @PostMapping("/main")
