@@ -43,7 +43,10 @@
             </thead>
             <tbody class="table-group-divider">
             <tr th:each="user : ${usersList}" th:object="${user}">
-                <th scope="row"><input type="radio" name="customer"></th>
+                <th scope="row">
+                    <input type="radio" name="customer" th:id="*{userNo}">
+<!--                    th:text="*{userNo}" th:id="*{userId}"-->
+                </th>
                 <td th:text="*{userNo}">2</td>
                 <td th:text="*{userId}">ABCDEFG</td>
                 <td th:text="*{userPassword}">987654321</td>
@@ -54,7 +57,32 @@
             </tr>
             </tbody>
         </table>
-        <button type="submit">회원삭제</button>
+        <a onclick="sendSelectedRadioIdCustomer()" class="btn btn-danger">회원 삭제</a>
+        <script>
+            function sendSelectedRadioIdCustomer() {
+                const selectedRadio = document.querySelector('input[name="customer"]:checked');
+
+                if (!selectedRadio) {
+                    alert("삭제할 사용자를 선택해 주세요.");
+                    return;
+                }
+
+                const id = selectedRadio.id;
+                const url = `/admin/${id}/delete/customer`;
+
+
+                fetch(url, {
+                    method: 'DELETE',
+                     headers: {
+                'Content-Type': 'application/json'
+                // 'X-CSRF-Token': 'YOUR_CSRF_TOKEN' // CSRF 토큰 필요 시 추가
+                    }
+                })
+                .then(response => {
+                    location.reload();
+                });
+            }
+        </script>
     </div>
 </div>
 </body>

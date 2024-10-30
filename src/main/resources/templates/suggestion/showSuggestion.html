@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+      xmlns:layout="www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<meta charset="UTF-8">
+
+<!-- 전체 적용될 css -->
+<th:block layout:fragment="css">
+  <link rel="stylesheet" th:href="@{/css/showPost.css}">
+</th:block>
+
+<!-- 전체 적용될 스크립트 -->
+<th:block layout:fragment="script"></th:block>
+
+<!-- 우리가 작업할 공간 -->
+<body data-suggestion-id="[[${suggestionId}]]">
+<div layout:fragment="content" class="content">
+
+  <form>
+    <h1>[[ ${dto.suggestionTitle} ]]</h1>
+    <p th:text="${dto.users != null ? dto.users.userNickname : '익명'}"></p>
+<!--    userNickname = null인 경우 익명으로 처리 일단....-->
+
+
+    <div>
+      <input class="form-control" th:value="${dto.suggestionContent}" disabled>
+    </div>
+  </form>
+
+  <a th:href="@{/suggestion/{id}/update(id=${dto.suggestionId})}" class="btn btn-primary" >수정</a>
+  <a th:href="@{/suggestion/{id}/delete(id=${dto.suggestionId})}" class="btn btn-danger" id="suggestion-delete-btn">삭제</a>
+  <a href="/suggestion/box">건의함으로</a>
+  <br><br>
+
+  <div class="card m-2" th:each="comment : ${dto.comments}" th:object="${comment}">
+    <div class="card-header">
+      <span th:text="*{commentNickname}">Featured</span>
+      <a class="btn btn-sm btn-outline-primary" id="suggestion-comment-update-btn">수정</a>
+      <a class="btn btn-sm btn-outline-primary" id="suggestion-comment-delete-btn">삭제</a>
+      <input type="hidden" th:value="*{commentId}">
+      <!-- 삭제 확인 모달 창 -->
+      <div id="delete-confirm-modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid #ccc; background-color: #fff; padding: 20px; z-index: 1000;">
+        <p>댓글을 삭제하시겠습니까?</p>
+        <button id="confirm-delete-btn">삭제</button>
+        <button id="cancel-delete-btn">취소</button>
+      </div>
+
+    </div>
+    <div class="card-body">
+      <p class="card-text" th:text="*{commentContent}"></p>
+    </div>
+  </div>
+
+  <form th:action="@{/suggestion/{id}/comments(id=${dto.suggestionId})}" method="post">
+    <!-- 닉네임 입력-->
+    <div class="m-2">
+      <label class="form-label">닉네임</label>
+      <input type="text" class="form-control" id="new-suggestion-comment-nickname" name="commentNickname">
+    </div>
+    <!-- 댓글 본문 입력-->
+    <div class="m-2">
+      <label class="form-label">댓글 내용</label>
+      <textarea class="form-control" rows="3" id="new-suggestion-comment-body" name="commentContent"></textarea>
+    </div>
+    <!-- 전송버튼-->
+    <button type="button" id="suggestion-comment-create-btn" class="btn btn-primary">댓글 작성</button>
+    <!--        <input type="submit" class="btn btn-primary" id="comment-create-btn" value="댓글 작성"></input>-->
+  </form>
+  <script src="/js/jQuery.js"></script>
+  <script th:inline="javascript">
+    $(document).ready(function () {
+      console.log("JavaScript loaded successfully");
+
+      // 건의글 삭제 버튼 클릭 시 동작
+      $(document).on("click", "#suggestion-delete-btn", function () {
+        let commentId = $(this).siblings("input[type='hidden']").val();
+        if (confirm("건의글을 삭제하시겠습니까?")) {
+           location.href = '/suggestion/box';
+        }
+      });
+
+      // 댓글 삭제 버튼 클릭 시 동작
+      $(document).on("click", "#suggestion-comment-delete-btn", function () {
+        let commentId = $(this).next().val();
+        if (confirm("댓글을 삭제하시겠습니까?")) {
+           location.href = '/suggestion/comments/'+commentId;
+        }
+      });
+
+      // 댓글 수정 버튼 클릭 시 동작
+      $(document).on("click", "#suggestion-comment-update-btn", function () {
+        let commentId = $(this).siblings("input[type='hidden']").val();
+        location.href = '/suggestion/comments/view/' + commentId + '/update';
+      });
+
+      // 댓글 작성 버튼 클릭 시 동작
+      $("#suggestion-comment-create-btn").on("click", function (event) {
+        event.preventDefault();
+
+        // 닉네임과 내용이 비어있는지 확인
+        if ($("#new-suggestion-comment-nickname").val() === "") {
+          alert("닉네임을 입력하세요.");
+          $("#new-suggestion-comment-nickname").focus();
+          return;
+        }
+        if ($("#new-suggestion-comment-body").val() === "") {
+          alert("내용을 입력하세요.");
+          $("#new-suggestion-comment-body").focus();
+          return;
+        }
+
+        // 폼 제출
+        $("form").submit();
+      });
+    });
+  </script>
+</div>
+</body>
+</html>
+
+
