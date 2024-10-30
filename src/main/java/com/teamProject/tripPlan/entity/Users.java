@@ -32,6 +32,11 @@ public class Users {
             cascade = CascadeType.PERSIST)
     private List<Post> posts = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "users",
+            cascade = CascadeType.PERSIST)
+    private List<Suggestion> suggestions = new ArrayList<>();
+
     @OneToMany(mappedBy = "users",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             fetch = FetchType.LAZY)
