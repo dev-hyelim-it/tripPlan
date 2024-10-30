@@ -9,8 +9,11 @@ import com.teamProject.tripPlan.repository.KeywordRepository;
 import com.teamProject.tripPlan.repository.UserRepository;
 import com.teamProject.tripPlan.service.KeywordService;
 import com.teamProject.tripPlan.service.PostService;
+import com.teamProject.tripPlan.service.UsersService;
+import groovyjarjarantlr4.v4.codegen.model.AddToLabelList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -30,6 +33,9 @@ public class AdminController {
     @Autowired
     PostService postService;
 
+    @Autowired
+    UsersService usersService;
+
     @GetMapping("/main")
     public String adminMainView() {
         return "admin/adminMain";
@@ -41,6 +47,12 @@ public class AdminController {
         return "admin/adminCustomer";
     }
 
+    @DeleteMapping("/{userNo}/delete/customer")
+    public String deleteUser(@PathVariable("userNo") Long userNo) {
+        usersService.deleteUser(userNo);
+        return "redirect:/admin/customer";
+    }
+
     @GetMapping("/keyword")
     public String adminKeywordView(Model model, KeywordDTO dto) {
         model.addAttribute("keywords", keywordService.findAllKeywords());
@@ -49,26 +61,28 @@ public class AdminController {
     }
 
     @GetMapping("/insert/keyword")
-    public String adminInsertKeyword(@ModelAttribute("dto") KeywordDTO dto, Model model) {
+    public String adminInsertKeywordView(@ModelAttribute("dto") KeywordDTO dto, Model model) {
         model.addAttribute("dto", new KeywordDTO());
 
         return "/admin/adminInsertKeyword";
     }
 
     @PostMapping("/keywordInsert")
-    public String createPost(KeywordDTO dto) {
+    public String createKeyword(KeywordDTO dto) {
         keywordService.insertKeyword(dto);
         return "redirect:/admin/keyword";
     }
 
-    @GetMapping("{keywordId}/delete")
-    public String deleteKeyword(@PathVariable("keywordId") Long keywordId,
-                                RedirectAttributes redirectAttributes,
-                                KeywordDTO dto) {
+    @DeleteMapping("/{keywordId}/delete/keyword")
+    public String deleteKeyword(@PathVariable("keywordId") Long keywordId) {
         keywordService.deleteKeyword(keywordId);
-        redirectAttributes.addFlashAttribute("msg", "정상적으로 삭제되었습니다.");
-
         return "redirect:/admin/keyword";
+    }
+
+    @DeleteMapping("/{postId}/delete/post")
+    public String deletePost(@PathVariable("postId") Long postId) {
+        postService.deletePost(postId);
+        return "redirect:/admin/community";
     }
 
     @GetMapping("/community")
@@ -76,5 +90,17 @@ public class AdminController {
 
         model.addAttribute("posts", postService.findAllPost());
         return "admin/adminCommunity";
+    }
+
+    @GetMapping("/{keywordId}/update/keyword")
+    public String adminKeywordUpdateView(@PathVariable("keywordId") Long keywordId, Model model) {
+        model.addAttribute("dto", keywordService.findOneKeyword(keywordId));
+        return "admin/adminUpdateKeyword";
+    }
+
+    @PostMapping("/{keywordId}/updateKeyword")
+    public String updateKeyword( KeywordDTO dto) {
+        keywordService.updateKeyword(dto);
+        return "redirect:/admin/keyword";
     }
 }

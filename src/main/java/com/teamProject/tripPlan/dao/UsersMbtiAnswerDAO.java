@@ -45,4 +45,10 @@ public class UsersMbtiAnswerDAO {
         return em.createQuery(sql, UsersMbtiAnswer.class).setParameter("userNo", userNo).getResultList();
     }
 
+    public void deleteByUserNo(Long userNo) {
+        String sql = "DELETE FROM UsersMbtiAnswer uma WHERE uma.users.userNo = :userNo";
+        em.createQuery(sql)
+                .setParameter("userNo", userNo)
+                .executeUpdate();
+    }
 }

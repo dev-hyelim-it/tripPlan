@@ -42,7 +42,9 @@
             </thead>
             <tbody class="table-group-divider">
             <tr th:each="post : ${posts}" th:object="${post}">
-                <th scope="row"><input type="radio" name="customer"></th>
+                <th scope="row">
+                    <input type="radio" name="keyword" th:id="*{postId}">
+                </th>
                 <td th:text="*{postId}">1</td>
                 <td th:text="*{users.userNickname}"></td>
                 <td th:text="*{postTitle}">아 저녁 뭐 먹냐</td>
@@ -52,7 +54,27 @@
             </tr>
             </tbody>
         </table>
-        <td><button type="submit">삭제</button></td>
+        <a onclick="sendSelectedRadioIdKeywordPost()" class="btn btn-danger">게시글 삭제</a>
+        <script>
+            function sendSelectedRadioIdKeywordPost() {
+                const selectedRadio = document.querySelector('input[name="keyword"]:checked');
+
+                if (!selectedRadio) {
+                    alert("삭제할 키워드를 선택해 주세요.");
+                    return;
+                }
+
+                const id = selectedRadio.id;
+                const url = `/admin/${id}/delete/post`;
+
+                fetch(url, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    location.reload();
+                });
+            }
+        </script>
     </div>
 </div>
 </body>

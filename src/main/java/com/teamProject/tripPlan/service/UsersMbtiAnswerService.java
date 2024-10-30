@@ -3,12 +3,14 @@ package com.teamProject.tripPlan.service;
 import com.teamProject.tripPlan.dao.UsersMbtiAnswerDAO;
 import com.teamProject.tripPlan.dto.UsersMbtiAnswerDTO;
 import com.teamProject.tripPlan.entity.UsersMbtiAnswer;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class UsersMbtiAnswerService {
 
     @Autowired
@@ -26,4 +28,8 @@ public class UsersMbtiAnswerService {
         return usersMbtiAnswerDAO.findByUserNo(userNo);
     }
 
+    public void deleteByUserNo(Long userNo) {
+        usersMbtiAnswerDAO.deleteByUserNo(userNo);
+
+    }
 }

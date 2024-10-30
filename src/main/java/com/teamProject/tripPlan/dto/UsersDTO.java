@@ -1,6 +1,9 @@
 package com.teamProject.tripPlan.dto;
 
 import com.teamProject.tripPlan.entity.Post;
+import com.teamProject.tripPlan.entity.UserRole;
+import com.teamProject.tripPlan.entity.Suggestion;
+import com.teamProject.tripPlan.entity.UserRole;
 import com.teamProject.tripPlan.entity.Users;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
@@ -23,6 +26,8 @@ public class UsersDTO {
     private String userNickname;
     private String userEmail;
     private List<Post> posts = new ArrayList<>();
+    private UserRole role;
+    private List<Suggestion> suggestions = new ArrayList<>();
 
     public static UsersDTO fromEntity(Users users) {
         return new UsersDTO(
@@ -32,7 +37,9 @@ public class UsersDTO {
                 users.getUserName(),
                 users.getUserNickname(),
                 users.getUserEmail(),
-                users.getPosts()
+                users.getPosts(),
+                users.getRole(),
+                users.getSuggestions()
         );
     }
 
@@ -44,6 +51,7 @@ public class UsersDTO {
         users.setUserName(dto.getUserName());
         users.setUserNickname(dto.getUserNickname());
         users.setUserEmail(dto.getUserEmail());
+        users.setRole(dto.getRole());
         return users;
     }
 

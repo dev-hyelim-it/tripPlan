@@ -8,12 +8,20 @@
 	<th:block layout:fragment="css"></th:block>
 	<th:block layout:fragment="script"></th:block>
 	<link rel="stylesheet" th:href="@{css/style.css}">
+<!-- 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey={45eba8a04e39c19ff52df76714fcfc05}" async></script> -->
 	<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=6ebcca49838b45dd8d299c3c5afed9d1&libraries=services"></script>
 	<script th:src="@{js/jQuery.js}"></script>
 </head>
 
 <body>
 <div layout:fragment="content" class="content">
+	<div th:if="${userType}!=null">
+		<span><b>00님의 여행 성향 테스트 결과 추전 지역</b></span>
+		<p>1. [[ ${userType.recommendArea1} ]]-[[ ${userType.areaName1} ]]</p>
+		<p>2. [[ ${userType.recommendArea2} ]]-[[ ${userType.areaName2} ]]</p>
+	</div>
+
 	<div class="main">
 		<h3>여행지 검색 하기</h3>
 		<div class="map">
