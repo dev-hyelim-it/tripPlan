@@ -21,6 +21,13 @@ public class Suggestion {
     @Column(length = 1000)
     private String suggestionContent;
     private LocalDateTime suggestionDate;
+//    @Column(length = 1000)
+//    private String msgForNormalPerson;
+//
+//    public Suggestion() {
+//        this.msgForNormalPerson = "작성자와 관리자만 확인 가능한 메모입니다.";
+//    }
+
 
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "suggestion",
