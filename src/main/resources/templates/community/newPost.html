@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/community.css}">
+    </th:block>
+    <th:block layout:fragment="script"></th:block>
+
+    <script>
+        function showAddress(button) {
+            const address = button.getAttribute('data-address');
+            document.getElementById('selectedAddress').innerText = address;
+        }
+
+        function loadKeywords() {
+            fetch('/api/keywords')
+                .then(response => response.json())
+                .then(data => {
+                    const keywordButtons = document.getElementById('keywordButtons');
+                    keywordButtons.innerHTML = '';
+
+                    data.forEach(keyword => {
+                        const button = createButton(keyword, selectKeyword);
+                        keywordButtons.appendChild(button);
+                    });
+                });
+        }
+
+        function createButton(keyword, onClick) {
+            const button = document.createElement('button');
+            button.innerText = keyword;
+            button.className = 'keyword-button my-button';
+            button.onclick = () => onClick(keyword);
+            return button;
+        }
+
+        let selectedKeywords = [];
+
+        function selectKeyword(keyword) {
+            // 중복 확인 후 선택된 키워드 배열 업데이트
+            if (!selectedKeywords.includes(keyword)) {
+                selectedKeywords.push(keyword);
+            } else {
+                selectedKeywords = selectedKeywords.filter(k => k !== keyword);
+            }
+
+            // 선택된 키워드 표시
+            document.getElementById('selectedKeywords').innerText = selectedKeywords.join(', ');
+        }
+
+function updateSelectedKeywords() {
+    const select = document.getElementById('keywords');
+    selectedKeywords = Array.from(select.selectedOptions).map(option => option.value); // ID를 사용
+    document.getElementById('selectedKeywords').innerText = selectedKeywords.join(', ');
+}
+
+function submitForm(event) {
+    const keywordsInput = document.createElement('input');
+    keywordsInput.type = 'hidden';
+    keywordsInput.name = 'keywords'; // 서버에서 사용할 키
+    keywordsInput.value = selectedKeywords.join(','); // ID를 콤마로 구분된 문자열로 변환
+    event.target.appendChild(keywordsInput);
+}
+
+    </script>
+</head>
+<body onload="loadKeywords()">
+<div layout:fragment="content" class="content" id="myListContainer">
+    <div class="com_left_section">
+        <h2>나의 여행 목록</h2>
+        <table class="table">
+            <tbody>
+            <tr th:each="travel : ${travelLists}">
+                <td>
+                    <button type="button" th:text="${travel.placeName}"
+                            th:data-address="${travel.placeAddress}"
+                            onclick="showAddress(this)"></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <form th:action="@{/community/create}" method="post" id="com_np_form" class="com_np_form" onsubmit="submitForm(event)">
+        <div class="com_right_section">
+            <div>
+                <label>글 제목</label>
+                <input type="text" th:field="${dto.postTitle}">
+            </div>
+            <div>
+                <label>글 작성자</label>
+                <input type="text" th:field="${dto.users.userNickname}" th:value="${person.userNickname}" disabled>
+            </div>
+            <div>
+                <label>여행 장소</label>
+                <p id="selectedAddress">여행 장소가 여기에 표시됩니다.</p>
+            </div>
+            <div>
+                <label>여행 날짜</label>
+                <input type="date" id="startDate" disabled> ~ <input type="date" id="endDate" disabled>
+            </div>
+            <div>
+                <label>이용한 숙소</label>
+                <input type="text" disabled>
+            </div>
+            <div>
+                <label>이용한 식당</label>
+                <input type="text" disabled>
+            </div>
+            <div>
+                <label>관광지</label>
+                <input type="text" disabled>
+            </div>
+            <div>
+                <label for="keywords">키워드 선택:</label>
+                <select id="keywords" th:field="${dto.keywords}" onchange="updateSelectedKeywords()">
+                    <th:block th:each="keyword : ${allKeywords}">
+                        <option th:value="${keyword.keywordId}" th:text="${keyword.keyword}"></option>
+                    </th:block>
+                </select>
+            </div>
+<!--            <div>-->
+<!--                <label>선택된 키워드:</label>-->
+<!--                <span id="selectedKeywords"></span>-->
+<!--            </div>-->
+            <div>
+                <label>글쓰기</label>
+                <textarea cols="20" rows="7" th:field="${dto.postContent}"></textarea>
+            </div>
+            <input class="com_btn_newPost" id="com_reset" type="reset" value="취소">
+            <input class="com_btn_newPost" id="com_new_okay" type="submit" value="등록">
+        </div>
+    </form>
+</div>
+</body>
+</html>

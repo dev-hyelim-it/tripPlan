@@ -4,6 +4,7 @@ import com.teamProject.tripPlan.dao.MyPageDAO;
 import com.teamProject.tripPlan.dto.PostDTO;
 import com.teamProject.tripPlan.dto.UsersDTO;
 import com.teamProject.tripPlan.entity.*;
+import com.teamProject.tripPlan.repository.MyListRepository;
 import com.teamProject.tripPlan.repository.PostRepository;
 import com.teamProject.tripPlan.repository.UserRepository;
 import jakarta.persistence.EntityManager;
@@ -20,6 +21,8 @@ public class MyPageService {
     MyPageDAO myPageDAO;
     @Autowired
     EntityManager em;
+    @Autowired
+    MyListRepository myListRepository;
 
     public UsersDTO findLoginUser(Long id) {
         Users users = myPageDAO.getOneUser(id);
@@ -53,5 +56,9 @@ public class MyPageService {
     public Long findUserId(String userId) {
         Long id = myPageDAO.findUserId(userId);
         return id;
+    }
+
+    public List<MyList> findAllMyLists(){
+        return myListRepository.findAll();
     }
 }
