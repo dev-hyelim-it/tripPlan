@@ -2,91 +2,60 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
-<meta charset="UTF-8">
-
-<!-- 전체 적용될 css -->
-<th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{/css/showPost.css}">
-</th:block>
-
-<!-- 전체 적용될 스크립트 -->
-<th:block layout:fragment="script"></th:block>
-
-<!-- 우리가 작업할 공간 -->
+<head>
+    <meta charset="UTF-8">
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/showPost.css}">
+    </th:block>
+</head>
 <body>
 <div layout:fragment="content" class="content">
-    <h1>[[ ${dto.postTitle} ]]</h1>
-    <p>[[ ${dto.users.userNickname} ]]</p>
-    <p>
-        <strong>키워드:</strong>
-        <span th:each="keyword : ${dto.keywords}" th:text="${keyword.keyword}">키워드</span>
-    </p>
-    <div>
-        [[ ${dto.postContent} ]]
-    </div>
-    <a th:href="@{/community/{id}/update(id=${dto.postId})}" class="btn btn-primary">수정</a>
-    <a th:href="@{/community/{id}/delete(id=${dto.postId})}" class="btn btn-danger">삭제</a>
-    <a href="/community">목록</a>
-    <br><br>
-
-    <div class="card m-2" th:each="comment : ${dto.comments}" th:object="${comment}">
-        <div class="card-header">
-            <span th:text="*{commentNickname}">Featured</span>
-            <a class="btn btn-sm btn-outline-primary" id="comment-update-btn">수정</a>
-            <a class="btn btn-sm btn-outline-primary" id="comment-delete-btn">삭제</a>
-            <input type="hidden" th:value="*{commentId}">
+    <h1>게시물 수정</h1>
+    <form th:action="@{/community/{id}/update(id=${dto.postId})}" method="post" id="com_np_form" class="com_np_form">
+        <div>
+            <label>글 제목</label>
+            <input type="text" th:field="${dto.postTitle}" required>
         </div>
-        <div class="card-body">
-            <p class="card-text" th:text="*{commentContent}">With supporting text below as a natural lead-in to additional content.</p>
+        <div>
+            <label>글 작성자</label>
+            <input type="text" th:value="${dto.users.userNickname}" disabled>
         </div>
-    </div>
-
-    <form th:action="@{/community/{id}/comments(id=${dto.postId})}" method="post">
-        <!-- 닉네임 입력-->
-        <div class="m-2">
-            <label class="form-label">닉네임</label>
-            <input type="text" class="form-control" id="new-comment-nickname" name="commentNickname" >
+        <div>
+            <label>여행 장소</label>
+            <p id="selectedAddress">여행 장소가 여기에 표시됩니다.</p>
         </div>
-        <!-- 댓글 본문 입력-->
-        <div class="m-2">
-            <label class="form-label">댓글 내용</label>
-            <textarea type="text" class="form-control" rows="3" id="new-comment-body" name="commentContent"></textarea>
+        <div>
+            <label>여행 날짜</label>
+            <!--            <input type="date" id="startDate" required th:value="${dto.startDate}"> ~-->
+            <!--            <input type="date" id="endDate" required th:value="${dto.endDate}">-->
         </div>
-        <!-- 전송버튼-->
-        <button type="button" id="comment-create-btn" class="btn btn-primary">댓글 작성</button>
+        <div>
+            <label>이용한 숙소</label>
+            <!--            <input type="text" th:field="${dto.accommodation}">-->
+        </div>
+        <div>
+            <label>이용한 식당</label>
+            <!--            <input type="text" th:field="${dto.restaurant}">-->
+        </div>
+        <div>
+            <label>관광지</label>
+            <!--            <input type="text" th:field="${dto.attractions}">-->
+        </div>
+        <div>
+            <label for="keyword">키워드 선택:</label>
+            <select id="keyword" th:field="${dto.keyword.keywordId}">
+                <th:block th:each="keyword : ${allKeywords}">
+                    <option th:value="${keyword.keywordId}" th:text="${keyword.keyword}"></option>
+                </th:block>
+            </select>
+        </div>
+        <div>
+            <label>글쓰기</label>
+            <textarea cols="20" rows="7" th:field="${dto.postContent}" required></textarea>
+        </div>
+        <input class="com_btn_newPost" id="com_reset" type="reset" value="취소">
+        <input class="com_btn_newPost" id="com_new_okay" type="submit" value="수정하기">
     </form>
-    <script src="/js/jQuery.js"></script>
-    <script th:inline="javascript">
-        $(document).ready(function(){
-            console.log("JavaScript loaded successfully");
-            $(document).on("click", "#comment-delete-btn", function(){
-                let commentId = $(this).next().val();
-                alert(commentId)
-                location.href='/community/comments/'+commentId;
-            });
-
-            $(document).on("click", "#comment-update-btn", function(){
-                let commentId = $(this).next().next().val();
-                alert(commentId)
-                location.href='/community/comments/view/'+commentId;
-            });
-
-            $("#comment-create-btn").on("click",function(event){
-                event.preventDefault();
-                if($("#new-comment-nickname").val()==""){
-                   alert("닉네임 입력하세요");
-                   $("#new-comment-nickname").focus();
-                   return;
-                }
-                if($("#new-comment-body").val()==""){
-                   alert("내용 입력하세요");
-                   $("#new-comment-body").focus();
-                   return;
-                }
-                $("form").submit();
-            });
-        });
-    </script>
 </div>
 </body>
 </html>

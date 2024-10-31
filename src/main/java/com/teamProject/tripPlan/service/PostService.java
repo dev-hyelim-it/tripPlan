@@ -56,8 +56,8 @@ public class PostService {
         dao.calculateLikes(id);
     }
 
-    public List<PostDTO> findPostsByKeyword(List<String> keywords) {
-        return dao.findPostsByKeywords(keywords).stream()
+    public List<PostDTO> findPostsByKeyword(String keyword) {
+        return dao.findPostsByKeywords(keyword).stream()
                 .map(PostDTO::fromEntity)
                 .toList();
     }
@@ -81,8 +81,8 @@ public class PostService {
         }
 
         // 키워드가 null인 경우 초기화
-        if (post.getKeywords() == null) {
-            post.setKeywords(new ArrayList<>());
+        if (post.getKeyword() == null) {
+            post.setKeyword(dto.getKeyword());
         }
 
         postRepository.save(post); // JPA를 통해 저장

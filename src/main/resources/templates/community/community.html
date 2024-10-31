@@ -86,7 +86,7 @@
             <td th:if="${post.users == null}">작성자 없음</td>
             <td th:text="${post.postDate}"></td>
             <td th:text="${post.likes}"></td>
-            <td th:each="keyword:${post.keywords}" th:text="${keyword.keyword}"></td>
+            <td th:each="keyword:${post.keyword}" th:text="${keyword.keyword}"></td>
         </tr>
         </tbody>
     </table>
