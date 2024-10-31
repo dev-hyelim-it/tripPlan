@@ -23,32 +23,32 @@ public class Travel {
     private LocalDateTime endDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_no")
     private Users users;
 
     private String accommodation; // 이용한 숙소
     private String restaurant; // 이용한 식당
     private String attractions; // 관광지
 
-    @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "travel",
-            cascade = CascadeType.PERSIST)
-    List<TravelRestaurant> travelRestaurants = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "travel",
-            cascade = CascadeType.PERSIST)
-    List<TravelAttraction> travelAttractions = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "travel",
-            cascade = CascadeType.PERSIST)
-    List<TravelAccommodation> travelAccommodations = new ArrayList<>();
-
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "travel_id")
     private Post post;
 
-//    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "MyList", fetch = FetchType.LAZY)
-//    List<MyList> myLists = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "travel", fetch = FetchType.LAZY)
+    private List<MyList> myLists = new ArrayList<>();
+
+//    @OneToMany(fetch = FetchType.LAZY,
+//            mappedBy = "travel",
+//            cascade = CascadeType.PERSIST)
+//    List<TravelRestaurant> travelRestaurants = new ArrayList<>();
+//
+//    @OneToMany(fetch = FetchType.LAZY,
+//            mappedBy = "travel",
+//            cascade = CascadeType.PERSIST)
+//    List<TravelAttraction> travelAttractions = new ArrayList<>();
+//
+//    @OneToMany(fetch = FetchType.LAZY,
+//            mappedBy = "travel",
+//            cascade = CascadeType.PERSIST)
+//    List<TravelAccommodation> travelAccommodations = new ArrayList<>();
 }
