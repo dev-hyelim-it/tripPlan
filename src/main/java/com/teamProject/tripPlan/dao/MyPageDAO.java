@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @Transactional
@@ -41,6 +40,17 @@ public class MyPageDAO {
         em.remove(users);
     }
 
+    // 유저 id로 유저 no 가져오기
+    public Long findUserId(String userId) {
+        String sql = "SELECT u FROM Users u " +
+                "WHERE u.userId = '" + userId + "'";
+        Query query = em.createQuery(sql);
+        Users users = (Users) query.getSingleResult();
+        Long id = users.getUserNo();
+        System.out.println(id);
+        return id;
+    }
+
     // 유저에 해당하는 여행 계획 리스트 가져오기 (키워드, 지역, 날짜)
     public List<Travel> findUserList(Long id) {
         String sql = "SELECT t FROM Travel t " +
@@ -63,13 +73,5 @@ public class MyPageDAO {
         return accommodation;
     }
 
-    public Long findUserId(String userId) {
-        String sql = "SELECT u FROM Users u " +
-                "WHERE u.userId = '" + userId + "'";
-        Query query = em.createQuery(sql);
-        Users users = (Users) query.getSingleResult();
-        Long id = users.getUserNo();
-        System.out.println(id);
-        return id;
-    }
+
 }
