@@ -7,6 +7,7 @@
 	<title>메인</title>
 	<th:block layout:fragment="css"></th:block>
 	<th:block layout:fragment="script"></th:block>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" th:href="@{css/style.css}">
 <!-- 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey={45eba8a04e39c19ff52df76714fcfc05}" async></script> -->
@@ -20,6 +21,22 @@
 		<span><b>00님의 여행 성향 테스트 결과 추전 지역</b></span>
 		<p>1. [[ ${userType.recommendArea1} ]]-[[ ${userType.areaName1} ]]</p>
 		<p>2. [[ ${userType.recommendArea2} ]]-[[ ${userType.areaName2} ]]</p>
+	</div>
+
+	<!-- Top 5 검색어 -->
+	<h2>실시간 여행 트렌드 Top 5 !!</h2>
+	<div class="row">
+		<div class="col-md-3 mb-3" th:each="place, iterStat : ${top5Places}">
+			<div class="card" style="width: 18rem;">
+				<!-- 이미지 경로를 동적으로 설정 -->
+				<img th:src="@{|/img/image_${iterStat.index + 1}.jpg|}" class="card-img-top" alt="Place Image">
+				<div class="card-body">
+					<h5 class="card-title">[[${iterStat.index + 1}]]위</h5>
+					<p class="card-text">[[${place}]]</p>
+					<a th:href="@{/community}" class="btn btn-primary">리뷰보기</a>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<div class="main">
@@ -48,6 +65,7 @@
 		</div>
 		<script th:src="@{js/main.js}"></script>
 	</div>
+</div>
 </div>
 </body>
 </html>

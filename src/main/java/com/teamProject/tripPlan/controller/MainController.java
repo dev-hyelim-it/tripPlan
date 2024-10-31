@@ -2,7 +2,7 @@ package com.teamProject.tripPlan.controller;
 
 import com.teamProject.tripPlan.dto.KakaoApiResponseDTO;
 import com.teamProject.tripPlan.dto.MainDTO;
-import org.springframework.security.core.context.SecurityContextHolder;
+import com.teamProject.tripPlan.service.MyListService;
 import com.teamProject.tripPlan.entity.MbtiTestResult;
 import com.teamProject.tripPlan.entity.Users;
 import com.teamProject.tripPlan.service.KakaoKeywordSearchService;
@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @Slf4j
 @Controller
@@ -25,6 +27,9 @@ public class MainController {
 
     @Autowired
     MbtiTestResultService mbtiTestResultService;
+
+    @Autowired
+    MyListService myListService;
 
     private final KakaoKeywordSearchService keywordSearchService;
 
@@ -41,7 +46,11 @@ public class MainController {
             log.info(mbtiTestResult.getResultTitle());
             model.addAttribute("userType", mbtiTestResult);
         }
-        return "main";
+        // 상위 5개 장소 리스트를 모델에 추가
+        List<String> top5Places = myListService.getTop5PlaceNames();
+        model.addAttribute("top5Places", top5Places);
+
+        return "main"; // main.html 템플릿을 렌더링
 
     }
 
@@ -58,5 +67,4 @@ public class MainController {
         System.out.println(keyword);
         return keywordSearchService.searchPlacesByKeyword(keyword);
     }
-
 }
