@@ -61,20 +61,19 @@ VALUES (
 --INSERT INTO my_list (list_id, place_name, place_address) VALUES (2, '제주도 성산일출봉', '제주 서귀포시 성산읍');
 --INSERT INTO my_list (list_id, place_name, place_address) VALUES (3, '서울 경복궁', '서울 종로구 사직로 161');
 
-INSERT INTO post (likes, post_date, user_no, post_title, post_content) VALUES (60, '2024-09-15', 3, '목포 조아', '목포 개조음');
+INSERT INTO post (likes, inserted_date, user_no, post_title, post_content)
+VALUES (60, '2024-09-15', 3, '목포 조아', '목포 개조음');
 INSERT INTO post_keyword (post_id, keyword_id)
 VALUES (
     (SELECT post_id FROM post WHERE post_title = '목포 조아'),
     (SELECT keyword_id FROM keyword WHERE keyword = '문화')
 );
 
-INSERT INTO suggestion (suggestion_id, suggestion_title, user_no, suggestion_content, suggestion_date) VALUES (1, '관리자님 오류 있어여', 1, '그 뭐냐 그... 그거 있잖아', '2024-08-11');
-INSERT INTO suggestion (suggestion_id, suggestion_title, user_no, suggestion_content, suggestion_date) VALUES (2, '관리자님 점심 뭐 드세여', 2, '뭐 먹냐고', '2024-07-23');
+INSERT INTO suggestion (suggestion_title, user_no, suggestion_content, inserted_date, open_type) VALUES ('관리자님 오류 있어여', 1, '그 뭐냐 그... 그거 있잖아', '2024-08-11', 0);
+INSERT INTO suggestion (suggestion_title, user_no, suggestion_content, inserted_date, open_type) VALUES ('관리자님 점심 뭐 드세여', 2, '뭐 먹냐고', '2024-07-23', 0);
 
 
 INSERT INTO comment (post_id, comment_content, comment_nickname) VALUES (1, '재밌었겠다ㅜㅜ', 'antty');
---INSERT INTO comment (post_id, comment_content, comment_nickname) VALUES (2, '우와! 대박', 'froggy');
---INSERT INTO comment (post_id, comment_content, comment_nickname) VALUES (1, '재밌었겠다ㅜㅜ', 'antty');
 --INSERT INTO comment (post_id, comment_content, comment_nickname) VALUES (2, '우와! 대박', 'froggy');
 
 --

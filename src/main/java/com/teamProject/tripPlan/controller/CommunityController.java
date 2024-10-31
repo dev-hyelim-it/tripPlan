@@ -86,7 +86,7 @@ public class CommunityController {
     public String createPost(@ModelAttribute("dto") PostDTO dto, Model model, Principal principal) {
         Users users = queryService.findOneUser("1111"); // 현재 로그인한 사용자의 이름으로 조회
         dto.setUsers(users); // 현재 사용자 설정
-        dto.setPostDate(LocalDateTime.now()); // 현재 날짜와 시간 설정
+//        dto.setPostDate(LocalDateTime.now()); // 현재 날짜와 시간 설정
 
         // Travel 객체 설정
         if (dto.getTravel() != null) {
