@@ -22,6 +22,7 @@ public class MyPageController {
     @Autowired
     MyPageService myPageService;
 
+    // 로그인된 유저의 마이페이지 출력
     @GetMapping("{userId}")
     public String myPageMain(Model model,
                              @PathVariable("userId")String userId) {
@@ -34,6 +35,7 @@ public class MyPageController {
         return "/myPage/myPageMain";
     }
 
+    // 유저의 여행 리스트
     @GetMapping("/list/{userId}")
     public String myTravelList(Model model,
                                @PathVariable("userId") String userId) {
@@ -43,6 +45,7 @@ public class MyPageController {
         return "/myPage/myTravelList";
     }
 
+    // 유저의 상세 정보
     @GetMapping("/info/{userId}")
     public String myInfo(Model model,
                          @PathVariable("userId")String userId) {
@@ -52,6 +55,7 @@ public class MyPageController {
         return "/myPage/myInfo";
     }
 
+    // 정보수정 폼 출력
     @GetMapping("/update/{userId}")
     public String myInfoUpdate(Model model,
                                @PathVariable("userId")String userId) {
@@ -61,6 +65,7 @@ public class MyPageController {
         return "/myPage/myInfoUpdate";
     }
 
+    // 정보수정
     @PostMapping("/update")
     public String infoUpdate(UsersDTO dto,
                              HttpSession session) {
@@ -70,6 +75,7 @@ public class MyPageController {
         return redirectUrl;
     }
 
+    // 유저가 작성한 커뮤니티 게시글
     @GetMapping("/community/{userId}")
     public String myCommunity(Model model,
                               @PathVariable("userId")String userId) {
@@ -79,6 +85,7 @@ public class MyPageController {
         return "myPage/myCommunity";
     }
 
+    // 회원탈퇴
     @GetMapping("/delete/{userId}")
     public String infoDelete(@PathVariable("userId")String userId,
                              HttpSession session) {

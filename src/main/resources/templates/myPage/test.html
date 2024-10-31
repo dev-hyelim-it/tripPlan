@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form id="searchForm" action="/result" class="main_form" onsubmit="return validateForm()">
+    <div class="form-row">
+        <div class="mb-3">
+            <label for="departure_date" class="form-label">떠날 날짜:</label>
+            <input type="date" id="departure_date" name="departure_date" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="arrival_date" class="form-label">도착할 날짜:</label>
+            <input type="date" id="arrival_date" name="arrival_date" class="form-control">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary" id="searchBtn">검색</button>
+</form>
+</body>
+</html>

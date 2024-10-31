@@ -33,7 +33,7 @@ public class SecurityConfig {
         // 인가(접근권한) 설정
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login", "/loginProc", "/main").permitAll() // "/user/**"로 들어오는 요청은 인증만 필요
+                        .requestMatchers("/login", "/loginProc", "/main", "/test", "/result").permitAll() // "/user/**"로 들어오는 요청은 인증만 필요
                         .requestMatchers("/join", "/joinProc").permitAll() // 마찬가지
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/myPage/**", "/community").hasAnyRole("ADMIN", "USER")
