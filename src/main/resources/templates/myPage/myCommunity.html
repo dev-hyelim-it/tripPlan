@@ -35,7 +35,8 @@
         <div class="d-flex">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/myPage/{userId}(userId=${session.loginId})}">마이페이지</a>
+                    <a class="nav-link active" aria-current="page"
+                       th:href="@{/myPage/{userId}(userId=${session.loginId})}">마이페이지</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/myPage/info/{userId}(userId=${session.loginId})}">내 정보 관리</a>
@@ -50,7 +51,7 @@
                     <a class="nav-link disabled" aria-disabled="true">건의함</a>
                 </li>
             </ul>
-            <div  class="ml-4">
+            <div class="ml-4">
                 <h3>커뮤니티에 게시한 글 목록
                     <a th:href="@{/community}">커뮤니티로 이동</a></h3>
                 <hr>

@@ -84,7 +84,8 @@
             </td>
             <td th:if="${post.users != null}" th:text="${post.users.userNickname}">작성자 없음</td>
             <td th:if="${post.users == null}">작성자 없음</td>
-            <td th:text="${post.postDate}"></td>
+            <td th:text="${post.insertedDate != null ? #temporals.format(post.insertedDate, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
+<!--            <td th:text="${post.insertedDate}"></td>-->
             <td th:text="${post.likes}"></td>
             <td th:each="keyword:${post.keyword}" th:text="${keyword.keyword}"></td>
         </tr>

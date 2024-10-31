@@ -24,7 +24,7 @@
           <div>
               <label>글 작성자</label>
               <!--                <input type="text" th:text="${session.loginId}">-->
-              <input type="text" th:field="${dto.users.userNickname}" th:value="${person.userNickname}" disabled>
+              <input type="text" th:value="${myNickname}" disabled>
           </div>
           <div>
               <label>글쓰기</label>
@@ -34,8 +34,6 @@
           <input class="sug_btn_newSuggestion" id="sug_new_okay" type="submit" value="등록">
           <a href="/suggestion/box">건의함으로</a>
       </div>
-
-
 
   </form>
 </div>

@@ -93,6 +93,10 @@ width: 20%;
 height: 600px;
 }
 
+#myList {
+height: calc(100% - 30px);
+overflow-y: scroll;
+}
 
 #menu_wrap {
 position: absolute;
@@ -103,3 +107,7 @@ overflow-y: scroll;
 z-index: 10;
 }
 
+.save_db_btn {
+display: none;
+height:30px;
+}

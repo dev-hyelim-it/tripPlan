@@ -4,6 +4,7 @@ import com.teamProject.tripPlan.dto.UsersMbtiAnswerDTO;
 import com.teamProject.tripPlan.entity.*;
 import com.teamProject.tripPlan.repository.QuestionRepository;
 import com.teamProject.tripPlan.service.*;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,7 +63,8 @@ public class MbtiController {
 
     @PostMapping("insertUsersAnswer")
     public String insertUsersAnswer(UsersMbtiAnswerDTO dto, @RequestParam("questionId") Long questionId,
-                                                            @RequestParam("optionId") Long optionId) {
+                                                            @RequestParam("optionId") Long optionId,
+                                    Principal principal) {
         // 디버깅 로그 추가
         if (dto.getMbtiQuestion() != null) {
             log.info("MbtiQuestion ID: " + dto.getMbtiQuestion().getQuestionId());
@@ -83,7 +85,7 @@ public class MbtiController {
         }
 
         // Users 정보 확인
-        Users users = queryService.findOneUser("froggg"); // 로그인한 아이디로 변경
+        Users users = queryService.findOneUser(principal.getName()); // 로그인한 아이디로 변경
         if (users != null) {
             log.info("User ID: " + users.getUserNo());
         } else {
@@ -115,9 +117,9 @@ public class MbtiController {
 //    }
 
     @GetMapping("result")
-    public String resultPage(Model model, Principal principal, RedirectAttributes redirectAttributes) {
+    public String resultPage(Model model, Principal principal, RedirectAttributes redirectAttributes, HttpSession session) {
         model.addAttribute("results", mbtiTestResultService.findAll());
-        Users users = queryService.findOneUser("froggg"); // 로그인한 아이디로 변경
+        Users users = queryService.findOneUser(principal.getName()); // 로그인한 아이디로 변경
         List<UsersMbtiAnswer> usersMbtiAnswers = usersMbtiAnswerService.findByUserNo(users.getUserNo());
 
         int natureCount = 0;

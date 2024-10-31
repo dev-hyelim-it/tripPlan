@@ -88,6 +88,7 @@ public class CommunityController {
     }
 
     @PostMapping("create")
+
     public String createPost(@ModelAttribute("dto") PostDTO dto, Principal principal, HttpSession session) {
         String userid = principal.getName();
         Long id = myPageService.findUserId(userid);

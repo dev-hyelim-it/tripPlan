@@ -36,7 +36,8 @@
         <div class="d-flex">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/myPage/{userId}(userId=${session.loginId})}">마이페이지</a>
+                    <a class="nav-link active" aria-current="page"
+                       th:href="@{/myPage/{userId}(userId=${session.loginId})}">마이페이지</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/myPage/info/{userId}(userId=${session.loginId})}">내 정보 관리</a>

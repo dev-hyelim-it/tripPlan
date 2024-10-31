@@ -1,8 +1,7 @@
 package com.teamProject.tripPlan.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,7 +10,11 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Suggestion {
+//@NoArgsConstructor
+@AllArgsConstructor
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class Suggestion extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,14 +23,12 @@ public class Suggestion {
     private String suggestionTitle;
     @Column(length = 1000)
     private String suggestionContent;
-    private LocalDateTime suggestionDate;
-//    @Column(length = 1000)
-//    private String msgForNormalPerson;
-//
-//    public Suggestion() {
-//        this.msgForNormalPerson = "작성자와 관리자만 확인 가능한 메모입니다.";
-//    }
+//    private LocalDateTime suggestionDate;
+    private int openType;
 
+    public Suggestion(){
+        this.setOpenType(1);
+    }
 
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "suggestion",

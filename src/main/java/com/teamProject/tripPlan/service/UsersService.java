@@ -41,20 +41,21 @@ public class UsersService {
         suggestionDAO.insertSuggestion(userNo, SuggestionDTO.fromDTO(dto));
     }
 
-    public UsersDTO findByMemberId(UsersDTO dto) {
-        Users users = userRepository.findByUserId(dto.getUserId()).orElse(null);
-
-        // 아이디 확인
-        if (ObjectUtils.isEmpty(users)) {
-            return null;
-        }
-        // 비밀번호 확인
-        if (dto.getUserPassword().equals(users.getUserPassword())) {
-            return UsersDTO.fromEntity(users);
-        } else {
-            users.setUserPassword(null);
-            return UsersDTO.fromEntity(users);
-        }
-    }
+    // 삭제 예정
+//    public UsersDTO findByMemberId(UsersDTO dto) {
+//        Users users = userRepository.findByUserId(dto.getUserId()).orElse(null);
+//
+//        // 아이디 확인
+//        if (ObjectUtils.isEmpty(users)) {
+//            return null;
+//        }
+//        // 비밀번호 확인
+//        if (dto.getUserPassword().equals(users.getUserPassword())) {
+//            return UsersDTO.fromEntity(users);
+//        } else {
+//            users.setUserPassword(null);
+//            return UsersDTO.fromEntity(users);
+//        }
+//    }
 
 }

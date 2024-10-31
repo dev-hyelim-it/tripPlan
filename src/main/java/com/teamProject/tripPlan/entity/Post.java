@@ -1,6 +1,7 @@
 package com.teamProject.tripPlan.entity;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,8 +14,9 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString
-public class Post {
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class Post extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
@@ -22,7 +24,7 @@ public class Post {
     private String postTitle;
     @Column(length = 1000)
     private String postContent;
-    private LocalDateTime postDate;
+//    private LocalDateTime postDate;
     private int likes;
 
     public Post() {

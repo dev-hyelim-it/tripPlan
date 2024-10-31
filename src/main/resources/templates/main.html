@@ -7,6 +7,7 @@
 	<title>메인</title>
 	<th:block layout:fragment="css"></th:block>
 	<th:block layout:fragment="script"></th:block>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" th:href="@{css/style.css}">
 <!-- 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey={45eba8a04e39c19ff52df76714fcfc05}" async></script> -->
@@ -17,37 +18,62 @@
 <body>
 <div layout:fragment="content" class="content">
 	<div th:if="${userType}!=null">
-		<span><b>00님의 여행 성향 테스트 결과 추전 지역</b></span>
+		<span><b>[[ ${userNickname} ]]님의 여행 성향 테스트 결과 추전 지역</b></span>
 		<p>1. [[ ${userType.recommendArea1} ]]-[[ ${userType.areaName1} ]]</p>
 		<p>2. [[ ${userType.recommendArea2} ]]-[[ ${userType.areaName2} ]]</p>
+	</div>
+
+	<!-- Top 5 검색어 -->
+	<h2>실시간 여행 트렌드 Top 5 !!</h2>
+	<div class="row">
+		<div class="col-md-3 mb-3" th:each="place, iterStat : ${top5Places}">
+			<div class="card" style="width: 18rem;">
+				<!-- 이미지 경로를 동적으로 설정 -->
+				<img th:src="@{|/img/image_${iterStat.index + 1}.jpg|}" class="card-img-top" alt="Place Image">
+				<div class="card-body">
+					<h5 class="card-title">[[${iterStat.index + 1}]]위</h5>
+					<p class="card-text">[[${place}]]</p>
+					<a th:href="@{/community}" class="btn btn-primary">리뷰보기</a>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<div class="main">
 		<h3>여행지 검색 하기</h3>
 		<div class="map">
-			<div class="map_search_box">
-				<input type="text" id="keyword" size="15" placeholder="검색어를 입력하세요.">
-				<button id="searchBtn">검색</button> <!--onclick="main()"-->
-			</div>
-			<div class="map_section">
-				<div class="map_box1">
-					<div id="map"></div>
-					<div id="list"></div>
+<!--			<form action="/saveMyList">-->
+				<div class="mb-3">
+					<label for="departureDate" class="form-label">떠날 날짜:</label>
+					<input type="date" id="departureDate" name="startDate" class="form-control">
 				</div>
-				<div class="map_box2">
-					<div id="my-list"></div>
+				<div class="mb-3">
+					<label for="arrivalDate" class="form-label">도착할 날짜:</label>
+					<input type="date" id="arrivalDate" name="endDate" class="form-control">
 				</div>
-			</div>
-<!--		</div>-->
-		<div id="placeList">
-<!--			<li th:each="place : ${places}">-->
-<!--				<p th:text="${place.placeName}"></p>-->
-<!--				<p th:text="${place.addressName}"></p>-->
-<!--				<button onclick="addToMyList(/* 데이터 추가 함수 */)">여행 추가</button>-->
-<!--			</li>-->
-		</div>
+				<div class="map_search_box">
+					<input type="text" id="keyword" size="15" placeholder="검색어를 입력하세요.">
+					<button id="searchBtn">검색</button> <!--onclick="main()"-->
+				</div>
+				<div class="map_section">
+					<div class="map_box1">
+						<div id="map"></div>
+						<div id="list"></div>
+					</div>
+					<div class="map_box2">
+						<ul id="myList">
+							<!--						<li class="my_list">-->
+							<!--							<p>placeName(장소이름)</p>-->
+							<!--							<p>addressName(주소)</p>-->
+							<!--						</li>-->
+						</ul>
+						<button class="save_db_btn" onclick="saveToDatabase()">저장하기</button>
+					</div>
+				</div>
+<!--			</form>-->
 		<script th:src="@{js/main.js}"></script>
 	</div>
+</div>
 </div>
 </body>
 </html>

@@ -20,18 +20,22 @@ public class SuggestionDTO {
     private Long suggestionId;
     private String suggestionTitle;
     private String suggestionContent;
-    private LocalDateTime suggestionDate;
+    private int openType;
     private Users users;
     private List<CommentDTO> comments = new ArrayList<>();
+    private LocalDateTime insertedDate;
+    private LocalDateTime updatedDate;
 
     public static SuggestionDTO fromEntity(Suggestion suggestion) {
         return new SuggestionDTO(
                 suggestion.getSuggestionId(),
                 suggestion.getSuggestionTitle(),
                 suggestion.getSuggestionContent(),
-                suggestion.getSuggestionDate(),
+                suggestion.getOpenType(),
                 suggestion.getUsers(),
-                suggestion.getComments().stream().map(x->CommentDTO.fromEntity(x)).toList()
+                suggestion.getComments().stream().map(x->CommentDTO.fromEntity(x)).toList(),
+                suggestion.getInsertedDate(),
+                suggestion.getUpdatedDate()
         );
     }
 
@@ -40,7 +44,6 @@ public class SuggestionDTO {
         suggestion.setSuggestionId(dto.getSuggestionId());
         suggestion.setSuggestionTitle(dto.getSuggestionTitle());
         suggestion.setSuggestionContent(dto.getSuggestionContent());
-        suggestion.setSuggestionDate(dto.getSuggestionDate());
         return suggestion;
     }
 }
