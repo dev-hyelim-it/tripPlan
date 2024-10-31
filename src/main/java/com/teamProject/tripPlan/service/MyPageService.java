@@ -5,6 +5,7 @@ import com.teamProject.tripPlan.dto.PostDTO;
 import com.teamProject.tripPlan.dto.UsersDTO;
 import com.teamProject.tripPlan.entity.*;
 import com.teamProject.tripPlan.repository.PostRepository;
+import com.teamProject.tripPlan.repository.TravelDateRepository;
 import com.teamProject.tripPlan.repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -20,6 +21,8 @@ public class MyPageService {
     MyPageDAO myPageDAO;
     @Autowired
     EntityManager em;
+    @Autowired
+    TravelDateRepository travelDateRepository;
 
     public UsersDTO findLoginUser(Long id) {
         Users users = myPageDAO.getOneUser(id);
@@ -53,5 +56,13 @@ public class MyPageService {
     public Long findUserId(String userId) {
         Long id = myPageDAO.findUserId(userId);
         return id;
+    }
+
+    public TravelDates insertDate(TravelDates dates) {
+        TravelDates dates1 = new TravelDates();
+        dates1.setDeparture_date(dates.getDeparture_date());
+        dates1.setArrival_date(dates.getArrival_date());
+        travelDateRepository.save(dates1);
+        return dates1;
     }
 }
