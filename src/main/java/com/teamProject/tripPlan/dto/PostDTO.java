@@ -6,6 +6,7 @@ import com.teamProject.tripPlan.entity.Post;
 import com.teamProject.tripPlan.entity.Travel;
 import com.teamProject.tripPlan.entity.Users;
 import lombok.*;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ public class PostDTO {
     private Long postId;
     private String postTitle;
     private String postContent;
-    private LocalDateTime postDate;
     private int likes;
     private Users users;
     private List<CommentDTO> comments = new ArrayList<>();
@@ -29,13 +29,14 @@ public class PostDTO {
     private String accommodation; // 이용한 숙소
     private String restaurant; // 이용한 식당
     private String attractions; // 관광지
+    private LocalDateTime insertedDate;
+    private LocalDateTime updatedDate;
 
     public static PostDTO fromEntity(Post post) {
         return new PostDTO(
                 post.getPostId(),
                 post.getPostTitle(),
                 post.getPostContent(),
-                post.getPostDate(),
                 post.getLikes(),
                 post.getUsers(),
                 post.getComments().stream().map(CommentDTO::fromEntity).toList(),
@@ -43,7 +44,9 @@ public class PostDTO {
                 post.getKeywords(), // Keyword 객체 리스트를 그대로 사용
                 post.getTravel() != null ? post.getTravel().getAccommodation() : null,
                 post.getTravel() != null ? post.getTravel().getRestaurant() : null,
-                post.getTravel() != null ? post.getTravel().getAttractions() : null
+                post.getTravel() != null ? post.getTravel().getAttractions() : null,
+                post.getInsertedDate(),
+                post.getUpdatedDate()
         );
     }
 
@@ -52,7 +55,6 @@ public class PostDTO {
         post.setPostId(dto.getPostId());
         post.setPostTitle(dto.getPostTitle());
         post.setPostContent(dto.getPostContent());
-        post.setPostDate(dto.getPostDate());
         post.setLikes(dto.getLikes());
 
         // Keyword 객체 리스트 설정

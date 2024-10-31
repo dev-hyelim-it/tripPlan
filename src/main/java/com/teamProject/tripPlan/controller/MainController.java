@@ -2,6 +2,7 @@ package com.teamProject.tripPlan.controller;
 
 import com.teamProject.tripPlan.dto.KakaoApiResponseDTO;
 import com.teamProject.tripPlan.dto.MainDTO;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.context.SecurityContextHolder;
 import com.teamProject.tripPlan.entity.MbtiTestResult;
 import com.teamProject.tripPlan.entity.Users;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 
 @Slf4j
@@ -34,8 +37,10 @@ public class MainController {
     }
 
     @GetMapping({"/main"})
-    public String Main(Model model) {
-        Users users = queryService.findOneUser("froggg"); //현재 로그인한 아이디로 변경
+    public String Main(Model model, HttpSession session, Principal principal) {
+        String userId = principal.getName();
+        Users users = queryService.findOneUser(userId); //현재 로그인한 아이디로 변경
+        model.addAttribute("userNickname", users.getUserNickname());
         if (!ObjectUtils.isEmpty(users.getResultType())) {
             MbtiTestResult mbtiTestResult = mbtiTestResultService.findByResultType(users.getResultType());
             log.info(mbtiTestResult.getResultTitle());

@@ -24,27 +24,23 @@
       <div>
         <tr th:each="suggestion : ${suggestions}" th:object="${suggestion}">
           <th th:text="*{suggestionId}"></th>
-          <td th:if="*{suggestionTitle} != null">
-            <span th:if="${suggestion.users.userNickname == 'froggy'}" th:text="*{suggestionTitle}"></span>
-            <!-- 관리자(admin)일 경우 제목 표시 -->
-<!--            <span th:if="${ == 'admin'}" th:text="${suggestion.suggestionTitle} + ' (관리자)'"></span>-->
-            <span th:unless="${suggestion.users.userNickname == 'froggy'}" th:text="'<작성자와 관리자만 확인 가능한 글입니다.>'"></span>
-
-            <!--            <div> &lt;!&ndash; 현재 로그인한 사람이 관리자라면 &ndash;&gt;-->
-<!--              <a th:href="@{/suggestion/{id}(id=*{suggestionId})}" th:text="*{suggestionTitle}"></a>-->
-<!--            </div>-->
-<!--            <div> &lt;!&ndash; 현재 로그인한 사람이 작성자라면 &ndash;&gt;-->
-<!--              <a th:href="@{/suggestion/{id}(id=*{suggestionId})}" th:text="*{suggestionTitle}"></a>-->
-<!--            </div>-->
-<!--            <div> &lt;!&ndash; 현재 로그인한 사람이 작성자도 관리자도 아니라면 &ndash;&gt;-->
-<!--              <a th:href="@{/suggestion/{id}(id=*{suggestionId})}" th:text="*{suggestionTitle}"></a>-->
-<!--            </div>-->
+          <td>
+            <a th:href="@{/suggestion/{id}(id=*{suggestionId})}" th:if="*{openType}==1" th:text="*{suggestionTitle}"></a>
+            <span th:unless="*{openType}==1" th:text="'작성자와 관리자만 확인 가능한 글입니다.'"></span>
           </td>
+
+<!--          <td th:if="*{suggestionTitle} != null">-->
+<!--            <span th:if="*{openType}==1" th:text="*{suggestionTitle}"></span>-->
+<!--            <span th:unless="*{openType}==1" th:text="'작성자와 관리자만 확인 가능한 글입니다.'"></span>-->
+<!--          </td>-->
 <!--          <td>개구리</td>-->
           <td th:if="${suggestion.users != null}">
+            <span th:if="*{openType}==1" th:text="*{users.userNickname}"></span>
+            <span th:unless="*{openType}==1" th:text="익명"></span>
+
             <!-- 관리자일 경우 -->
-            <span th:if="${suggestion.users.userNickname == 'froggy'}" th:text="${suggestion.users.userNickname}"></span>
-            <span th:unless="${suggestion.users.userNickname == 'froggy'}" th:text="익명"></span>
+<!--            <span th:if="${suggestion.users.userNickname == 'froggy'}" th:text="${suggestion.users.userNickname}"></span>-->
+<!--            <span th:unless="${suggestion.users.userNickname == 'froggy'}" th:text="익명"></span>-->
 
             <!-- 작성자일 경우 (로그인한 사용자가 작성자와 동일한 경우) -->
 <!--            <span th:if="${suggestion.users.userNickname == 'antty'}" th:text="${suggestion.users.userNickname}"></span>-->
@@ -55,7 +51,7 @@
 <!--          <td th:if="${suggestion.users} == 'froggy'" th:text="${suggestion.users}"></td>-->
 <!--          <td th:if="${suggestion.users} == 'antty'" th:text="${suggestion.users}"></td>-->
 <!--          <td th:text="${suggestion.users != null ? suggestion.users.userNickname : '익명'}"></td>-->
-          <td th:text="*{suggestionDate}"></td>
+          <td th:text="*{insertedDate != null ? #temporals.format(insertedDate, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
         </tr>
 
       </div>

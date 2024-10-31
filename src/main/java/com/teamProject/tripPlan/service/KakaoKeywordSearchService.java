@@ -14,7 +14,7 @@ import java.net.URI;
 
 @Service
 public class KakaoKeywordSearchService {
-    @Value("")
+    @Value("${kakao.rest.api.key}")
     private String kakaoRestApiKey;
 
     private final String KAKAO_SEARCH_URL = "https://dapi.kakao.com/v2/local/search/keyword.json";
