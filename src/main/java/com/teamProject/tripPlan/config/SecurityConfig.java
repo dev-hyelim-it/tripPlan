@@ -10,6 +10,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +34,11 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        // CORS 및 CSRF 설정
+        http.cors(); // 이 설정을 통해 커스터마이징된 CORS 설정이 Security Filter에 적용됩니다.
+
+        // CSRF 설정
+        http.csrf().disable(); // REST API에 주로 사용하며, CSRF를 비활성화하여 403 오류를 방지합니다.
 
         // 인가(접근권한) 설정
         http
@@ -63,4 +73,19 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    // CORS 설정을 위한 빈 정의
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:8080")); // 허용할 출처 설정
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE")); // 허용할 HTTP 메서드 설정
+        configuration.setAllowedHeaders(List.of("*")); // 허용할 헤더 설정
+        configuration.setAllowCredentials(true); // 인증 정보 허용 여부
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
 }
