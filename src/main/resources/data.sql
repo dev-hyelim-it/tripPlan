@@ -28,25 +28,25 @@ INSERT INTO area (area) VALUES ('제주특별자치도');
 INSERT INTO users (user_name, user_nickname, user_email, user_id, user_password, result_type) VALUES ('frog', 'froggy', 'frog@naver.com', 'froggg', 'frogfrog', 'HN');
 INSERT INTO users (user_name, user_nickname, user_email, user_id, user_password, result_type) VALUES ('ant', 'antty', 'ant@naver.com', 'anttt', 'antant', 'AC');
 INSERT INTO users (user_name, user_nickname, user_email, user_id, user_password) VALUES ('1111', '1111', '1111@naver.com', '1111', '1111');
-INSERT INTO users (user_name, user_nickname, user_email, user_id, user_password) VALUES ('admin', 'admin', 'admin@naver.com', 'admin', 'admin1111');
+--INSERT INTO users (user_name, user_nickname, user_email, user_id, user_password) VALUES ('admin', 'admin', 'admin@naver.com', 'admin', 'admin1111');
 
---INSERT INTO post (likes, post_date, user_no, post_title, post_content)
---VALUES (100, '2024-07-23', 1, '부산 조아', '부산 개조음');
---
---INSERT INTO post_keyword (post_id, keyword_id)
---VALUES (
---    (SELECT post_id FROM post WHERE post_title = '부산 조아'),
---    (SELECT keyword_id FROM keyword WHERE keyword = '맛집')
---);
---
---INSERT INTO post (likes, post_date, user_no, post_title, post_content)
---VALUES (159, '2024-08-11', 2, '여수 조아', '여수 개조음');
---
---INSERT INTO post_keyword (post_id, keyword_id)
---VALUES (
---    (SELECT post_id FROM post WHERE post_title = '여수 조아'),
---    (SELECT keyword_id FROM keyword WHERE keyword = '문화')
---);
+INSERT INTO post (likes, post_date, user_no, post_title, post_content)
+VALUES (100, '2024-07-23', 1, '부산 조아', '부산 개조음');
+
+INSERT INTO post_keyword (post_id, keyword_id)
+VALUES (
+    (SELECT post_id FROM post WHERE post_title = '부산 조아'),
+    (SELECT keyword_id FROM keyword WHERE keyword = '맛집')
+);
+
+INSERT INTO post (likes, post_date, user_no, post_title, post_content)
+VALUES (159, '2024-08-11', 2, '여수 조아', '여수 개조음');
+
+INSERT INTO post_keyword (post_id, keyword_id)
+VALUES (
+    (SELECT post_id FROM post WHERE post_title = '여수 조아'),
+    (SELECT keyword_id FROM keyword WHERE keyword = '문화')
+);
 
 --INSERT INTO comment (post_id, comment_content, comment_nickname) VALUES (1, '재밌었겠다ㅜㅜ', 'antty');
 --INSERT INTO comment (post_id, comment_content, comment_nickname) VALUES (2, '우와! 대박', 'froggy');
@@ -58,10 +58,10 @@ INSERT INTO users (user_name, user_nickname, user_email, user_id, user_password)
 INSERT INTO my_list (list_id, place_name, place_address) VALUES (1, '부산 해운대', '부산 해운대구 우동');
 INSERT INTO my_list (list_id, place_name, place_address) VALUES (2, '제주도 성산일출봉', '제주 서귀포시 성산읍');
 INSERT INTO my_list (list_id, place_name, place_address) VALUES (3, '서울 경복궁', '서울 종로구 사직로 161');
+INSERT INTO my_list (list_id, place_name, place_address) VALUES (4, '서울 남산타워', '서울 용산구 용산동2가');
+INSERT INTO my_list (list_id, place_name, place_address) VALUES (5, '부산 광안리', '부산 수영구 광안2동');
 
-INSERT INTO post (likes, post_date, user_no, post_title, post_content)
-
-VALUES (60, '2024-09-15', 3, '목포 조아', '목포 개조음');
+INSERT INTO post (likes, post_date, user_no, post_title, post_content) VALUES (60, '2024-09-15', 3, '목포 조아', '목포 개조음');
 INSERT INTO post_keyword (post_id, keyword_id)
 VALUES (
     (SELECT post_id FROM post WHERE post_title = '목포 조아'),
@@ -72,8 +72,8 @@ INSERT INTO suggestion (suggestion_id, suggestion_title, suggestion_content, sug
 INSERT INTO suggestion (suggestion_id, suggestion_title, suggestion_content, suggestion_date) VALUES (2, '관리자님 점심 뭐 드세여', '뭐 먹냐고', '2024-07-23');
 
 
-INSERT INTO comment (post_id, comment_content, comment_nickname) VALUES (1, '재밌었겠다ㅜㅜ', 'antty');
-INSERT INTO comment (post_id, comment_content, comment_nickname) VALUES (2, '우와! 대박', 'froggy');
+--INSERT INTO comment (post_id, comment_content, comment_nickname) VALUES (1, '재밌었겠다ㅜㅜ', 'antty');
+--INSERT INTO comment (post_id, comment_content, comment_nickname) VALUES (2, '우와! 대박', 'froggy');
 
 
 INSERT INTO travel (end_date, start_date, user_id, keyword, place) VALUES ('2024-07-21', '2024-07-19', 1, '호캉스', '부산');
