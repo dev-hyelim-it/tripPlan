@@ -21,10 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class LoginController {
-    @Autowired
-    UsersService usersService;
-
-    // 로그인 폼 출력
+    // 로그인 페이지
     @GetMapping("/login")
     public String showLogin() {
         return "/member/login";
@@ -32,9 +29,7 @@ public class LoginController {
 
     // 로그아웃
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request,
-                         HttpServletResponse response,
-                         HttpSession session) {
+    public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         session.invalidate();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!ObjectUtils.isEmpty(authentication)) {

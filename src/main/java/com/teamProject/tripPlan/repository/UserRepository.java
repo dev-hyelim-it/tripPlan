@@ -8,7 +8,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<Users, Long> {
-    @Query(value = "SELECT * FROM users WHERE user_id LIKE %:userId%", nativeQuery = true)
-    Optional<Users> findByUserId(@Param("userId") String userId);
+    // 삭제 예정
+//    @Query(value = "SELECT * FROM users WHERE user_id LIKE %:userId%", nativeQuery = true)
+//    Optional<Users> findByUserId(@Param("userId") String userId);
 
 }

@@ -35,16 +35,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // CORS 및 CSRF 설정
-        http.cors(); // 이 설정을 통해 커스터마이징된 CORS 설정이 Security Filter에 적용됩니다.
+        http.cors(); // 이 설정을 통해 커스터마이징된 CORS 설정이 Security Filter에 적용됨
 
         // CSRF 설정
-        http.csrf().disable(); // REST API에 주로 사용하며, CSRF를 비활성화하여 403 오류를 방지합니다.
+        http.csrf().disable(); // REST API에 주로 사용하며, CSRF를 비활성화하여 403 오류를 방지
 
-        // 인가(접근권한) 설정
+        // 접근권한 설정
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login", "/loginProc", "/main", "/test", "/result").permitAll() // "/user/**"로 들어오는 요청은 인증만 필요
-                        .requestMatchers("/join", "/joinProc").permitAll() // 마찬가지
+                        .requestMatchers("/main").permitAll()
+                        .requestMatchers("/login", "/loginProc", "/test", "/result").permitAll() // test, result 메인페이지 완료 시 삭제
+                        .requestMatchers("/join", "/joinProc").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/myPage/**", "/community").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated()
@@ -53,20 +54,19 @@ public class SecurityConfig {
         // 로그인 설정
         http
                 .formLogin((auth) -> auth
-                                .loginPage("/login") //사용자 정의 로그인 페이지
-                                .loginProcessingUrl("/loginProc") //로그인 처리 url
+                                .loginPage("/login")
+                                .loginProcessingUrl("/loginProc") //로그인 처리
                                 .usernameParameter("userId")
                                 .passwordParameter("userPassword")
-                                .successHandler(handler)
-//                                .defaultSuccessUrl("/main") //로그인 성공 후 기본 url
+                                .successHandler(handler) // 로그인 아이디를 세션에 저장하는 핸들러
                                 .permitAll()
                 );
 
         // 로그아웃 설정
         http
                 .logout((auth) -> auth
-                        .logoutUrl("/logout") //로그아웃 처리 url
-                        .logoutSuccessUrl("/login") //로그아웃 성공 후 리다이렉트할 url
+                        .logoutUrl("/logout") //로그아웃 처리
+                        .logoutSuccessUrl("/login") //로그아웃 성공 후 이동할 페이지
                         .permitAll()
                 );
 

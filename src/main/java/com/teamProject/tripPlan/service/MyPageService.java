@@ -21,8 +21,6 @@ public class MyPageService {
     @Autowired
     MyPageDAO myPageDAO;
     @Autowired
-    EntityManager em;
-    @Autowired
     TravelDateRepository travelDateRepository;
     @Autowired
     MyListRepository myListRepository;
@@ -30,11 +28,6 @@ public class MyPageService {
     public UsersDTO findLoginUser(Long id) {
         Users users = myPageDAO.getOneUser(id);
         return UsersDTO.fromEntity(users);
-    }
-
-    public PostDTO findUserPosts(Long id) {
-        Post post = myPageDAO.getUserPost(id);
-        return PostDTO.fromEntity(post);
     }
 
     public UsersDTO updateInfo(UsersDTO dto) {
@@ -51,16 +44,12 @@ public class MyPageService {
         return travels;
     }
 
-    public List<Accommodation> findUserAccommodation(Long id) {
-        List<Accommodation> accommodation = myPageDAO.findUserAccommodation(id);
-        return accommodation;
-    }
-
     public Long findUserId(String userId) {
         Long id = myPageDAO.findUserId(userId);
         return id;
     }
 
+    // 트래블 데이터 저장 테스트용
     public TravelDates insertDate(TravelDates dates) {
         TravelDates dates1 = new TravelDates();
         dates1.setDeparture_date(dates.getDeparture_date());
