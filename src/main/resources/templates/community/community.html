@@ -87,7 +87,7 @@
             <td th:text="${post.insertedDate != null ? #temporals.format(post.insertedDate, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
 <!--            <td th:text="${post.insertedDate}"></td>-->
             <td th:text="${post.likes}"></td>
-            <td th:each="keyword:${post.keywords}" th:text="${keyword.keyword}"></td>
+            <td th:each="keyword:${post.keyword}" th:text="${keyword.keyword}"></td>
         </tr>
         </tbody>
     </table>

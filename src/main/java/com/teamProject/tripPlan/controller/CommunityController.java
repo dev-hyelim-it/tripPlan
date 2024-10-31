@@ -2,8 +2,10 @@ package com.teamProject.tripPlan.controller;
 
 import com.teamProject.tripPlan.dto.CommentDTO;
 import com.teamProject.tripPlan.dto.PostDTO;
+import com.teamProject.tripPlan.dto.UsersDTO;
 import com.teamProject.tripPlan.entity.*;
 import com.teamProject.tripPlan.service.*;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,27 +53,30 @@ public class CommunityController {
     }
 
     @GetMapping("/filter")
-    public String filterPostsByKeywords(@RequestParam(value = "keywords", required = false) List<String> keywords, Model model) {
-        if (keywords == null || keywords.isEmpty() ||
-                keywords.get(0).isEmpty()) {
+    public String filterPostsByKeywords(@RequestParam(value = "keywords", required = false) String keyword, Model model) {
+        if (keyword == null || keyword.isEmpty()) {
             // 모든 게시글을 반환
             List<PostDTO> allPosts = postService.findAllPost();
             model.addAttribute("posts", allPosts);
         } else {
-            List<PostDTO> filteredPosts = postService.findPostsByKeyword(keywords);
+            List<PostDTO> filteredPosts = postService.findPostsByKeyword(keyword);
             model.addAttribute("posts", filteredPosts);
         }
         return "community/community :: postList"; // 부분 업데이트를 위한 fragment 이름
     }
 
     @GetMapping("/new")
-    public String newPostForm(Model model) {
+    public String newPostForm(Model model, Principal principal, HttpSession session) {
+        String userId = principal.getName();
+        Long id = myPageService.findUserId(userId);
+        UsersDTO dto = myPageService.findLoginUser(id);
+
+        model.addAttribute("person", dto);
+
         PostDTO postDTO = new PostDTO();
-        postDTO.setKeywords(new ArrayList<>()); // 초기화
+        postDTO.setKeyword(null); // 초기화
         model.addAttribute("dto", postDTO);
 
-        Users users = queryService.findOneUser("1111");
-        model.addAttribute("person", users);
 
         List<MyList> myLists = myPageService.findAllMyLists();
         model.addAttribute("travelLists", myLists);
@@ -83,20 +88,38 @@ public class CommunityController {
     }
 
     @PostMapping("create")
-    public String createPost(@ModelAttribute("dto") PostDTO dto, Model model, Principal principal) {
-        Users users = queryService.findOneUser("1111"); // 현재 로그인한 사용자의 이름으로 조회
-        dto.setUsers(users); // 현재 사용자 설정
-//        dto.setPostDate(LocalDateTime.now()); // 현재 날짜와 시간 설정
 
-        // Travel 객체 설정
-        if (dto.getTravel() != null) {
-            Travel travel = dto.getTravel();
-            travel.setUsers(users); // 사용자를 Travel에 설정
-            dto.setTravel(travel);
+    public String createPost(@ModelAttribute("dto") PostDTO dto, Principal principal, HttpSession session) {
+        String userid = principal.getName();
+        Long id = myPageService.findUserId(userid);
+        UsersDTO usersDTO = myPageService.findLoginUser(id);
+
+        if (usersDTO == null) {
+            return "redirect:/error";
         }
 
-        usersService.insertPost(users.getUserNo(), dto);
-        return "redirect:/community"; // 모든 게시글 보기 페이지로 리다이렉트
+        Users users = new Users();
+        users.setUserNo(usersDTO.getUserNo());
+        users.setUserId(usersDTO.getUserId());
+        users.setUserNickname(usersDTO.getUserNickname());
+        session.setAttribute("userNickname", usersDTO.getUserNickname());
+        dto.setUsers(users);
+        dto.setPostDate(LocalDateTime.now());
+        Long postId = usersService.insertPost(users.getUserNo(), dto);
+        return "redirect:/community";
+//        Users users = queryService.findOneUser("1111"); // 현재 로그인한 사용자의 이름으로 조회
+//        dto.setUsers(users); // 현재 사용자 설정
+//        dto.setPostDate(LocalDateTime.now()); // 현재 날짜와 시간 설정
+//
+//        // Travel 객체 설정
+//        if (dto.getTravel() != null) {
+//            Travel travel = dto.getTravel();
+//            travel.setUsers(users); // 사용자를 Travel에 설정
+//            dto.setTravel(travel);
+//        }
+//
+//        usersService.insertPost(users.getUserNo(), dto);
+//        return "redirect:/community"; // 모든 게시글 보기 페이지로 리다이렉트
     }
 
     @GetMapping("{id}")

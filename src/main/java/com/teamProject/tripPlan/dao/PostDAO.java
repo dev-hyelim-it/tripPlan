@@ -26,7 +26,7 @@ public class PostDAO {
     }
 
     public List<Post> findAllPost() {
-        return em.createQuery("SELECT p FROM Post p LEFT JOIN FETCH p.keywords", Post.class).getResultList();
+        return em.createQuery("SELECT p FROM Post p LEFT JOIN FETCH p.keyword", Post.class).getResultList();
     }
 
     public Post getOnePost(Long postId) {
@@ -51,10 +51,10 @@ public class PostDAO {
         em.persist(post);
     }
 
-    public List<Post> findPostsByKeywords(List<String> keywords) {
-        String jpql = "SELECT DISTINCT p FROM Post p JOIN p.keywords k WHERE k.keyword IN :keywords";
+    public List<Post> findPostsByKeywords(String keyword) {
+        String jpql = "SELECT DISTINCT p FROM Post p JOIN p.keyword k WHERE k.keyword IN :keyword";
         return em.createQuery(jpql, Post.class)
-                .setParameter("keywords", keywords)
+                .setParameter("keyword", keyword)
                 .getResultList();
     }
 }

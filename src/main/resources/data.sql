@@ -148,9 +148,9 @@ INSERT INTO mbti_test_result (result_title, result_type, description, recommend_
 
 --INSERT INTO travel (accommodation_id, travel_id) VALUES (1, 1);
 --INSERT INTO travel (accommodation_id, travel_id) VALUES (1, 1);
-INSERT INTO travel_accommodation (travel_acc_id, travel_id, accommodation_id) VALUES (1, 1, null);
-INSERT INTO travel_accommodation (travel_acc_id, travel_id, accommodation_id) VALUES (2, 1, null);
-INSERT INTO travel_accommodation (travel_acc_id, travel_id, accommodation_id) VALUES (3, 2, null);
+--INSERT INTO travel_accommodation (travel_acc_id, travel_id, accommodation_id) VALUES (1, 1, null);
+--INSERT INTO travel_accommodation (travel_acc_id, travel_id, accommodation_id) VALUES (2, 1, null);
+--INSERT INTO travel_accommodation (travel_acc_id, travel_id, accommodation_id) VALUES (3, 2, null);
 
 --attraction, accommodation, restaurant 데이터
 INSERT INTO attraction (attraction_id, attraction_name, attraction_location, keyword) VALUES (1, '(구)강경노동조합', '서울특별시 서초구 매헌로 16(양재동)', '역사');

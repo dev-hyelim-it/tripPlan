@@ -17,7 +17,8 @@ public class Keyword {
     private Long keywordId;
     private String keyword;
 
-    @ManyToMany(mappedBy = "keywords", fetch = FetchType.LAZY)
+//    @ManyToOne( = "keyword", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "keyword", fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
 
     public Keyword() {}

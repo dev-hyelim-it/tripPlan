@@ -51,20 +51,13 @@
             document.getElementById('selectedKeywords').innerText = selectedKeywords.join(', ');
         }
 
-function updateSelectedKeywords() {
-    const select = document.getElementById('keywords');
-    selectedKeywords = Array.from(select.selectedOptions).map(option => option.value); // ID를 사용
-    document.getElementById('selectedKeywords').innerText = selectedKeywords.join(', ');
-}
-
-function submitForm(event) {
-    const keywordsInput = document.createElement('input');
-    keywordsInput.type = 'hidden';
-    keywordsInput.name = 'keywords'; // 서버에서 사용할 키
-    keywordsInput.value = selectedKeywords.join(','); // ID를 콤마로 구분된 문자열로 변환
-    event.target.appendChild(keywordsInput);
-}
-
+        function submitForm(event) {
+            const keywordsInput = document.createElement('input');
+            keywordsInput.type = 'hidden';
+            keywordsInput.name = 'keywords'; // 서버에서 사용할 키
+            keywordsInput.value = selectedKeywords.join(','); // ID를 콤마로 구분된 문자열로 변환
+            event.target.appendChild(keywordsInput);
+        }
     </script>
 </head>
 <body onload="loadKeywords()">
@@ -92,7 +85,7 @@ function submitForm(event) {
             </div>
             <div>
                 <label>글 작성자</label>
-                <input type="text" th:field="${dto.users.userNickname}" th:value="${person.userNickname}" disabled>
+                <input type="text" th:field="${person.userNickname}" disabled>
             </div>
             <div>
                 <label>여행 장소</label>
@@ -115,8 +108,8 @@ function submitForm(event) {
                 <input type="text" disabled>
             </div>
             <div>
-                <label for="keywords">키워드 선택:</label>
-                <select id="keywords" th:field="${dto.keywords}" onchange="updateSelectedKeywords()">
+                <label for="keyword">키워드 선택:</label>
+                <select id="keyword" th:field="${dto.keyword.keywordId}">
                     <th:block th:each="keyword : ${allKeywords}">
                         <option th:value="${keyword.keywordId}" th:text="${keyword.keyword}"></option>
                     </th:block>
