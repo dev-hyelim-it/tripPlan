@@ -4,6 +4,7 @@ import com.teamProject.tripPlan.dao.MyPageDAO;
 import com.teamProject.tripPlan.dto.PostDTO;
 import com.teamProject.tripPlan.dto.UsersDTO;
 import com.teamProject.tripPlan.entity.*;
+import com.teamProject.tripPlan.repository.MyListRepository;
 import com.teamProject.tripPlan.repository.PostRepository;
 import com.teamProject.tripPlan.repository.TravelDateRepository;
 import com.teamProject.tripPlan.repository.UserRepository;
@@ -23,6 +24,8 @@ public class MyPageService {
     EntityManager em;
     @Autowired
     TravelDateRepository travelDateRepository;
+    @Autowired
+    MyListRepository myListRepository;
 
     public UsersDTO findLoginUser(Long id) {
         Users users = myPageDAO.getOneUser(id);
@@ -64,5 +67,9 @@ public class MyPageService {
         dates1.setArrival_date(dates.getArrival_date());
         travelDateRepository.save(dates1);
         return dates1;
+    }
+
+    public List<MyList> findAllMyLists(){
+        return myListRepository.findAll();
     }
 }

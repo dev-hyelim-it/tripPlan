@@ -35,7 +35,7 @@ public class Post {
     @JoinColumn(name = "user_no")
     private Users users;
 
-    @OneToOne(mappedBy = "post", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Travel travel;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)

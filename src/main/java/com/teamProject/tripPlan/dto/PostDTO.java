@@ -1,13 +1,11 @@
 package com.teamProject.tripPlan.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.teamProject.tripPlan.entity.Keyword;
 import com.teamProject.tripPlan.entity.Post;
 import com.teamProject.tripPlan.entity.Travel;
 import com.teamProject.tripPlan.entity.Users;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,8 +13,9 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PostDTO {
     private Long postId;
     private String postTitle;
@@ -26,9 +25,10 @@ public class PostDTO {
     private Users users;
     private List<CommentDTO> comments = new ArrayList<>();
     private Travel travel;
-
-    // 추가: keywords 필드
     private List<Keyword> keywords = new ArrayList<>();
+    private String accommodation; // 이용한 숙소
+    private String restaurant; // 이용한 식당
+    private String attractions; // 관광지
 
     public static PostDTO fromEntity(Post post) {
         return new PostDTO(
@@ -40,7 +40,10 @@ public class PostDTO {
                 post.getUsers(),
                 post.getComments().stream().map(CommentDTO::fromEntity).toList(),
                 post.getTravel(),
-                post.getKeywords()  // 키워드 추가
+                post.getKeywords(), // Keyword 객체 리스트를 그대로 사용
+                post.getTravel() != null ? post.getTravel().getAccommodation() : null,
+                post.getTravel() != null ? post.getTravel().getRestaurant() : null,
+                post.getTravel() != null ? post.getTravel().getAttractions() : null
         );
     }
 
@@ -51,7 +54,20 @@ public class PostDTO {
         post.setPostContent(dto.getPostContent());
         post.setPostDate(dto.getPostDate());
         post.setLikes(dto.getLikes());
-        post.setKeywords(dto.getKeywords()); // 키워드 설정 추가
+
+        // Keyword 객체 리스트 설정
+        post.setKeywords(dto.getKeywords()); // 직접 설정
+
+        // Travel 객체 설정
+        Travel travel = new Travel();
+        travel.setAccommodation(dto.getAccommodation());
+        travel.setRestaurant(dto.getRestaurant());
+        travel.setAttractions(dto.getAttractions());
+        travel.setUsers(dto.getUsers()); // 사용자를 Travel에 설정
+        post.setTravel(travel);
+
         return post;
     }
+
+
 }
