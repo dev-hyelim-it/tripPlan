@@ -68,8 +68,8 @@ VALUES (
     (SELECT keyword_id FROM keyword WHERE keyword = '문화')
 );
 
-INSERT INTO suggestion (suggestion_id, suggestion_title, suggestion_content, suggestion_date) VALUES (1, '관리자님 오류 있어여', '그 뭐냐 그... 그거 있잖아', '2024-08-11');
-INSERT INTO suggestion (suggestion_id, suggestion_title, suggestion_content, suggestion_date) VALUES (2, '관리자님 점심 뭐 드세여', '뭐 먹냐고', '2024-07-23');
+INSERT INTO suggestion (suggestion_id, suggestion_title, user_no, suggestion_content, suggestion_date) VALUES (1, '관리자님 오류 있어여', 1, '그 뭐냐 그... 그거 있잖아', '2024-08-11');
+INSERT INTO suggestion (suggestion_id, suggestion_title, user_no, suggestion_content, suggestion_date) VALUES (2, '관리자님 점심 뭐 드세여', 2, '뭐 먹냐고', '2024-07-23');
 
 
 INSERT INTO comment (post_id, comment_content, comment_nickname) VALUES (1, '재밌었겠다ㅜㅜ', 'antty');
