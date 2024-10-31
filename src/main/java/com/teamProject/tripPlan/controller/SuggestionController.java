@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -40,16 +41,28 @@ public class SuggestionController {
     }
 
     @GetMapping("/new")
-    public String newSuggestionForm(Model model) {
+    public String newSuggestionForm(Model model, Principal principal) {
         model.addAttribute("dto", new SuggestionDTO());
-        Users users = queryService.findOneUser("froggg");
-        model.addAttribute("person", users);
+        Users users = queryService.findOneUser(principal.getName());
+        List<SuggestionDTO> suggestionDTOS = suggestionService.findAllSuggestion();
+//        List<Suggestion> suggestions = suggestionService.findAllSuggestion().stream().map(x->SuggestionDTO.fromDTO(x)).toList();
+        for (SuggestionDTO dto : suggestionDTOS) {
+            if (!dto.getUsers().getUserNickname().equals(users.getUserNickname())) {
+                dto.setOpenType(0);
+            }
+            if (!users.getUserNickname().equals("admin")) {
+                dto.setOpenType(0);
+            }
+        }
+
+        model.addAttribute("myNickname", users.getUserNickname());
         return "suggestion/newSuggestion";
     }
 
     @PostMapping("create")
-    public String createSuggestion(SuggestionDTO dto, Model model) {
-        Users users = queryService.findOneUser("froggg");
+    public String createSuggestion(SuggestionDTO dto, Model model, Principal principal) {
+        Users users = queryService.findOneUser(principal.getName());
+//        model.addAttribute("myNickname", users.getUserNickname());
         usersService.insertSuggestion(users.getUserNo(), dto);
         // 로그인한 사람의 아이디가 동일한 사람 찾기
         return "redirect:/suggestion/box";
