@@ -1,20 +1,29 @@
 package com.teamProject.tripPlan.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class MyList {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 증가 설정
-    private Long listId; // 식별자 필드
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long myListId;
     private String placeName;
     private String placeAddress;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "travel_id")
     private Travel travel;
 
-    // Getters and Setters (필요시 추가)
+    public MyList(String placeName, String addressName) {}
+
+    public void setTravelId(Long travelId) {
+    }
 }

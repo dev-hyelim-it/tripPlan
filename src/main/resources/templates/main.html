@@ -42,27 +42,35 @@
 	<div class="main">
 		<h3>여행지 검색 하기</h3>
 		<div class="map">
-			<div class="map_search_box">
-				<input type="text" id="keyword" size="15" placeholder="검색어를 입력하세요.">
-				<button id="searchBtn">검색</button> <!--onclick="main()"-->
-			</div>
-			<div class="map_section">
-				<div class="map_box1">
-					<div id="map"></div>
-					<div id="list"></div>
+<!--			<form action="/saveMyList">-->
+				<div class="mb-3">
+					<label for="departureDate" class="form-label">떠날 날짜:</label>
+					<input type="date" id="departureDate" name="startDate" class="form-control">
 				</div>
-				<div class="map_box2">
-					<div id="my-list"></div>
+				<div class="mb-3">
+					<label for="arrivalDate" class="form-label">도착할 날짜:</label>
+					<input type="date" id="arrivalDate" name="endDate" class="form-control">
 				</div>
-			</div>
-<!--		</div>-->
-		<div id="placeList">
-<!--			<li th:each="place : ${places}">-->
-<!--				<p th:text="${place.placeName}"></p>-->
-<!--				<p th:text="${place.addressName}"></p>-->
-<!--				<button onclick="addToMyList(/* 데이터 추가 함수 */)">여행 추가</button>-->
-<!--			</li>-->
-		</div>
+				<div class="map_search_box">
+					<input type="text" id="keyword" size="15" placeholder="검색어를 입력하세요.">
+					<button id="searchBtn">검색</button> <!--onclick="main()"-->
+				</div>
+				<div class="map_section">
+					<div class="map_box1">
+						<div id="map"></div>
+						<div id="list"></div>
+					</div>
+					<div class="map_box2">
+						<ul id="myList">
+							<!--						<li class="my_list">-->
+							<!--							<p>placeName(장소이름)</p>-->
+							<!--							<p>addressName(주소)</p>-->
+							<!--						</li>-->
+						</ul>
+						<button class="save_db_btn" onclick="saveToDatabase()">저장하기</button>
+					</div>
+				</div>
+<!--			</form>-->
 		<script th:src="@{js/main.js}"></script>
 	</div>
 </div>
