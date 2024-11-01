@@ -55,7 +55,7 @@ public class MyPageDAO {
         return id;
     }
 
-    // 유저에 해당하는 여행 계획 리스트 가져오기 (키워드, 지역, 날짜)
+    // 유저에 해당하는 Travel 리스트 가져오기
     public List<Travel> findUserList(Long id) {
         String sql = "SELECT t FROM Travel t " +
                 "JOIN t.users u " +
