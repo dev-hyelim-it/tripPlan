@@ -25,8 +25,6 @@ public class PostDTO {
     private Users users;
     private List<CommentDTO> comments = new ArrayList<>();
     private Travel travel;
-
-//    private List<Keyword> keywords = new ArrayList<>();
     private Keyword keyword;
     private LocalDateTime insertedDate;
     private LocalDateTime updatedDate;
@@ -49,8 +47,7 @@ public class PostDTO {
                 post.getUpdatedDate()
 //                post.getTravel() != null ? post.getTravel().getAccommodation() : null,
 //                post.getTravel() != null ? post.getTravel().getRestaurant() : null,
-//                post.getTravel() != null ? post.getTravel().getAttractions() : null
-
+//                post.getTravel() != null ? post.getTravel().getAttractions() : null,
         );
     }
 

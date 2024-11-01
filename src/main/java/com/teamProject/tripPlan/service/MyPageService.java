@@ -4,10 +4,7 @@ import com.teamProject.tripPlan.dao.MyPageDAO;
 import com.teamProject.tripPlan.dto.PostDTO;
 import com.teamProject.tripPlan.dto.UsersDTO;
 import com.teamProject.tripPlan.entity.*;
-import com.teamProject.tripPlan.repository.MyListRepository;
-import com.teamProject.tripPlan.repository.PostRepository;
-import com.teamProject.tripPlan.repository.TravelDateRepository;
-import com.teamProject.tripPlan.repository.UserRepository;
+import com.teamProject.tripPlan.repository.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +21,12 @@ public class MyPageService {
     TravelDateRepository travelDateRepository;
     @Autowired
     MyListRepository myListRepository;
+    @Autowired
+    EntityManager em;
+    @Autowired
+    TravelRepository travelRepository;
+    @Autowired
+    PlaceRepository placeRepository;
 
     public UsersDTO findLoginUser(Long id) {
         Users users = myPageDAO.getOneUser(id);
@@ -60,5 +63,20 @@ public class MyPageService {
 
     public List<MyList> findAllMyLists(){
         return myListRepository.findAll();
+    }
+
+    public Travel insertTravelList(Long id) {
+        Users users = em.find(Users.class, id);
+        Travel travel = new Travel();
+        travel.setUsers(users);
+        travelRepository.save(travel);
+        System.out.println("=========================="+travel.getTravelId() + travel.getUsers().getUserNo());
+        return travel;
+    }
+
+    public void insertTravel(Long travelId, List<Place> place) {
+        Travel travel = em.find(Travel.class, travelId);
+        place.forEach(p -> p.setTravel(travel));
+        placeRepository.saveAll(place);
     }
 }
