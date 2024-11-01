@@ -26,8 +26,8 @@ public class JoinController {
         model.addAttribute("dto", new UsersDTO());
         return "member/join";
     }
-
-    // 회원가입 처리
+    //
+    // 원가입 처리
     @PostMapping("/joinProc")
     public String joinProcess(UsersDTO usersDTO, Model model) {
         String idPattern = "^[0-9a-zA-Z]{4,10}$";
