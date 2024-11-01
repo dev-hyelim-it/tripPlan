@@ -26,12 +26,12 @@
         </div>
         <div>
             이메일 : <input id="userEmail" type="email" name="userEmail" placeholder="이메일 형식에 맞게 입력하세요.">
-            <div th:if="${error2}" style="color: red;" th:text="${error2}"></div>
+            <div th:if="${error3}" style="color: red;" th:text="${error3}"></div>
         </div>
         <div>
             닉네임 : <input id="userNickname" type="text" name="userNickname" placeholder="한글,영문,숫자로 2~8자까지 입력 가능합니다.">
             <div id="dup-userNickname" class="input-feedback"></div>
-            <div th:if="${error3}" style="color: red;" th:text="${error3}"></div>
+            <div th:if="${error2}" style="color: red;" th:text="${error2}"></div>
         </div>
 
         <!--완료를 누르면 회원가입 성공, 회원가입 정보를 가지고 로그인으로 돌아감-->
@@ -108,21 +108,22 @@
           }
        });
 
-        $("#checkUserId").click(function() {
-            let userId = $("#userId").val();
-            checkDuplicate('userId', userId);
-        });
+<!--        $("#checkUserId").click(function() {-->
+<!--            let userId = $("#userId").val();-->
+<!--            checkDuplicate('userId', userId);-->
+<!--        });-->
 
-        $("#checkUserEmail").click(function() {
-            let userEmail = $("#userEmail").val();
-            checkDuplicate('userEmail', userEmail);
-        });
+<!--        $("#checkUserEmail").click(function() {-->
+<!--            let userEmail = $("#userEmail").val();-->
+<!--            checkDuplicate('userEmail', userEmail);-->
+<!--        });-->
 
-        $("#checkUserNickname").click(function() {
-            let userNickname = $("#userNickname").val();
-            checkDuplicate('userNickname', userNickname);
-        });
-    });
+<!--        $("#checkUserNickname").click(function() {-->
+<!--            let userNickname = $("#userNickname").val();-->
+<!--            checkDuplicate('userNickname', userNickname);-->
+<!--        });-->
+
+   });
 </script>
 </body>
 </html>

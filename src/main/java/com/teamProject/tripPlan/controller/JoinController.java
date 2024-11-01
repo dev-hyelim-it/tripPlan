@@ -59,23 +59,23 @@ public class JoinController {
         return "redirect:/login";
     }
 
-    @PostMapping("/checkDuplicate")
-    @ResponseBody
-    public ResponseEntity<Map<String, Object>> checkDuplicate(
-            @RequestParam(required = false) String userId,
-            @RequestParam(required = false) String userEmail,
-            @RequestParam(required = false) String userNickname) {
-        Map<String, Object> response = new HashMap<>();
-        if (userId != null) {
-            response.put("isDuplicate", joinService.isUserIdDuplicate(userId));
-            response.put("field", "userId");
-        } else if (userEmail != null) {
-            response.put("isDuplicate", joinService.isUserEmailDuplicate(userEmail));
-            response.put("field", "userEmail");
-        } else if (userNickname != null) {
-            response.put("isDuplicate", joinService.isNicknameDuplicate(userNickname));
-            response.put("field", "userNickname");
-        }
-        return ResponseEntity.ok(response);
-    }
+//    @PostMapping("/checkDuplicate")
+//    @ResponseBody
+//    public ResponseEntity<Map<String, Object>> checkDuplicate(
+//            @RequestParam(required = false) String userId,
+//            @RequestParam(required = false) String userEmail,
+//            @RequestParam(required = false) String userNickname) {
+//        Map<String, Object> response = new HashMap<>();
+//        if (userId != null) {
+//            response.put("isDuplicate", joinService.isUserIdDuplicate(userId));
+//            response.put("field", "userId");
+//        } else if (userEmail != null) {
+//            response.put("isDuplicate", joinService.isUserEmailDuplicate(userEmail));
+//            response.put("field", "userEmail");
+//        } else if (userNickname != null) {
+//            response.put("isDuplicate", joinService.isNicknameDuplicate(userNickname));
+//            response.put("field", "userNickname");
+//        }
+//        return ResponseEntity.ok(response);
+//    }
 }
