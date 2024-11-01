@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -26,7 +27,11 @@ public class PostDAO {
     }
 
     public List<Post> findAllPost() {
-        return em.createQuery("SELECT p FROM Post p LEFT JOIN FETCH p.keyword", Post.class).getResultList();
+        String sql = "SELECT p FROM Post p " +
+                "LEFT JOIN FETCH p.keyword " +
+                "ORDER BY p.postId DESC";
+
+        return em.createQuery(sql, Post.class).getResultList();
     }
 
     public Post getOnePost(Long postId) {
@@ -51,10 +56,10 @@ public class PostDAO {
         em.persist(post);
     }
 
-    public List<Post> findPostsByKeywords(String keyword) {
-        String jpql = "SELECT DISTINCT p FROM Post p JOIN p.keyword k WHERE k.keyword IN :keyword";
+    public List<Post> findPostsByKeywordId(Long keywordId) {
+        String jpql = "SELECT p FROM Post p WHERE p.keyword.keywordId = :keywordId";
         return em.createQuery(jpql, Post.class)
-                .setParameter("keyword", keyword)
+                .setParameter("keywordId", keywordId)
                 .getResultList();
     }
 }

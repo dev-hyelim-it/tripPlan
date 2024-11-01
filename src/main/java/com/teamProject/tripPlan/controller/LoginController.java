@@ -1,6 +1,7 @@
 package com.teamProject.tripPlan.controller;
 
 import com.teamProject.tripPlan.dto.UsersDTO;
+import com.teamProject.tripPlan.entity.Users;
 import com.teamProject.tripPlan.service.UsersService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

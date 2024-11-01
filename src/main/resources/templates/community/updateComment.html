@@ -1,49 +1,34 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
-<meta charset="UTF-8">
-
-<!-- 전체 적용될 css -->
-<th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{/css/showPost.css}">
-</th:block>
-
-<!-- 전체 적용될 스크립트 -->
-<th:block layout:fragment="script"></th:block>
+<head>
+    <meta charset="UTF-8">
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/showPost.css}">
+    </th:block>
+</head>
 <body>
-
 <div layout:fragment="content" class="content">
-  <h1>[[ ${dto.postTitle} ]]</h1>
-  <p>[[ ${dto.users.userNickname} ]]</p>
-  <div>
-    [[ ${dto.postContent} ]]
-  </div>
-  <a href="/community">목록</a>
+    <h1 th:text="${dto.postTitle}"></h1>
+    <p th:text="${dto.users.userNickname}"></p>
+    <div th:text="${dto.postContent}"></div>
+    <a href="/community">목록</a>
 
-  <form th:object="${comment}"
-        th:action="@{/community/{postId}/comments/{commentId}(postId=${postId}, commentId=*{commentId})}"
-        method="post" id="form" class="np-form">
-<!--    <input type="hidden" th:field="*{commentId}">-->
-      <div class="m-2">
-          <label class="form-label">닉네임</label>
-          <input type="text" class="form-control" id="new-comment-nickname" name="commentNickname" th:field="*{commentNickname}" disabled>
-      </div>
-      <!-- 댓글 본문 입력-->
-      <div class="m-2">
-          <label class="form-label">댓글 내용</label>
-          <textarea  type="text" class="form-control" rows="3" id="new-comment-body" name="commentContent" th:field="*{commentContent}"></textarea>
-      </div>
-
-<!--    <h3>댓글 수정</h3>-->
-<!--    <div>-->
-<!--      <label>내용</label>-->
-<!--      <textarea cols="20" rows="7" th:field="*{commentContent}"></textarea>-->
-<!--    </div>-->
-    <input type="reset" value="취소">
-    <input type="submit" value="수정">
-  </form>
+    <form th:object="${comment}"
+          th:action="@{/community/{postId}/comments/{commentId}(postId=${postId}, commentId=*{commentId})}"
+          method="post" id="form" class="np-form">
+        <div class="m-2">
+            <label class="form-label">닉네임</label>
+            <input type="text" class="form-control" name="commentNickname" th:field="*{commentNickname}" disabled>
+        </div>
+        <div class="m-2">
+            <label class="form-label">댓글 내용</label>
+            <textarea class="form-control" rows="3" name="commentContent" th:field="*{commentContent}"></textarea>
+        </div>
+        <input type="reset" value="취소">
+        <input type="submit" value="수정">
+    </form>
 </div>
-
 </body>
 </html>

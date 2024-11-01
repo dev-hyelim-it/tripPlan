@@ -63,14 +63,9 @@ public class PostDTO {
 
         // Travel 객체 설정
         Travel travel = new Travel();
-//        travel.setAccommodation(dto.getAccommodation());
-//        travel.setRestaurant(dto.getRestaurant());
-//        travel.setAttractions(dto.getAttractions());
         travel.setUsers(dto.getUsers()); // 사용자를 Travel에 설정
         post.setTravel(travel);
 
         return post;
     }
-
-
 }

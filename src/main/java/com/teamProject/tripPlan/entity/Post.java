@@ -42,14 +42,7 @@ public class Post extends BaseEntity {
     @OneToOne(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Travel travel;
 
-    //    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "keyword_id")
-//    @JoinTable(
-//            name = "post_keyword",
-//            joinColumns = @JoinColumn(name = "post_id"),
-//            inverseJoinColumns = @JoinColumn(name = "keyword_id")
-//    )
-//    private List<Keyword> keywords = new ArrayList<>();
     private Keyword keyword;
 }
