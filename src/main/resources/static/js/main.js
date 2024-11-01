@@ -154,8 +154,8 @@ const {className} = e.target;
     function saveToDatabase() {
         const myListItems = document.querySelectorAll('#myList .my_list');
         // 입력된 날짜 데이터 가져오기
-        const departureDate = document.getElementById('departureDate').value;
-        const arrivalDate = document.getElementById('arrivalDate').value;
+//        const departureDate = document.getElementById('departureDate').value;
+//        const arrivalDate = document.getElementById('arrivalDate').value;
 
         const placeData = Array.from(myListItems).map(item => ({
             placeName: item.children[0].textContent,
@@ -163,28 +163,37 @@ const {className} = e.target;
         }));
 
 // 전송할 데이터에 날짜 정보 포함
-    const requestData = {
-        places: placeData,
-        travelDates: {
-            startDate: departureDate,
-            endDate: arrivalDate
+    /*const requestData = [
+        {
+            places: placeData,
+             travelDates: {
+                 startDate: departureDate,
+                 endDate: arrivalDate
         }
-    };
-    console.log("전송할 데이터:", JSON.stringify(requestData));
+        }];*/
+    console.log("전송할 데이터:", JSON.stringify(placeData));
         fetch('/saveMyList', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(requestData)  // 배열 형태로 전달
+            body: JSON.stringify(placeData)  // 배열 형태로 전달
         })
         .then(response => {
             if (response.ok) {
                 alert('저장되었습니다.');
+                updateMyListUI(); // UI 업데이트 함수 호출
                 console.log(placeData);
             } else {
                 alert('저장 중 오류가 발생했습니다.');
             }
         })
         .catch(error => console.error('Error:', error));
+    }
+
+    function updateMyListUI() {
+        // UI를 업데이트하는 코드
+        const myListElement = document.getElementById('myList');
+        myListElement.innerHTML = ''; // 리스트를 비움
+        // 추가로 UI 업데이트 로직
     }

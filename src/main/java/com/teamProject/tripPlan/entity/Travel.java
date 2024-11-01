@@ -19,8 +19,8 @@ public class Travel {
 //    @Column(length = 20)
 //    private String keyword;
 //    private String place;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+//    private LocalDateTime startDate;
+//    private LocalDateTime endDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_no")
@@ -35,7 +35,7 @@ public class Travel {
     private Post post;
 
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "travel", fetch = FetchType.LAZY)
-    private List<MyList> myLists = new ArrayList<>();
+    private List<Place> places = new ArrayList<>();
 
 //    @OneToMany(fetch = FetchType.LAZY,
 //            mappedBy = "travel",

@@ -18,14 +18,12 @@ public class MyListDTO {
     private Long myListId;
     private String placeName; // 장소 이름
     private String addressName; // 전체 주소
-    private Long travelId;
 
     public static MyListDTO fromEntity(MyList myList) {
         return new MyListDTO(
                 myList.getMyListId(),
                 myList.getPlaceName(),
-                myList.getPlaceAddress(),
-                myList.getTravel().getTravelId()
+                myList.getPlaceAddress()
         );
     }
 
@@ -34,7 +32,6 @@ public class MyListDTO {
         myList.setMyListId(dto.getMyListId());
         myList.setPlaceName(dto.placeName);
         myList.setPlaceAddress(dto.addressName);
-        myList.setTravelId(dto.getTravelId());
         return myList;
     }
 
