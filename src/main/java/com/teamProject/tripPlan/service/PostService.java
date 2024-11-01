@@ -56,8 +56,8 @@ public class PostService {
         dao.calculateLikes(id);
     }
 
-    public List<PostDTO> findPostsByKeyword(String keyword) {
-        return dao.findPostsByKeywords(keyword).stream()
+    public List<PostDTO> findPostsByKeywordId(Long keywordId) {
+        return dao.findPostsByKeywordId(keywordId).stream()
                 .map(PostDTO::fromEntity)
                 .toList();
     }

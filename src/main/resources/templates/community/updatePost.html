@@ -30,18 +30,6 @@
             <!--            <input type="date" id="endDate" required th:value="${dto.endDate}">-->
         </div>
         <div>
-            <label>이용한 숙소</label>
-            <!--            <input type="text" th:field="${dto.accommodation}">-->
-        </div>
-        <div>
-            <label>이용한 식당</label>
-            <!--            <input type="text" th:field="${dto.restaurant}">-->
-        </div>
-        <div>
-            <label>관광지</label>
-            <!--            <input type="text" th:field="${dto.attractions}">-->
-        </div>
-        <div>
             <label for="keyword">키워드 선택:</label>
             <select id="keyword" th:field="${dto.keyword.keywordId}">
                 <th:block th:each="keyword : ${allKeywords}">

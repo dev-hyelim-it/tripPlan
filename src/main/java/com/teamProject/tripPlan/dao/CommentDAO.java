@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -17,10 +18,10 @@ public class CommentDAO {
     @Autowired
     EntityManager em;
 
-    public void insertComment(Long postId, Comment comment) {
+    public void insertComment(Long postId, Comment comment, String nickname) {
         Post post = em.find(Post.class, postId);
         comment.setPost(post);
-        comment.setCommentNickname("froggg"); // 현재 로그인되어있는 사람의 닉네임으로 변경. (session.logId의 아이디)
+        comment.setCommentNickname(nickname); // 현재 로그인되어있는 사람의 닉네임으로 변경
         post.getComments().add(comment);
         em.persist(post);
     }
@@ -54,5 +55,11 @@ public class CommentDAO {
         Comment newComment = em.find(Comment.class, comment.getCommentId());
         newComment.setCommentContent(comment.getCommentContent());
 //        em.persist(newComment);
+    }
+
+    public List<Comment> findAllComment(Long id) {
+        String sql = "SELECT c FROM Comment c JOIN c.post p WHERE p.postId = :postId ORDER BY c.commentId DESC";
+        List<Comment> commentLists = em.createQuery(sql, Comment.class).setParameter("postId", id).getResultList();
+        return commentLists;
     }
 }
