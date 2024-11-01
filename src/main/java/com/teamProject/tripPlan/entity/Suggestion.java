@@ -34,7 +34,7 @@ public class Suggestion extends BaseEntity {
             mappedBy = "suggestion",
             cascade = {CascadeType.PERSIST,
                     CascadeType.REMOVE})
-    private List<Comment> comments = new ArrayList<>();
+    private List<SuggestionComment> comments = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_no")

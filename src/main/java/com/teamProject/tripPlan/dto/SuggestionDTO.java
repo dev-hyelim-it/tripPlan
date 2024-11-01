@@ -1,6 +1,7 @@
 package com.teamProject.tripPlan.dto;
 
 import com.teamProject.tripPlan.entity.Suggestion;
+import com.teamProject.tripPlan.entity.SuggestionComment;
 import com.teamProject.tripPlan.entity.Users;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +23,7 @@ public class SuggestionDTO {
     private String suggestionContent;
     private int openType;
     private Users users;
-    private List<CommentDTO> comments = new ArrayList<>();
+    private List<SuggestionCommentDTO> comments = new ArrayList<>();
     private LocalDateTime insertedDate;
     private LocalDateTime updatedDate;
 
@@ -33,7 +34,7 @@ public class SuggestionDTO {
                 suggestion.getSuggestionContent(),
                 suggestion.getOpenType(),
                 suggestion.getUsers(),
-                suggestion.getComments().stream().map(x->CommentDTO.fromEntity(x)).toList(),
+                suggestion.getComments().stream().map(x-> SuggestionCommentDTO.fromEntity(x)).toList(),
                 suggestion.getInsertedDate(),
                 suggestion.getUpdatedDate()
         );

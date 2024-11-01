@@ -26,13 +26,13 @@ public class CommentDAO {
         em.persist(post);
     }
 
-    public void insertSuggestionComment(Long suggestionId, Comment comment) {
-        Suggestion suggestion = em.find(Suggestion.class, suggestionId);
-        comment.setSuggestion(suggestion);
-        comment.setCommentNickname("admin"); // 현재 로그인되어있는 사람의 닉네임으로 변경. (session.logId의 아이디)
-        suggestion.getComments().add(comment);
-        em.persist(suggestion);
-    }
+//    public void insertSuggestionComment(Long suggestionId, Comment comment) {
+//        Suggestion suggestion = em.find(Suggestion.class, suggestionId);
+//        comment.setSuggestion(suggestion);
+//        comment.setCommentNickname("admin"); // 현재 로그인되어있는 사람의 닉네임으로 변경. (session.logId의 아이디)
+//        suggestion.getComments().add(comment);
+//        em.persist(suggestion);
+//    }
 
     public Long deleteComment(Long commentId) {
         Comment comment = em.find(Comment.class, commentId);
@@ -40,11 +40,11 @@ public class CommentDAO {
         return comment.getPost().getPostId();
     }
 
-    public Long deleteSuggestionComment(Long commentId) {
-        Comment comment = em.find(Comment.class, commentId);
-        em.remove(comment);
-        return comment.getSuggestion().getSuggestionId();
-    }
+//    public Long deleteSuggestionComment(Long commentId) {
+//        Comment comment = em.find(Comment.class, commentId);
+//        em.remove(comment);
+//        return comment.getSuggestion().getSuggestionId();
+//    }
 
     public Comment findByCommentId(Long commentId) {
         return em.find(Comment.class, commentId);

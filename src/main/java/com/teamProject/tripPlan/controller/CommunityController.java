@@ -95,6 +95,7 @@ public class CommunityController {
     @PostMapping("create")
     public String createPost(@ModelAttribute("dto") PostDTO dto, Principal principal, HttpSession session) {
         String userid = principal.getName();
+        queryService.findOneUser(userid);
         Long id = myPageService.findUserId(userid);
         UsersDTO usersDTO = myPageService.findLoginUser(id);
 
@@ -153,8 +154,10 @@ public class CommunityController {
 
     ///////////////////////////////////// 댓글 처리 //////////////////////////////////////////
     @PostMapping("{id}/comments")
-    public String insertComment(CommentDTO dto, @PathVariable("id") Long postId, HttpSession session) {
-        String loggedInNickname = (String) session.getAttribute("userNickname");
+    public String insertComment(CommentDTO dto, @PathVariable("id") Long postId, HttpSession session, Principal principal) {
+        Users users = queryService.findOneUser(principal.getName());
+        String loggedInNickname = users.getUserNickname();
+//        String loggedInNickname = (String) session.getAttribute("userNickname");
 
         if (loggedInNickname != null) {
             dto.setCommentNickname(loggedInNickname);

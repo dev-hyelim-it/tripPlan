@@ -23,8 +23,8 @@
     </p>
     <div th:text="${dto.postContent}"></div>
 
-    <a th:href="@{/community/{id}/update(id=${dto.postId})}" class="btn btn-primary">수정</a>
-    <a th:href="@{/community/{id}/delete(id=${dto.postId})}" class="btn btn-danger" id="confirm-delete-btn" onclick="return confirmDeletePost();">
+    <a th:if="${dto.users.userId} == ${currentUserId}" th:href="@{/community/{id}/update(id=${dto.postId})}" class="btn btn-primary">수정</a>
+    <a th:if="${dto.users.userId} == ${currentUserId}" th:href="@{/community/{id}/delete(id=${dto.postId})}" class="btn btn-danger" id="confirm-delete-btn" onclick="return confirmDeletePost();">
         삭제하기
     </a>
     <br><br>
@@ -36,8 +36,8 @@
         </div>
         <div class="card-body">
             <p class="card-text" th:text="${comment.commentContent}">댓글 내용</p>
-            <a class="btn btn-sm btn-outline-primary" id="comment-update-btn">수정</a>
-            <a class="btn btn-sm btn-outline-danger" id="comment-delete-btn">삭제</a>
+            <a th:if="*{commentNickname} == ${currentUserId}" class="btn btn-sm btn-outline-primary" id="comment-update-btn">수정</a>
+            <a th:if="*{commentNickname} == ${currentUserId}" class="btn btn-sm btn-outline-danger" id="comment-delete-btn">삭제</a>
             <input type="hidden" th:value="*{commentId}">
         </div>
     </div>
@@ -78,11 +78,6 @@
             }
         }
 
-//$(document).on("click", "#comment-update-btn", function () {
-//        let commentId = $(this).next().next().val();
-//        location.href = '/community/comments/view/' + commentId;
-//      });
-
         $(document).ready(function() {
 
             // 댓글 수정
@@ -91,7 +86,7 @@
                 location.href = '/community/comments/view/' + commentId;
             }),
 
-            // 댓글 수정
+            // 댓글 삭제
             $(document).on("click", "#comment-delete-btn", function () {
                 let commentId = $(this).next().val();
                 location.href = '/community/comments/' + commentId;
