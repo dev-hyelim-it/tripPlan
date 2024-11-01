@@ -27,7 +27,7 @@ public class JoinController {
         return "member/join";
     }
     //
-    // 원가입 처리
+    // 회원가입 처리
     @PostMapping("/joinProc")
     public String joinProcess(UsersDTO usersDTO, Model model) {
         String idPattern = "^[0-9a-zA-Z]{4,10}$";
@@ -59,6 +59,7 @@ public class JoinController {
         return "redirect:/login";
     }
 
+    //// 중복확인 체크박스
 //    @PostMapping("/checkDuplicate")
 //    @ResponseBody
 //    public ResponseEntity<Map<String, Object>> checkDuplicate(
