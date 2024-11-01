@@ -55,7 +55,7 @@
     <!-- 닉네임 입력-->
     <div class="m-2">
       <label class="form-label">닉네임</label>
-      <input type="text" class="form-control" id="new-suggestion-comment-nickname" name="commentNickname">
+      <input type="text" th:value="${myNickname}" class="form-control" id="new-suggestion-comment-nickname" name="commentNickname" disabled>
     </div>
     <!-- 댓글 본문 입력-->
     <div class="m-2">
@@ -97,12 +97,7 @@
       $("#suggestion-comment-create-btn").on("click", function (event) {
         event.preventDefault();
 
-        // 닉네임과 내용이 비어있는지 확인
-        if ($("#new-suggestion-comment-nickname").val() === "") {
-          alert("닉네임을 입력하세요.");
-          $("#new-suggestion-comment-nickname").focus();
-          return;
-        }
+        // 내용이 비어있는지 확인
         if ($("#new-suggestion-comment-body").val() === "") {
           alert("내용을 입력하세요.");
           $("#new-suggestion-comment-body").focus();

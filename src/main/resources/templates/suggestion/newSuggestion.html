@@ -19,7 +19,7 @@
       <div class="com_right_section">
           <div>
               <label>글 제목</label>
-              <input type="text" th:field="${dto.suggestionTitle}">
+              <input id="new-suggestion-head" type="text" th:field="${dto.suggestionTitle}">
           </div>
           <div>
               <label>글 작성자</label>
@@ -28,7 +28,7 @@
           </div>
           <div>
               <label>글쓰기</label>
-              <textarea cols="20" rows="7" th:field="${dto.suggestionContent}"></textarea>
+              <textarea id="new-suggestion-body" cols="20" rows="7" th:field="${dto.suggestionContent}"></textarea>
           </div>
           <input class="sug_btn_newSuggestion" id="sug_reset" type="reset" value="취소">
           <input class="sug_btn_newSuggestion" id="sug_new_okay" type="submit" value="등록">
@@ -36,6 +36,33 @@
       </div>
 
   </form>
+    <script src="/js/jQuery.js"></script>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+          console.log("JavaScript loaded successfully");
+
+          // 등록 버튼 클릭 시 동작
+          $("#sug_new_okay").on("click", function (event) {
+            event.preventDefault();
+
+            // 제목이 비어있는지 확인
+            if ($("#new-suggestion-head").val() === "") {
+              alert("제목을 입력하세요.");
+              $("#new-suggestion-head").focus();
+              return;
+            }
+            // 내용이 비어있는지 확인
+            if ($("#new-suggestion-body").val() === "") {
+              alert("내용을 입력하세요.");
+              $("#new-suggestion-body").focus();
+              return;
+            }
+
+            // 폼 제출
+            $("form").submit();
+          });
+        });
+    </script>
 </div>
 </body>
 </html>
