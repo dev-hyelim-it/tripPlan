@@ -55,6 +55,23 @@
             $("#dup-userId").text("");
             isValidUserId = true;
           }
+
+          <!--아이디 중복 확인 후 안내 메시지 출력-->
+        $.ajax({
+            url:`/join/0?str=${str}`, // 서버에서 아이디 중복 확인을 위한 url
+            type:"POST",
+            cache:false,
+            data : { userId : str }, // 서버에 전달할 데이터
+            success : function(data){
+              if (data.success) {
+                $("#dup-userId").text("사용 가능한 아이디입니다").css("color", "green");
+                isValidUserId = true;
+              } else {
+                $("#dup-userId").text(data.msg).css("color", "red");
+                isValidUserId = false;
+              }
+            }
+          });
       });
 
     <!--닉네임은 2~8자로, 중복을 허용하지 않는다-->
@@ -104,7 +121,6 @@
           }
        });
     });
-
-<!--</script>-->
+</script>
 </body>
 </html>
