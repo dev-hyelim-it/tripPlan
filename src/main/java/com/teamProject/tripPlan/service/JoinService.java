@@ -20,11 +20,16 @@ public class JoinService {
 
     public void joinProcess(UsersDTO usersDTO) {
         // 기존에 같은 아이디의 유저가 있는지 중복된 이메일로 확인
-        Boolean isUser = joinRepository.existsByUserId(usersDTO.getUserId());
-        Users users = joinRepository.findByUserId(usersDTO.getUserId());
+        boolean isUserId = joinRepository.existsByUserId(usersDTO.getUserId());
+        boolean isUserNickname = joinRepository.existsByUserNickname(usersDTO.getUserNickname());
+        boolean isUserEmail = joinRepository.existsByUserEmail(usersDTO.getUserEmail());
 
-        if (isUser) {
+        if (isUserId) {
             return; // 중복 유저일 경우 메서드 종료
+        } else if (isUserNickname) {
+            return;
+        } else if (isUserEmail) {
+            return;
         }
 
         // 없으면 회원가입 절차 진행
@@ -43,5 +48,17 @@ public class JoinService {
             data.setRole(UserRole.ROLE_USER);
         }
         joinRepository.save(data);
+    }
+
+    public boolean isUserIdDuplicate(String userId) {
+        return joinRepository.existsByUserId(userId);
+    }
+
+    public boolean isNicknameDuplicate(String userNickname) {
+        return joinRepository.existsByUserNickname(userNickname);
+    }
+
+    public boolean isUserEmailDuplicate(String userEmail) {
+        return joinRepository.existsByUserEmail(userEmail);
     }
 }
