@@ -24,33 +24,22 @@
 
     <script>
         function filterPostsBySelectedKeyword() {
-            const selectedKeyword = document.getElementById('keywordSelect').value;
+    const selectedKeywordId = document.getElementById('keywordSelect').value;
 
-            if (selectedKeyword) {
-                fetch(/community/filter?keywords=${encodeURIComponent(selectedKeyword)})
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.text();
-                    })
-                    .then(html => {
-                        document.querySelector('.table tbody').innerHTML = html;
-                    })
-                    .catch(error => {
-                        console.error('There was a problem with the fetch operation:', error);
-                    });
-            } else {
-                fetch(/community/filter?keywords=)
-                    .then(response => response.text())
-                    .then(html => {
-                        document.querySelector('.table tbody').innerHTML = html;
-                    })
-                    .catch(error => {
-                        console.error('There was a problem with the fetch operation:', error);
-                    });
+    fetch(`/community/filter?keywords=${selectedKeywordId ? selectedKeywordId : ''}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        }
+            return response.text();
+        })
+        .then(html => {
+            document.querySelector('.table tbody').innerHTML = html;
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+}
     </script>
 </head>
 <body>
@@ -77,18 +66,21 @@
         </tr>
         </thead>
         <tbody th:fragment="postList">
+
         <tr th:each="post : ${posts}">
-            <th th:text="${post.postId}"></th>
-            <td>
-                <a th:href="@{/community/{id}(id=${post.postId})}" th:text="${post.postTitle}"></a>
-            </td>
-            <td th:if="${post.users != null}" th:text="${post.users.userNickname}">작성자 없음</td>
-            <td th:if="${post.users == null}">작성자 없음</td>
-<!--            <td th:text="${post.insertedDate != null ? #temporals.format(post.insertedDate, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>-->
-<!--            <td th:text="${post.insertedDate}"></td>-->
-            <td th:text="${post.likes}"></td>
-            <td th:each="keyword:${post.keyword}" th:text="${keyword.keyword}"></td>
+                <th th:text="${post.postId}"></th>
+                <td>
+                    <a th:href="@{/community/{id}(id=${post.postId})}" th:text="${post.postTitle}"></a>
+                </td>
+                <td th:if="${post.users != null}" th:text="${post.users.userNickname}">작성자 없음</td>
+                <td th:if="${post.users == null}">작성자 없음</td>
+                <td th:text="${post.insertedDate != null ? #temporals.format(post.insertedDate, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
+                <td th:text="${post.likes}"></td>
+                <td>
+                    <span th:text="${post.keyword.keyword}"></span>
+                </td>
         </tr>
+
         </tbody>
     </table>
     <form action="/community/new" method="get">

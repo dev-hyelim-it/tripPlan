@@ -52,14 +52,33 @@
         }
 
         function submitForm(event) {
+            // 제목과 내용 입력 확인
+            const title = document.querySelector('input[name="postTitle"]').value;
+            const content = document.querySelector('textarea[name="postContent"]').value;
+
+            if (!title) {
+                alert('글 제목을 입력해 주세요.');
+                event.preventDefault(); // 제출 방지
+                return;
+            }
+
+            if (!content) {
+                alert('글 내용을 입력해 주세요.');
+                event.preventDefault(); // 제출 방지
+                return;
+            }
+
             const keywordsInput = document.createElement('input');
             keywordsInput.type = 'hidden';
             keywordsInput.name = 'keywords'; // 서버에서 사용할 키
             keywordsInput.value = selectedKeywords.join(','); // ID를 콤마로 구분된 문자열로 변환
             event.target.appendChild(keywordsInput);
         }
+
+        function cancelForm() {
+            window.location.href = '/community'; // 취소 버튼 클릭 시 리다이렉트
+        }
     </script>
-</head>
 <body onload="loadKeywords()">
 <div layout:fragment="content" class="content" id="myListContainer">
     <div class="com_left_section">
@@ -91,22 +110,10 @@
                 <label>여행 장소</label>
                 <p id="selectedAddress">여행 장소가 여기에 표시됩니다.</p>
             </div>
-            <div>
-                <label>여행 날짜</label>
-                <input type="date" id="startDate" disabled> ~ <input type="date" id="endDate" disabled>
-            </div>
-            <div>
-                <label>이용한 숙소</label>
-                <input type="text" disabled>
-            </div>
-            <div>
-                <label>이용한 식당</label>
-                <input type="text" disabled>
-            </div>
-            <div>
-                <label>관광지</label>
-                <input type="text" disabled>
-            </div>
+<!--            <div>-->
+<!--                <label>여행 날짜</label>-->
+<!--                <input type="date" id="startDate" disabled> ~ <input type="date" id="endDate" disabled>-->
+<!--            </div>-->
             <div>
                 <label for="keyword">키워드 선택:</label>
                 <select id="keyword" th:field="${dto.keyword.keywordId}">
@@ -115,15 +122,11 @@
                     </th:block>
                 </select>
             </div>
-<!--            <div>-->
-<!--                <label>선택된 키워드:</label>-->
-<!--                <span id="selectedKeywords"></span>-->
-<!--            </div>-->
             <div>
-                <label>글쓰기</label>
+                <label>내용 입력</label>
                 <textarea cols="20" rows="7" th:field="${dto.postContent}"></textarea>
             </div>
-            <input class="com_btn_newPost" id="com_reset" type="reset" value="취소">
+            <input class="com_btn_newPost" id="com_reset" type="button" value="취소" onclick="cancelForm()">
             <input class="com_btn_newPost" id="com_new_okay" type="submit" value="등록">
         </div>
     </form>
