@@ -1,12 +1,10 @@
 package com.teamProject.tripPlan.controller;
 
 import com.teamProject.tripPlan.dto.CommentDTO;
+import com.teamProject.tripPlan.dto.SuggestionCommentDTO;
 import com.teamProject.tripPlan.dto.SuggestionDTO;
 import com.teamProject.tripPlan.entity.Users;
-import com.teamProject.tripPlan.service.CommentService;
-import com.teamProject.tripPlan.service.QueryService;
-import com.teamProject.tripPlan.service.SuggestionService;
-import com.teamProject.tripPlan.service.UsersService;
+import com.teamProject.tripPlan.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +29,7 @@ public class SuggestionController {
     UsersService usersService;
 
     @Autowired
-    CommentService commentService;
+    SuggestionCommentService commentService;
 
     @GetMapping("/box")
     public String suggestionBoxView(Model model, Principal principal) {
@@ -98,7 +96,7 @@ public class SuggestionController {
 
     ///////////////////////////////////// 댓글 처리 //////////////////////////////////////////
     @PostMapping("{id}/comments")
-    public String insertSuggestionComment(CommentDTO dto, @PathVariable("id") Long suggestionId) {
+    public String insertSuggestionComment(SuggestionCommentDTO dto, @PathVariable("id") Long suggestionId) {
         System.out.println(dto.toString());
         commentService.insertSuggestionComment(suggestionId, dto);
         return "redirect:/suggestion/" + suggestionId;
@@ -125,7 +123,7 @@ public class SuggestionController {
     @PostMapping("{suggestionId}/comments/{commentId}")
     public String updateComment(@PathVariable("suggestionId") Long suggestionId,
                                 @PathVariable("commentId") Long commentId,
-                                CommentDTO dto) {
+                                SuggestionCommentDTO dto) {
         dto.setCommentId(commentId);
         commentService.updateComment(dto);
         return "redirect:/suggestion/" + suggestionId;
