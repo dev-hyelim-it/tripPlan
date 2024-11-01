@@ -16,9 +16,9 @@ public class Travel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long travelId;
 
-    @Column(length = 20)
-    private String keyword;
-    private String place;
+//    @Column(length = 20)
+//    private String keyword;
+//    private String place;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
@@ -26,9 +26,9 @@ public class Travel {
     @JoinColumn(name = "user_no")
     private Users users;
 
-    private String accommodation; // 이용한 숙소
-    private String restaurant; // 이용한 식당
-    private String attractions; // 관광지
+//    private String accommodation; // 이용한 숙소
+//    private String restaurant; // 이용한 식당
+//    private String attractions; // 관광지
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "travel_id")

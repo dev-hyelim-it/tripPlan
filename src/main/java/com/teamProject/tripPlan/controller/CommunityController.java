@@ -104,7 +104,7 @@ public class CommunityController {
         users.setUserNickname(usersDTO.getUserNickname());
         session.setAttribute("userNickname", usersDTO.getUserNickname());
         dto.setUsers(users);
-        dto.setPostDate(LocalDateTime.now());
+//        dto.setPostDate(LocalDateTime.now());
         Long postId = usersService.insertPost(users.getUserNo(), dto);
         return "redirect:/community";
 //        Users users = queryService.findOneUser("1111"); // 현재 로그인한 사용자의 이름으로 조회
