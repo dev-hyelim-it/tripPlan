@@ -34,9 +34,19 @@ public class SuggestionController {
     CommentService commentService;
 
     @GetMapping("/box")
-    public String suggestionBoxView(Model model) {
+    public String suggestionBoxView(Model model, Principal principal) {
         List<SuggestionDTO> suggestions = suggestionService.findAllSuggestion();
         model.addAttribute("suggestions", suggestions);
+        Users users = queryService.findOneUser(principal.getName());
+        for (SuggestionDTO dto : suggestions) {
+            if (dto.getUsers().getUserNickname().equals(users.getUserNickname())) {
+                dto.setOpenType(1);
+            } else if (users.getUserNickname().equals("admin")) {
+                dto.setOpenType(1);
+            } else {
+                dto.setOpenType(0);
+            }
+        }
         return "suggestion/suggestionBox";
     }
 
@@ -46,16 +56,7 @@ public class SuggestionController {
         Users users = queryService.findOneUser(principal.getName());
         List<SuggestionDTO> suggestionDTOS = suggestionService.findAllSuggestion();
 //        List<Suggestion> suggestions = suggestionService.findAllSuggestion().stream().map(x->SuggestionDTO.fromDTO(x)).toList();
-        for (SuggestionDTO dto : suggestionDTOS) {
-            if (!dto.getUsers().getUserNickname().equals(users.getUserNickname())) {
-                dto.setOpenType(0);
-            }
-            if (!users.getUserNickname().equals("admin")) {
-                dto.setOpenType(0);
-            }
-        }
-
-        model.addAttribute("myNickname", users.getUserNickname());
+//        model.addAttribute("myNickname", users.getUserNickname());
         return "suggestion/newSuggestion";
     }
 
