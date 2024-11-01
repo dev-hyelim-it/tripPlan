@@ -54,7 +54,7 @@
             </ul>
             <div class="d-flex flex-column">
                 <!--내 정보 요약-->
-                <div class="ml-4">
+                <div class="ml-4" id="infoId">
                     <h3>[[${dto.userId}]]님의 마이페이지입니다</h3>
                     <hr>
                     <a th:href="@{/myPage/info/{userId}(userId=${session.loginId})}">수정</a>
@@ -79,7 +79,7 @@
                 </div>
 
                 <!-- 계획 리스트 요약 -->
-                <div class="ml-4">
+                <div class="ml-4" id="listId">
                     <h3>나의 계획 리스트</h3>
                     <hr>
                     <span th:each="travel : ${list}" th:object="${travel}">
@@ -98,7 +98,7 @@
                 </div>
 
                 <!-- 커뮤니티 요약 -->
-                <div class="ml-4">
+                <div class="ml-4" id="CommunityId">
                     <h3>나의 커뮤니티 <a href="/community">커뮤니티로 이동</a></h3>
                     <hr>
                     <div th:each="post : ${dto.posts}" th:object="${post}">

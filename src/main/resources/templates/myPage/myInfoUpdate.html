@@ -54,7 +54,7 @@
             <!--내 정보 수정-->
             <div class="ml-4">
                 <hr>
-                <form th:action="@{/myPage/update}" method="post" th:object="${dto}">
+                <form th:action="@{/myPage/update}" method="post" th:object="${dto}" class="infoUpdate">
                     <input type="hidden" th:value="*{userNo}" name="userNo">
                     <p>
                         <label> 아이디 : </label>
