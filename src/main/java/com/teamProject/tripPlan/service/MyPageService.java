@@ -80,8 +80,8 @@ public class MyPageService {
         placeRepository.saveAll(place);
     }
 
-    public List<Place> findPlace(Long travelId) {
-        List<Place> places = myPageDAO.findPlace(travelId);
+    public List<Place> findPlace(Long id) {
+        List<Place> places = myPageDAO.findPlace(id);
         return places;
     }
 }

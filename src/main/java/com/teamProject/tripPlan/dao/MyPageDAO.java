@@ -78,10 +78,12 @@ public class MyPageDAO {
     }
 
 
-    public List<Place> findPlace(Long travelId) {
+    public List<Place> findPlace(Long id) {
         String sql = "SELECT p FROM Place p " +
                 "JOIN p.travel t " +
-                "WHERE t.travelId = " + travelId;
+                "ON t.travelId = p.travel.travelId " +
+                "JOIN t.users u " +
+                "ON t.users.userNo = " + id;
         Query query = em.createQuery(sql);
         List<Place> places = query.getResultList();
         return places;

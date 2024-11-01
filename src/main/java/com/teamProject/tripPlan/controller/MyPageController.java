@@ -11,7 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/myPage")
@@ -30,11 +32,18 @@ public class MyPageController {
         if (travels.isEmpty()) {
             model.addAttribute("place", new ArrayList<>());
         } else {
-            List<Place> places = myPageService.findPlace(travels.get(0).getTravelId());
+            List<Place> places = myPageService.findPlace(id);
+//            List<Place> places = myPageService.findPlace(travels.get(0).getTravelId());
             model.addAttribute("place", places);
+        }
+
+        Map<Long, String> firstPlaceNames = new HashMap<>();
+        for (Travel travel : travels) {
+            firstPlaceNames.put(travel.getTravelId(), travel.getPlaces().get(0).getAddressName());
         }
         model.addAttribute("dto", user);
         model.addAttribute("list", travels);
+        model.addAttribute("firstPlaceNames", firstPlaceNames);
         return "/myPage/myPageMain";
     }
 
@@ -47,7 +56,7 @@ public class MyPageController {
         if (travels.isEmpty()) {
             model.addAttribute("place", new ArrayList<>());
         } else {
-            List<Place> places = myPageService.findPlace(travels.get(0).getTravelId());
+            List<Place> places = myPageService.findPlace(id);
             model.addAttribute("place", places);
         }
         return "/myPage/myTravelList";
