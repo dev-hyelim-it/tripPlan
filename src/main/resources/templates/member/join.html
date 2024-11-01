@@ -1,23 +1,110 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
-<h2>회원가입</h2>
-<hr>
-<form th:action="@{/joinProc}" method="post" name="joinForm">
-    이름 : <input id="userName" type="text" name="userName"><br>
-    아이디 : <input id="userId" type="text" name="userId"><br>
-    비밀번호 : <input id="userPassword" type="password" name="userPassword"><br>
-    비밀번호 확인 : <input id="passwordCheck" type="password" name="passwordCheck"><br>
-    이메일 : <input id="userEmail" type="email" name="userEmail"><br>
-    닉네임 : <input id="userNickname" type="text" name="userNickname"><br>
+    <h2>회원가입</h2>
+        <form th:action="@{/joinProc}" method="post" name="joinForm">
+        <div>
+            이름 : <input id="userName" type="text" name="userName" placeholder="이름을 입력해주세요.">
+        </div>
+        <div>
+            아이디 : <input id="userId" type="text" name="userId" placeholder="영문,숫자 4~10자입니다.">
+            <div id="dup-userId" class="input-feedback"></div>
+        </div>
+        <div>
+            비밀번호 : <input id="userPassword" type="password" name="userPassword" placeholder="비밀번호는 8~16자입니다.">
+        </div>
+        <div>
+            비밀번호 확인 : <input id="re-password" type="password" name="re-password" placeholder="비밀번호가 일치하지 않습니다.">
+            <div id="dup-password" class="input-feedback"></div>
+        </div>
+        <div>
+            이메일 : <input id="userEmail" type="email" name="userEmail" placeholder="이메일 형식에 맞게 입력하세요.">
+        </div>
+        <div>
+            닉네임 : <input id="userNickname" type="text" name="userNickname" placeholder="한글,영문,숫자로 2~8자까지 입력 가능합니다.">
+            <div id="dup-userNickname" class="input-feedback"></div>
+        </div>
 
-    <input type="submit" value="회원가입"/>
-</form>
-<input type="submit" value="완료" th:href="@{/login}" />
-<input type="submit" value="취소" th:href="@{/login}" />
+        <!--완료를 누르면 회원가입 성공, 회원가입 정보를 가지고 로그인으로 돌아감-->
+        <input id="submitBtn" type="submit" name="submitBtn" value="완료" th:href="@{/login}"/>
+        <!--회원가입 취소, 아무것도 없이 로그인 페이지로 돌아감-->
+        <input type="button" onclick="location.href='/login'" value="취소"/>
+    </form>
+
+<script>
+    $(document).ready(function() {
+        let isValidUserId = false;
+        let isValidPassword = false;
+        let isValidNickname = false;
+
+    <!--아이디는 영문+숫자 4~10자리-->
+        $("#userId").on("change", function(){
+                let str = $("#userId").val();
+                var regExp = /^[0-9a-zA-Z]{4,10}$/;
+           if (!regExp.test(str)) {
+            $("#dup-userId").text("아이디는 영문,숫자 4~10자입니다").css("color", "red");
+            isValidUserId = false;
+            return;
+          } else {
+            $("#dup-userId").text("");
+            isValidUserId = true;
+          }
+      });
+
+    <!--닉네임은 2~8자로, 중복을 허용하지 않는다-->
+        $("#userNickname").on("change", function(){
+          let str = $("#userNickname").val();
+          var regExp = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]{2,8}$/;
+          if (!regExp.test(str)) {
+            $("#dup-userNickname").text("닉네임은 2~8자 입니다").css("color", "red");
+            isValidNickname = false;
+            return;
+          } else {
+            $("#dup-userNickname").text("");
+            isValidNickname = true;
+          }
+      });
+
+    <!--비밀번호는 8~16자이고, 비밀번호 확인란과 똑같이 입력해야 한다.-->
+        $("#userPassword").on("change", function(){
+          let pass1 = $("#userPassword").val();
+          var regExp = /^[a-zA-Z\d`~!@#$%^&*()-_=+]{8,16}$/;
+
+          if (!regExp.test(pass1)) {
+            $("#dup-password").text("비밀번호는 8~16자입니다").css("color", "red");
+            isValidPassword = false;
+            return;
+          }
+        });
+        $("#re-password").on("change", function(){
+          let pass1 = $("#userPassword").val();
+          let pass2 = $("#re-password").val();
+          var regExp = /^[a-zA-Z\d`~!@#$%^&*()-_=+]{8,16}$/;
+
+          if (!regExp.test(pass2)) {
+            $("#dup-password").text("비밀번호는 8~16자입니다").css("color", "red");
+            isValidPassword = false;
+            return;
+          }
+          if (pass1 == pass2) {
+            $("#dup-password").text("비밀번호와 일치합니다");
+            $("#dup-password").css("color", "green");
+            isValidPassword = true;
+          }
+          else {
+            $("#dup-password").text("비밀번호와 다릅니다");
+            $("#dup-password").css("color", "red");
+            isValidPassword = false;
+          }
+       });
+    });
+
+<!--</script>-->
 </body>
 </html>
