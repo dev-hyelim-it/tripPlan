@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,6 +16,8 @@ import java.util.List;
 public class MyPageDAO {
     @Autowired
     EntityManager em;
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public Users getOneUser(Long id) {
         Users users = em.find(Users.class, id);
@@ -29,6 +32,7 @@ public class MyPageDAO {
     public Users updateInfo(UsersDTO dto) {
         Users users = em.find(Users.class, dto.getUserNo());
         users.setUserId(dto.getUserId());
+        users.setUserPassword(bCryptPasswordEncoder.encode(dto.getUserPassword()));
         users.setUserName(dto.getUserName());
         users.setUserNickname(dto.getUserNickname());
         users.setUserEmail(dto.getUserEmail());

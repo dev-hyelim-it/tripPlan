@@ -48,7 +48,7 @@
                     <a class="nav-link" th:href="@{/myPage/community/{userId}(userId=${session.loginId})}">내 커뮤니티</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">건의함</a>
+                    <a class="nav-link" th:href="@{/suggestion/new}">건의함</a>
                 </li>
             </ul>
             <!--내 정보 수정-->
@@ -62,7 +62,7 @@
                     </p>
                     <p>
                         <label> 비밀번호 : </label>
-                        <input id="userPassword" th:value="*{userPassword}" type="text" name="userPassword">
+                        <input id="userPassword" type="password" name="userPassword">
                     </p>
                     <p>
                         <label> 이름 : </label>

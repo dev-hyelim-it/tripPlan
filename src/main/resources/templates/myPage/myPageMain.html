@@ -49,7 +49,7 @@
                     <a class="nav-link" th:href="@{/myPage/community/{userId}(userId=${session.loginId})}">내 커뮤니티</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">건의함</a>
+                    <a class="nav-link" th:href="@{/suggestion/new}">건의함</a>
                 </li>
             </ul>
             <div class="d-flex flex-column">
@@ -82,12 +82,11 @@
                 <div class="ml-4">
                     <h3>나의 계획 리스트</h3>
                     <hr>
-                    <span th:each="travel : ${list}" th:object="${travel}">
+                    <span th:each="travel : ${list}" th:object="${travel}" th:if="${travel =! null}">
                         <input type="radio" name="radio" th:value="*{travelId}" onclick="showForm(this.value)" checked>
                         <span th:text="${#strings.substring(travel.startDate, 0, 4)}"></span><span>년</span>
                         <span th:text="${#strings.substring(travel.startDate, 5, 7)}"></span><span>월</span>
                         <span th:text="*{place}"></span>
-                    </span>
                     <p>
                         <a th:href="@{/myPage/list/{userId}(userId=${session.loginId})}">수정</a>
                     </p>
@@ -116,16 +115,25 @@
                         <p>남이섬</p>
                         <p>춘천 닭갈비</p>
                     </form>
+                    </span>
+                    <div th:if="${travel == null}" class="ml-4">
+                        <h3>담은 여행 계획이 없습니다
+                            <a th:href="@{/main}">여행 계획 만들러 가기</a></h3>
+                    </div>
                 </div>
 
                 <!-- 커뮤니티 요약 -->
                 <div class="ml-4">
                     <h3>나의 커뮤니티 <a href="/community">커뮤니티로 이동</a></h3>
                     <hr>
-                    <div th:each="post : ${dto.posts}" th:object="${post}">
-                        <label th:text="*{postDate}"> 2024 / 10 /23 </label>
+                    <div th:each="post : ${dto.posts}" th:object="${post}" th:if="${post != null}">
+                        <label th:text="*{insertedDate}"> 2024 / 10 /23 </label>
                         <span><a href="" th:text="*{postTitle}">부산여행기</a></span>
                     </div>
+                </div>
+                <div th:if="${post == null}" class="ml-4">
+                    <h3>작성한 글이 없습니다
+                        <a th:href="@{/community/new}">글 작성하러 가기</a></h3>
                 </div>
             </div>
         </div>

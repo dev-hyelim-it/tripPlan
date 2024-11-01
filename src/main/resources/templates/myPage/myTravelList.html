@@ -50,14 +50,14 @@
                     <a class="nav-link" th:href="@{/myPage/community/{userId}(userId=${session.loginId})}">내 커뮤니티</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">건의함</a>
+                    <a class="nav-link" th:href="@{/suggestion/new}">건의함</a>
                 </li>
             </ul>
 
             <!-- 내 정보 수정 부분 -->
             <div class="ml-4">
                 <h3>여행 계획 중 하나 선택</h3>
-                <span th:each="travel : ${list}" th:object="${travel}">
+                <span th:each="travel : ${list}" th:object="${travel}" th:if="${travel =! null}">
                         <input type="radio" name="radio" th:value="*{travelId}" onclick="showForm(this.value)" checked>
                         <span th:text="${#strings.substring(travel.startDate, 0, 4)}"></span><span>년</span>
                         <span th:text="${#strings.substring(travel.startDate, 5, 7)}"></span><span>월</span>
@@ -94,6 +94,10 @@
                     <p>춘천 닭갈비 <a href="">삭제</a></p>
                     </p>
                 </form>
+                <div th:if="${travel == null}" class="ml-4">
+                    <h3>담은 여행 계획이 없습니다
+                        <a th:href="@{/main}">여행 계획 만들러 가기</a></h3>
+                </div>
             </div>
         </div>
         <script>

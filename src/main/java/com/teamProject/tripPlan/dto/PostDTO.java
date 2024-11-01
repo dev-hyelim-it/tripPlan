@@ -28,6 +28,8 @@ public class PostDTO {
 
 //    private List<Keyword> keywords = new ArrayList<>();
     private Keyword keyword;
+    private LocalDateTime insertedDate;
+    private LocalDateTime updatedDate;
 //    private String accommodation; // 이용한 숙소
 //    private String restaurant; // 이용한 식당
 //    private String attractions; // 관광지
@@ -42,8 +44,9 @@ public class PostDTO {
                 post.getUsers(),
                 post.getComments().stream().map(CommentDTO::fromEntity).toList(),
                 post.getTravel(),
-
-                post.getKeyword() // Keyword 객체 리스트를 그대로 사용
+                post.getKeyword(), // Keyword 객체 리스트를 그대로 사용
+                post.getInsertedDate(),
+                post.getUpdatedDate()
 //                post.getTravel() != null ? post.getTravel().getAccommodation() : null,
 //                post.getTravel() != null ? post.getTravel().getRestaurant() : null,
 //                post.getTravel() != null ? post.getTravel().getAttractions() : null
