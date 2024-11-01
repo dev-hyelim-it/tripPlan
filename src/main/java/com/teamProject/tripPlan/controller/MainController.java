@@ -48,7 +48,7 @@ public class MainController {
     MyListService myListService;
 
     private final KakaoKeywordSearchService keywordSearchService;
-    private final MyListService myListService;
+//    private final MyListService myListService;
     private final TravelRepository travelRepository;
 
     @Autowired
