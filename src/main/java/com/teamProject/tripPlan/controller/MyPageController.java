@@ -1,6 +1,7 @@
 package com.teamProject.tripPlan.controller;
 
 import com.teamProject.tripPlan.dto.UsersDTO;
+import com.teamProject.tripPlan.entity.Place;
 import com.teamProject.tripPlan.entity.Travel;
 import com.teamProject.tripPlan.service.MyPageService;
 import jakarta.servlet.http.HttpSession;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -23,18 +25,31 @@ public class MyPageController {
                              @PathVariable("userId") String userId) {
         Long id = myPageService.findUserId(userId);
         UsersDTO user = myPageService.findLoginUser(id);
+
         List<Travel> travels = myPageService.findUserList(id);
+        if (travels.isEmpty()) {
+            model.addAttribute("place", new ArrayList<>());
+        } else {
+            List<Place> places = myPageService.findPlace(travels.get(0).getTravelId());
+            model.addAttribute("place", places);
+        }
         model.addAttribute("dto", user);
         model.addAttribute("list", travels);
         return "/myPage/myPageMain";
     }
 
-    // 유저의 여행 리스트 (수정 예정)
+    // 유저의 여행 리스트
     @GetMapping("/list/{userId}")
     public String myTravelList(Model model, @PathVariable("userId") String userId) {
         Long id = myPageService.findUserId(userId);
         List<Travel> travels = myPageService.findUserList(id);
         model.addAttribute("list", travels);
+        if (travels.isEmpty()) {
+            model.addAttribute("place", new ArrayList<>());
+        } else {
+            List<Place> places = myPageService.findPlace(travels.get(0).getTravelId());
+            model.addAttribute("place", places);
+        }
         return "/myPage/myTravelList";
     }
 

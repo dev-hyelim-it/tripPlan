@@ -57,7 +57,7 @@
             <!-- 내 정보 수정 부분 -->
             <div class="ml-4">
                 <h3>여행 계획 중 하나 선택</h3>
-                <span th:each="travel : ${list}" th:object="${travel}" th:if="${travel =! null}">
+                <span th:each="travel : ${list}" th:object="${travel}">
                         <input type="radio" name="radio" th:value="*{travelId}" onclick="showForm(this.value)" checked>
                         <span th:text="*{travelId}">번</span>
 <!--                        <span th:text="${#strings.substring(travel.startDate, 0, 4)}"></span><span>년</span>-->
@@ -86,13 +86,13 @@
 <!--                        <span th:text="${#strings.substring(travel.endDate, 8, 10)}"></span><span>일</span>-->
 <!--                    </p>-->
                     <p>장소 : </p>
-                    <p th:each="place : ${list.places}">
-                    <p th:text="*{placeAddress}">남이섬 <a href="">삭제</a></p>
-                    <p th:text="*{placeName}">춘천 닭갈비 <a href="">삭제</a></p></p>
+                    <div th:each="places : ${place}" th:object="${places}">
+                    <p th:text="${places.placeName}">남이섬 <a href="">삭제</a></p>
+                    <p th:text="${places.addressName}">춘천 닭갈비 <a href="">삭제</a></p>
+                    </div>
                 </form>
-                <div th:if="${travel == null}" class="ml-4">
-                    <h3>담은 여행 계획이 없습니다
-                        <a th:href="@{/main}">여행 계획 만들러 가기</a></h3>
+                <div class="ml-4">
+                    <h3><a th:href="@{/main}">여행 계획 만들러 가기</a></h3>
                 </div>
             </div>
         </div>

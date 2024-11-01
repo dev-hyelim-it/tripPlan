@@ -79,4 +79,9 @@ public class MyPageService {
         place.forEach(p -> p.setTravel(travel));
         placeRepository.saveAll(place);
     }
+
+    public List<Place> findPlace(Long travelId) {
+        List<Place> places = myPageDAO.findPlace(travelId);
+        return places;
+    }
 }

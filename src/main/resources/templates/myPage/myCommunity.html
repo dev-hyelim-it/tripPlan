@@ -55,14 +55,13 @@
                 <h3>커뮤니티에 게시한 글 목록
                     <a th:href="@{/community}">커뮤니티로 이동</a></h3>
                 <hr>
-                <div th:each="post : ${dto.posts}" th:object="${post}" th:if="${post != null}">
+                <div th:each="post : ${dto.posts}" th:object="${post}">
                     <label th:text="*{insertedDate}"> 2024 / 10 /23 </label>
                     <span><a th:href="@{/community/{id}(id=*{postId})}" th:text="*{postTitle}">부산여행기</a></span>
                 </div>
             </div>
-            <div th:if="${post == null}" class="ml-4">
-                <h3>작성한 글이 없습니다
-                    <a th:href="@{/community/new}">글 작성하러 가기</a></h3>
+            <div class="ml-4">
+                <h3><a th:href="@{/community/new}">글 작성하러 가기</a></h3>
             </div>
         </div>
     </div>
