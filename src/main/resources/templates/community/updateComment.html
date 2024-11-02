@@ -5,30 +5,58 @@
 <head>
     <meta charset="UTF-8">
     <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{/css/showPost.css}">
+        <link rel="stylesheet" th:href="@{/css/style.css}">
     </th:block>
 </head>
 <body>
 <div layout:fragment="content" class="content">
-    <h1 th:text="${dto.postTitle}"></h1>
-    <p th:text="${dto.users.userNickname}"></p>
+    <h1 class="sp_h1" th:text="${dto.postTitle}"></h1>
+    <p class="sp_p" th:text="${dto.users.userNickname}"></p>
     <div th:text="${dto.postContent}"></div>
-    <a href="/community">목록</a>
+    <a href="/community" class="sp_btn sp_btn_secondary">목록</a>
 
     <form th:object="${comment}"
           th:action="@{/community/{postId}/comments/{commentId}(postId=${postId}, commentId=*{commentId})}"
-          method="post" id="form" class="np-form">
+          method="post" id="form" class="sp_form">
         <div class="m-2">
-            <label class="form-label">닉네임</label>
-            <input type="text" class="form-control" name="commentNickname" th:field="*{commentNickname}" disabled>
+            <label class="sp_form_label">닉네임</label>
+            <input type="text" class="form_control" name="commentNickname" th:field="*{commentNickname}" disabled>
         </div>
         <div class="m-2">
-            <label class="form-label">댓글 내용</label>
-            <textarea class="form-control" rows="3" name="commentContent" th:field="*{commentContent}"></textarea>
+            <label class="sp_form_label">댓글 내용</label>
+            <textarea class="form_control" id="uc_body" rows="3" name="commentContent" th:field="*{commentContent}"></textarea>
         </div>
-        <input type="reset" value="취소">
-        <input type="submit" value="수정">
+        <input type="reset" value="취소" class="sp_btn sp_btn_secondary" id="sp_btn_reset">
+        <input type="submit" value="확인" class="sp_btn sp_btn_primary" id="sp_btn_submit">
+        <input type="hidden" th:value="${dto.postId}">
     </form>
+    <script src="/js/jQuery.js"></script>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+          console.log("JavaScript loaded successfully");
+
+          // 댓글 취소 버튼 클릭 시 동작
+          $(document).on("click", "#sp_btn_reset", function () {
+            let postId = $(this).next().next().val();
+            location.href = '/community/'+postId;
+          });
+
+          // 등록 버튼 클릭 시 동작
+          $("#sp_btn_submit").on("click", function (event) {
+            event.preventDefault();
+
+            // 내용이 비어있는지 확인
+            if ($("#uc_body").val() == "") {
+              alert("내용을 입력하세요.");
+              $("#uc_body").focus();
+              return;
+            }
+
+            // 폼 제출
+            $("form").submit();
+          });
+        });
+    </script>
 </div>
 </body>
 </html>

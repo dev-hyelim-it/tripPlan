@@ -24,9 +24,13 @@
     <div th:text="${dto.postContent}"></div>
 
     <a th:if="${dto.users.userId} == ${currentUserId}" th:href="@{/community/{id}/update(id=${dto.postId})}" class="btn btn-primary">수정</a>
-    <a th:if="${dto.users.userId} == ${currentUserId}" th:href="@{/community/{id}/delete(id=${dto.postId})}" class="btn btn-danger" id="confirm-delete-btn" onclick="return confirmDeletePost();">
-        삭제하기
-    </a>
+    <a th:if="${dto.users.userId} == ${currentUserId}" class="btn btn-danger" id="post-delete-btn">삭제하기</a>
+    <input type="hidden" th:value="${dto.postId}">
+    <div id="delete-confirm-modal-post" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid #ccc; background-color: #fff; padding: 20px; z-index: 1000;">
+        <p>글을 삭제하시겠습니까?</p>
+        <button id="confirm-delete-post-btn">삭제</button>
+        <button id="cancel-delete-post-btn">취소</button>
+    </div>
     <br><br>
 
     <!-- 댓글 표시 -->
@@ -37,8 +41,14 @@
         <div class="card-body">
             <p class="card-text" th:text="${comment.commentContent}">댓글 내용</p>
             <a th:if="*{commentNickname} == ${currentUserId}" class="btn btn-sm btn-outline-primary" id="comment-update-btn">수정</a>
-            <a th:if="*{commentNickname} == ${currentUserId}" class="btn btn-sm btn-outline-danger" id="comment-delete-btn">삭제</a>
+            <a th:if="*{commentNickname} == ${currentUserId}" class="btn btn-sm btn-outline-danger" id="post-comment-delete-btn">삭제</a>
             <input type="hidden" th:value="*{commentId}">
+        </div>
+        <!-- 댓글 삭제 확인 모달 창 -->
+        <div id="delete-confirm-modal-post-comment" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid #ccc; background-color: #fff; padding: 20px; z-index: 1000;">
+            <p>댓글을 삭제하시겠습니까?</p>
+            <button id="confirm-delete-post-comment-btn">삭제</button>
+            <button id="cancel-delete-post-comment-btn">취소</button>
         </div>
     </div>
 
@@ -55,41 +65,67 @@
         <button type="submit" class="btn btn-primary">댓글 작성</button>
     </form>
 
-    <script src="/js/jQuery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script th:inline="javascript">
-        function confirmDeletePost() {
-            if (confirm("정말 삭제하시겠습니까?")) {
-                const postId = '${dto.postId}';
-                const url = '/community/' + postId + '/delete';
-
-                fetch(url, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '${_csrf.token}' // CSRF 토큰 추가
-                    }
-                }).then(response => {
-                    if (response.ok) {
-                        location.href = '/community';
-                    }
-                }).catch(error => {
-                    // 여기서는 아무런 알림도 표시하지 않음
-                });
-            }
-        }
-
         $(document).ready(function() {
+            console.log("JavaScript loaded successfully");
+
+            let postId;  // 삭제할 건의글 ID를 저장할 변수
+            let commentId;     // 삭제할 댓글 ID를 저장할 변수
+
+            // 글 삭제 버튼 클릭 시 모달 창 표시
+            $(document).on("click", "#post-delete-btn", function () {
+                postId = $(this).next().val(); // postId 가져옴
+                $("#delete-confirm-modal-post").show();
+            });
+
+            // 글 모달창에서 삭제 버튼 클릭시 삭제 되도록
+            $(document).on("click", "#confirm-delete-post-btn", function () {
+                if (postId) {
+                  $("#delete-confirm-modal-post").hide();
+                    $.ajax({
+                        url: `/community/${postId}/delete`,
+                        type: 'GET', // 서버가 GET 요청을 처리할 경우
+                        success: function(response) {
+                            if (response === "삭제 성공") {
+                                window.location.href = "/community";
+                            }
+                        },
+                        error: function() {
+                            alert("삭제 실패. 다시 시도해 주세요.");
+                        }
+                    });
+                }
+            });
+
+            // 글 삭제 모달에서 "취소" 버튼 클릭 시
+            $("#cancel-delete-post-btn").on("click", function () {
+                $("#delete-confirm-modal-post").hide(); // 모달 숨김
+            });
+
+            // 댓글 삭제 버튼 클릭 시 모달 창 표시
+            $(document).on("click", "#post-comment-delete-btn", function () {
+                commentId = $(this).next().val(); // commentId를 가져옴
+                $("#delete-confirm-modal-post-comment").show(); // 댓글 삭제 모달 표시
+            });
+
+            // 댓글 삭제 모달에서 "삭제" 버튼 클릭 시
+            $("#confirm-delete-post-comment-btn").on("click", function () {
+                if (commentId) {
+                    location.href = '/community/comments/'+commentId; // 댓글 삭제 경로로 이동
+                }
+                $("#delete-confirm-modal-post-comment").hide(); // 모달 숨김
+            });
+
+            // 댓글 삭제 모달에서 "취소" 버튼 클릭 시
+            $("#cancel-delete-post-comment-btn").on("click", function () {
+                $("#delete-confirm-modal-post-comment").hide(); // 모달 숨김
+            });
 
             // 댓글 수정
             $(document).on("click", "#comment-update-btn", function () {
                 let commentId = $(this).next().next().val();
                 location.href = '/community/comments/view/' + commentId;
-            }),
-
-            // 댓글 삭제
-            $(document).on("click", "#comment-delete-btn", function () {
-                let commentId = $(this).next().val();
-                location.href = '/community/comments/' + commentId;
             }),
 
             // 댓글 작성 기능

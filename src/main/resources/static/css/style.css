@@ -124,28 +124,28 @@
 
 
 .form-row {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            margin-bottom: 15px;
-        }
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        margin-bottom: 15px;
+    }
 
-        .my-button {
-            flex: 1;
-            min-width: 80px; /* 키워드 버튼 크기 줄임 */
-        }
+    .my-button {
+        flex: 1;
+        min-width: 80px; /* 키워드 버튼 크기 줄임 */
+    }
 
-        .keyword-row, .area-row {
-            display: flex;
-            flex-wrap: wrap; /* 자동 줄바꿈 */
-            gap: 10px; /* 버튼 간 간격 */
-            margin-bottom: 10px;
-        }
+    .keyword-row, .area-row {
+        display: flex;
+        flex-wrap: wrap; /* 자동 줄바꿈 */
+        gap: 10px; /* 버튼 간 간격 */
+        margin-bottom: 10px;
+    }
 
-        .keyword-button, .area-button {
-            flex: 1 1 calc(20% - 10px); /* 5열 배치로 조정 */
-            min-width: 80px; /* 크기 조정 */
-        }
+    .keyword-button, .area-button {
+        flex: 1 1 calc(20% - 10px); /* 5열 배치로 조정 */
+        min-width: 80px; /* 크기 조정 */
+    }
 
 .map_search_box {
 margin-bottom: 15px;
@@ -290,51 +290,6 @@ height:30px;
     font-size: 16px; /* 버튼 글자 크기 */
 }
 
-/* showSuggestion.html */
-.suggestion_content_container{
-    margin: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-}
-
-.suggestion_title{
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    gap: 10px; /* 제목과 버튼 사이 간격 */
-}
-
-. show_suggestion_btns{
-    font-size: 14px; /* 버튼 글자 크기 줄이기 */
-    padding: 4px 8px; /* 버튼 크기 조절 */
-    margin-left: 10px;
-}
-
-.show_suggestion_comment_btns a {
-    display: inline-block;
-    padding: 8px 16px; /* 버튼 크기 조절 */
-    font-size: 14px; /* 글자 크기 조절 */
-    color: white; /* 버튼 글자 색상 */
-    background-color: #007bff; /* 버튼 배경 색상 (파란색) */
-    border-radius: 4px; /* 버튼 모서리 둥글게 */
-    text-decoration: none; /* 링크 밑줄 제거 */
-    margin-right: 8px; /* 버튼 간 간격 */
-    text-align: center;
-}
-
-.show_suggestion_comment_btns a:hover {
-    background-color: #0056b3; /* 호버 시 버튼 색상 변경 */
-}
-
-.show_suggestion_comment_delete_btn {
-    background-color: #dc3545; /* 삭제 버튼의 배경 색상 (빨간색) */
-}
-
-.show_suggestion_comment_delete_btn:hover {
-    background-color: #c82333; /* 삭제 버튼 호버 시 색상 */
-}
-
 /* newSuggestion */
 .suggestion_new_form{
     max-width: 600px;
@@ -418,53 +373,426 @@ input:disabled {
     color: #777;
 }
 
-/*  */
-.form_update_suggestion{
-
+/* showSuggestion */
+.show_suggestion_all {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
 }
 
-.update_suggestion {
-
+/* Title and header styling */
+.suggestion_content_container {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .suggestion_title {
-
+    font-size: 24px;
+    font-weight: bold;
+    color: #222;
 }
 
-.suggestion_writer{
-
+.show_suggestion_btns {
+    display: flex;
+    justify-content: flex-end;
 }
 
-.suggestion_content{
-
+.show_suggestion_btns a {
+    margin-left: 10px;
+    color: #0073e6;
+    text-decoration: none;
+    font-weight: bold;
 }
 
-.update_suggestion_comment{
-
+.show_suggestion_btns a:hover {
+    text-decoration: underline;
 }
 
-.suggestion_content_before{
-
+/* Post content styling */
+.suggestion_content {
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 16px;
+    color: #333;
+    background-color: #f7f7f7;
+    border-radius: 4px;
+    border: 1px solid #ddd;
 }
 
-.update_suggestion_comment_form{
-
+/* Comment section styling */
+.suggestion_contents {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
 }
 
-.suggestion_comment_all{
-
+.show_suggestion_content_btns {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
 }
 
-.suggestion_comment_nickname{
-
+.show_suggestion_content_btns .username {
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
 }
 
-.suggestion_comment_content{
-
+.show_suggestion_comment_btns a {
+    color: #0073e6;
+    margin-left: 5px;
+    font-size: 13px;
 }
 
-.update_suggestion_comment_buttons{
+.show_suggestion_comment_btns a:hover {
+    text-decoration: underline;
+}
 
+.show_suggestion_comment_writer{
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    margin-right: auto; /* Ensures it stays to the left */
+}
+
+.card-body {
+    padding: 10px 0;
+}
+
+.card-text {
+    font-size: 14px;
+    color: #444;
+}
+
+/* Reaction and interaction icons */
+.reaction-icons {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    color: #888;
+}
+
+.reaction-icons .icon {
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.reaction-icons .icon:hover {
+    color: #0073e6;
+}
+
+/* Comment input area styling */
+.new_suggestion_comment_nickname,
+.new_suggestion_comment_content {
+    margin-top: 15px;
+}
+
+.new_suggestion_comment_content label {
+    font-weight: bold;
+}
+
+.new_suggestion_comment_content textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+#suggestion-comment-create-btn {
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#suggestion-comment-create-btn:hover {
+    background-color: #45a049;
+}
+
+/* Modal styling for delete confirmation */
+#delete-confirm-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#delete-confirm-modal p {
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+#delete-confirm-modal button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#confirm-delete-btn {
+    background-color: #f44336;
+    color: #fff;
+}
+
+#cancel-delete-btn {
+    background-color: #ddd;
+    color: #333;
+    margin-left: 5px;
+}
+
+#confirm-delete-btn:hover {
+    background-color: #e53935;
+}
+
+#cancel-delete-btn:hover {
+    background-color: #ccc;
+}
+
+/* updateSuggestion */
+.update_suggestion_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.form_update_suggestion {
+    width: 400px;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Title, writer, and content styling */
+.suggestion_title, .suggestion_writer, .suggestion_content {
+    margin-bottom: 20px;
+}
+
+.suggestion_title label,
+.suggestion_writer label,
+.suggestion_content label {
+    display: block;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.suggestion_title input[type="text"],
+.suggestion_writer input[type="text"],
+.suggestion_content textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Disabled input field styling for writer */
+.suggestion_writer input[type="text"]:disabled {
+    background-color: #f0f0f0;
+    color: #777;
+}
+
+/* Button styling */
+.update_sug_btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.update_sug_reset, .update_sug_submit {
+    width: 48%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.update_sug_reset {
+    background-color: #f44336;
+    color: white;
+}
+
+.update_sug_submit {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.update_sug_reset:hover {
+    background-color: #e53935;
+}
+
+.update_sug_submit:hover {
+    background-color: #43a047;
+}
+
+/* Link to suggestion box */
+.update_suggestion_container a {
+    display: inline-block;
+    margin-top: 15px;
+    color: #0073e6;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.update_suggestion_container a:hover {
+    text-decoration: underline;
+}
+
+/* updateSuggestionComment */
+/* General container styling */
+.update_suggestion_comment {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+/* Title styling */
+.update_suggestion_comment h1 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Username and content display */
+.update_suggestion_comment p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.suggestion_content_before {
+    margin-bottom: 20px;
+}
+
+.suggestion_content_before input {
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #555;
+    box-sizing: border-box;
+}
+
+/* Link to suggestion box */
+.update_suggestion_comment a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #0073e6;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.update_suggestion_comment a:hover {
+    text-decoration: underline;
+}
+
+/* Form styling */
+.update_suggestion_comment_form {
+    margin-top: 20px;
+}
+
+.suggestion_comment_all {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Label styling */
+.suggestion_comment_nickname label,
+.suggestion_comment_content label {
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}
+
+/* Input and textarea styling */
+.suggestion_comment_nickname input[type="text"],
+.suggestion_comment_content textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #555;
+    box-sizing: border-box;
 }
 
 
+/* textarea {
+    resize: vertical;
+} */
+
+/* Buttons styling */
+.update_suggestion_comment_buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.update_suggestion_comment_buttons input[type="reset"],
+.update_suggestion_comment_buttons input[type="submit"] {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 48%;
+    box-sizing: border-box;
+}
+
+/* Specific button colors */
+.update_suggestion_comment_buttons input[type="reset"] {
+    background-color: #f44336;
+    color: #fff;
+}
+
+.update_suggestion_comment_buttons input[type="submit"] {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+.update_suggestion_comment_buttons input[type="reset"]:hover {
+    background-color: #e53935;
+}
+
+.update_suggestion_comment_buttons input[type="submit"]:hover {
+    background-color: #43a047;
+}
