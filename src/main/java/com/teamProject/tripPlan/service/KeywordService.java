@@ -19,7 +19,7 @@ public class KeywordService {
     KeywordDAO dao;
 
     @Autowired
-    private KeywordRepository keywordRepository;
+    KeywordRepository keywordRepository;
 
     public List<Keyword> findAllKeywords() {
         return keywordRepository.findAll(); // 모든 키워드 반환

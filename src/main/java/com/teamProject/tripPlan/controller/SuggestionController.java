@@ -54,7 +54,7 @@ public class SuggestionController {
         Users users = queryService.findOneUser(principal.getName());
         List<SuggestionDTO> suggestionDTOS = suggestionService.findAllSuggestion();
 //        List<Suggestion> suggestions = suggestionService.findAllSuggestion().stream().map(x->SuggestionDTO.fromDTO(x)).toList();
-//        model.addAttribute("myNickname", users.getUserNickname());
+        model.addAttribute("myNickname", users.getUserNickname());
         return "suggestion/newSuggestion";
     }
 
@@ -68,9 +68,11 @@ public class SuggestionController {
     }
 
     @GetMapping("{id}")
-    public String showOneSuggestion(@PathVariable("id") Long id, Model model) {
+    public String showOneSuggestion(@PathVariable("id") Long id, Model model, Principal principal) {
         SuggestionDTO dto = suggestionService.getOneSuggestion(id);
         model.addAttribute("dto", dto);
+        Users users = queryService.findOneUser(principal.getName());
+        model.addAttribute("myNickname", users.getUserNickname());
         return "suggestion/showSuggestion";
     }
 

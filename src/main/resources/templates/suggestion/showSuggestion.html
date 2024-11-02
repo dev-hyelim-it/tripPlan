@@ -6,7 +6,7 @@
 
 <!-- 전체 적용될 css -->
 <th:block layout:fragment="css">
-  <link rel="stylesheet" th:href="@{/css/showPost.css}">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </th:block>
 
 <!-- 전체 적용될 스크립트 -->
@@ -16,35 +16,39 @@
 <body data-suggestion-id="[[${suggestionId}]]">
 <div layout:fragment="content" class="content">
 
-  <form>
-    <h1>[[ ${dto.suggestionTitle} ]]</h1>
-<!--    <p th:text="${dto.users != null ? dto.users.userNickname : '익명'}"></p>-->
-<!--&lt;!&ndash;    userNickname = null인 경우 익명으로 처리 일단....&ndash;&gt;-->
+  <form class="new_suggestion_form">
+    <div class="suggestion_content_container">
+      <h1 class="suggestion_title">[[ ${dto.suggestionTitle} ]]</h1>
+      <div class="show_suggestion_btns">
+        <a th:href="@{/suggestion/{id}/update(id=${dto.suggestionId})}" class="suggestion_content_update_btn" >글 수정</a>
+        <a th:href="@{/suggestion/{id}/delete(id=${dto.suggestionId})}" class="suggestion_content_delete_btn" id="suggestion-delete-btn">글 삭제</a>
+      </div>
 
-
-    <div>
-      <input class="form-control" th:value="${dto.suggestionContent}" disabled>
+      <div class="suggestion_content">
+        <input class="form-control" th:value="${dto.suggestionContent}" disabled>
+      </div>
     </div>
+
   </form>
 
-  <a th:href="@{/suggestion/{id}/update(id=${dto.suggestionId})}" class="btn btn-primary" >수정</a>
-  <a th:href="@{/suggestion/{id}/delete(id=${dto.suggestionId})}" class="btn btn-danger" id="suggestion-delete-btn">삭제</a>
   <a href="/suggestion/box">건의함으로</a>
   <br><br>
 
-  <div class="card m-2" th:each="comment : ${dto.comments}" th:object="${comment}">
-    <div class="card-header">
+  <!-- 댓글 부분 -->
+  <div class="suggestion_contents" th:each="comment : ${dto.comments}" th:object="${comment}">
+    <div class="show_suggestion_content_btns">
       <span th:text="*{commentNickname}">Featured</span>
-      <a class="btn btn-sm btn-outline-primary" id="suggestion-comment-update-btn">수정</a>
-      <a class="btn btn-sm btn-outline-primary" id="suggestion-comment-delete-btn">삭제</a>
-      <input type="hidden" th:value="*{commentId}">
+      <div class="show_suggestion_comment_btns">
+        <a class="show_suggestion_comment_update_btn" id="suggestion-comment-update-btn">수정</a>
+        <a class="show_suggestion_comment_delete_btn" id="suggestion-comment-delete-btn">삭제</a>
+        <input type="hidden" th:value="*{commentId}">
+      </div>
       <!-- 삭제 확인 모달 창 -->
       <div id="delete-confirm-modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid #ccc; background-color: #fff; padding: 20px; z-index: 1000;">
         <p>댓글을 삭제하시겠습니까?</p>
         <button id="confirm-delete-btn">삭제</button>
         <button id="cancel-delete-btn">취소</button>
       </div>
-
     </div>
     <div class="card-body">
       <p class="card-text" th:text="*{commentContent}"></p>
@@ -53,12 +57,12 @@
 
   <form th:action="@{/suggestion/{id}/comments(id=${dto.suggestionId})}" method="post">
     <!-- 닉네임 입력-->
-    <div class="m-2">
+    <div class="new_suggestion_comment_nickname">
       <label class="form-label">닉네임</label>
-      <input type="text" th:value="${myNickname}" class="form-control" id="new-suggestion-comment-nickname" name="commentNickname" disabled>
+      <input type="text" th:value="${myNickname}" disabled>
     </div>
     <!-- 댓글 본문 입력-->
-    <div class="m-2">
+    <div class="new_suggestion_comment_content">
       <label class="form-label">댓글 내용</label>
       <textarea class="form-control" rows="3" id="new-suggestion-comment-body" name="commentContent"></textarea>
     </div>
