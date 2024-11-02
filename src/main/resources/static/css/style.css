@@ -236,3 +236,235 @@ z-index: 10;
 display: none;
 height:30px;
 }
+
+/* 건의함 */
+.suggestion_box_form{
+
+}
+
+.suggestion_title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.suggestion_box_container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.suggestion_box_table{
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.suggestion_box_table th, .suggestion_box_table td {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.suggestion_box_table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+.suggestion_box{
+    padding: 20px;
+
+}
+
+.suggestion_box_buttons {
+    display: flex;
+    gap: 10px; /* 버튼 간 간격 조절 */
+    justify-content: center; /* 중앙 정렬 (필요한 경우) */
+    margin-top: 20px; /* 상단 여백 조절 (선택 사항) */
+}
+
+.sug_btn_write_new_suggestion,
+.sug_btn_to_main {
+    padding: 10px 20px;
+    font-size: 16px; /* 버튼 글자 크기 */
+}
+
+/* showSuggestion.html */
+.suggestion_content_container{
+    margin: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.suggestion_title{
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 제목과 버튼 사이 간격 */
+}
+
+. show_suggestion_btns{
+    font-size: 14px; /* 버튼 글자 크기 줄이기 */
+    padding: 4px 8px; /* 버튼 크기 조절 */
+    margin-left: 10px;
+}
+
+.show_suggestion_comment_btns a {
+    display: inline-block;
+    padding: 8px 16px; /* 버튼 크기 조절 */
+    font-size: 14px; /* 글자 크기 조절 */
+    color: white; /* 버튼 글자 색상 */
+    background-color: #007bff; /* 버튼 배경 색상 (파란색) */
+    border-radius: 4px; /* 버튼 모서리 둥글게 */
+    text-decoration: none; /* 링크 밑줄 제거 */
+    margin-right: 8px; /* 버튼 간 간격 */
+    text-align: center;
+}
+
+.show_suggestion_comment_btns a:hover {
+    background-color: #0056b3; /* 호버 시 버튼 색상 변경 */
+}
+
+.show_suggestion_comment_delete_btn {
+    background-color: #dc3545; /* 삭제 버튼의 배경 색상 (빨간색) */
+}
+
+.show_suggestion_comment_delete_btn:hover {
+    background-color: #c82333; /* 삭제 버튼 호버 시 색상 */
+}
+
+/* newSuggestion */
+.suggestion_new_form{
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.suggestion_new_form{
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.suggestion_new_form input[type="text"],
+.suggestion_new_form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 15px;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.suggestion_new_form textarea {
+    resize: none;
+}
+
+.sug_btn_newSuggestion {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sug_btn_newSuggestion input[type="reset"],
+.sug_btn_newSuggestion input[type="submit"] {
+    width: 48%;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#sug_reset {
+    background-color: #f44336;
+    color: white;
+}
+
+#sug_new_okay {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Link styling */
+.suggestion_new-form a {
+    display: inline-block;
+    margin-top: 15px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Placeholder styling */
+input[type="text"]::placeholder,
+textarea::placeholder {
+    color: #bbb;
+}
+
+/* Additional UI improvements */
+.suggestion_new-form {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+input:disabled {
+    background-color: #eee;
+    color: #777;
+}
+
+/*  */
+.form_update_suggestion{
+
+}
+
+.update_suggestion {
+
+}
+
+.suggestion_title {
+
+}
+
+.suggestion_writer{
+
+}
+
+.suggestion_content{
+
+}
+
+.update_suggestion_comment{
+
+}
+
+.suggestion_content_before{
+
+}
+
+.update_suggestion_comment_form{
+
+}
+
+.suggestion_comment_all{
+
+}
+
+.suggestion_comment_nickname{
+
+}
+
+.suggestion_comment_content{
+
+}
+
+.update_suggestion_comment_buttons{
+
+}
+
+

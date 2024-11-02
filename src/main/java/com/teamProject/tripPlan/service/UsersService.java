@@ -28,9 +28,9 @@ public class UsersService {
 
     private final SuggestionDAO suggestionDAO;
 
-    public Long insertPost(Long userNo, PostDTO dto) {
+    public void insertPost(Long userNo, PostDTO dto) {
         postDAO.insertPost(userNo, PostDTO.fromDTO(dto));
-        return userNo;
+//        return userNo;
     }
 
     public void deleteUser(Long userNo) {

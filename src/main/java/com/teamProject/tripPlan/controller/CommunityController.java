@@ -81,7 +81,6 @@ public class CommunityController {
         postDTO.setKeyword(null); // 초기화
         model.addAttribute("dto", postDTO);
 
-
         List<MyList> myLists = myPageService.findAllMyLists();
         model.addAttribute("travelLists", myLists);
 
@@ -103,14 +102,15 @@ public class CommunityController {
             return "redirect:/error";
         }
 
-        Users users = new Users();
-        users.setUserNo(usersDTO.getUserNo());
-        users.setUserId(usersDTO.getUserId());
-        users.setUserNickname(usersDTO.getUserNickname());
-        session.setAttribute("userNickname", usersDTO.getUserNickname());
-        dto.setUsers(users);
+//        Users users = new Users();
+//        users.setUserNo(usersDTO.getUserNo());
+//        users.setUserId(usersDTO.getUserId());
+//        users.setUserNickname(usersDTO.getUserNickname());
+//        session.setAttribute("userNickname", usersDTO.getUserNickname());
+//        dto.setUsers(users);
 //        dto.setPostDate(LocalDateTime.now());
-        Long postId = usersService.insertPost(users.getUserNo(), dto);
+        usersService.insertPost(usersDTO.getUserNo(), dto);
+//        Long postId = usersService.insertPost(users.getUserNo(), dto);
         return "redirect:/community";
     }
 
