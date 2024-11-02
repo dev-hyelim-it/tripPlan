@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class JoinController {
     //
     // 회원가입 처리
     @PostMapping("/joinProc")
-    public String joinProcess(UsersDTO usersDTO, Model model) {
+    public String joinProcess(UsersDTO usersDTO, Model model, RedirectAttributes redirectAttributes) {
         String idPattern = "^[0-9a-zA-Z]{4,10}$";
         String nicknamePattern = "^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]{2,8}$";
 
@@ -55,28 +56,14 @@ public class JoinController {
             return "member/join";
         }
 
-        joinService.joinProcess(usersDTO);
-        return "redirect:/login";
+        boolean joinSuccess = joinService.joinProcess(usersDTO);
+        if (joinSuccess) {
+            redirectAttributes.addFlashAttribute("joinSuccess", "회원가입이 완료되었습니다.");
+            return "redirect:/login";
+        } else {
+            model.addAttribute("error", "회원가입 처리 중 오류가 발생했습니다. 다시 시도해 주세요.");
+            model.addAttribute("dto", usersDTO);
+            return "member/join";
+        }
     }
-
-    //// 중복확인 체크박스
-//    @PostMapping("/checkDuplicate")
-//    @ResponseBody
-//    public ResponseEntity<Map<String, Object>> checkDuplicate(
-//            @RequestParam(required = false) String userId,
-//            @RequestParam(required = false) String userEmail,
-//            @RequestParam(required = false) String userNickname) {
-//        Map<String, Object> response = new HashMap<>();
-//        if (userId != null) {
-//            response.put("isDuplicate", joinService.isUserIdDuplicate(userId));
-//            response.put("field", "userId");
-//        } else if (userEmail != null) {
-//            response.put("isDuplicate", joinService.isUserEmailDuplicate(userEmail));
-//            response.put("field", "userEmail");
-//        } else if (userNickname != null) {
-//            response.put("isDuplicate", joinService.isNicknameDuplicate(userNickname));
-//            response.put("field", "userNickname");
-//        }
-//        return ResponseEntity.ok(response);
-//    }
 }

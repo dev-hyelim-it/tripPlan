@@ -39,6 +39,8 @@
         <!--회원가입 취소, 아무것도 없이 로그인 페이지로 돌아감-->
         <input type="button" onclick="location.href='/login'" value="취소"/>
     </form>
+    <div th:if="${joinSuccess}" style="color: green;" th:text="${joinSuccess}"></div>
+    <div th:if="${error}" style="color: red;" th:text="${error}"></div>
 
 <script>
     $(document).ready(function() {
