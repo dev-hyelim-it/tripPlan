@@ -9,42 +9,31 @@
         <link rel="stylesheet" th:href="@{/css/style.css}">
     </th:block>
     <th:block layout:fragment="script"></th:block>
-    <style>
-        /*
-        .keyword-row {
-            display: flex;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        .keyword-row div {
-            margin-right: 15px;
-            margin-bottom: 10px;
-        }
-        .keyword-row input[type="checkbox"] {
-            margin-right: 5px;
-        }
-        */
-    </style>
 
     <script>
         function filterPostsBySelectedKeyword() {
-    const selectedKeywordId = document.getElementById('keywordSelect').value;
+            const selectedKeywordId = document.getElementById('keywordSelect').value;
 
-    fetch(`/community/filter?keywords=${selectedKeywordId ? selectedKeywordId : ''}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        })
-        .then(html => {
-            // .com_table tbody를 선택하여 innerHTML 설정
-            document.querySelector('.table tbody').innerHTML = html;
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-        });
-}
+            fetch(`/community/filter?keywords=${selectedKeywordId ? selectedKeywordId : ''}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    // .com_table tbody를 선택하여 innerHTML 설정
+                    const tbody = document.querySelector('.com_table_body');
+                    if (tbody) {
+                        tbody.innerHTML = html; // tbody가 null이 아닌지 확인 후 설정
+                    } else {
+                        console.error('No tbody found to update');
+                    }
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
     </script>
 </head>
 <body>
@@ -73,21 +62,21 @@
         <tbody th:fragment="postList" class="com_table_body">
 
         <tr th:each="post : ${posts}">
-                <th th:text="${post.postId}"></th>
-                <td>
-                    <a th:href="@{/community/{id}(id=${post.postId})}" th:text="${post.postTitle}"></a>
-                </td>
-                <td th:if="${post.users != null}" th:text="${post.users.userNickname}">작성자 없음</td>
-                <td th:if="${post.users == null}">작성자 없음</td>
-                <td th:text="${post.insertedDate != null ? #temporals.format(post.insertedDate, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
-                <td th:text="${post.likes}"></td>
-                <td>
-                    <span th:text="${post.keyword.keyword}"></span>
-                </td>
+            <th th:text="${post.postId}"></th>
+            <td>
+                <a th:href="@{/community/{id}(id=${post.postId})}" th:text="${post.postTitle}"></a>
+            </td>
+            <td th:if="${post.users != null}" th:text="${post.users.userNickname}">작성자 없음</td>
+            <td th:if="${post.users == null}">작성자 없음</td>
+            <td th:text="${post.insertedDate != null ? #temporals.format(post.insertedDate, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
+            <td th:text="${post.likes}"></td>
+            <td>
+                <span th:text="${post.keyword.keyword}"></span>
+            </td>
         </tr>
-
         </tbody>
     </table>
+
     <form action="/community/new" method="get">
         <button type="submit" class="btn btn-primary">글쓰기</button>
     </form>

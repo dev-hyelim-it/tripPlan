@@ -1,6 +1,7 @@
 package com.teamProject.tripPlan.controller;
 
 import com.teamProject.tripPlan.dto.CommentDTO;
+import com.teamProject.tripPlan.dto.PlaceDTO;
 import com.teamProject.tripPlan.dto.PostDTO;
 import com.teamProject.tripPlan.dto.UsersDTO;
 import com.teamProject.tripPlan.entity.*;
@@ -44,6 +45,9 @@ public class CommunityController {
     @Autowired
     MyPageService myPageService;
 
+    @Autowired
+    TravelService travelService;
+  
     private static final ThreadLocal<Boolean> deleteInProgress = ThreadLocal.withInitial(() -> false);
 
     // "localhost:8080:/community" -> community/community.html
@@ -145,6 +149,11 @@ public class CommunityController {
     @GetMapping("{id}")
     public String showOnePost(@PathVariable("id") Long id, Model model, Principal principal) {
         PostDTO dto = postService.getOnePost(id);
+
+        // 장소 DTO 리스트 가져오기
+        List<PlaceDTO> placeDTOs = travelService.getPlaceDTOsByTravelId(dto.getTravel().getTravelId());
+        dto.setPlaces(placeDTOs); // DTO에 장소 리스트 설정
+
         model.addAttribute("dto", dto);
         model.addAttribute("currentUserId", principal.getName()); // 현재 사용자 ID 추가
         List<CommentDTO> commentDTOS = commentService.findAllComment(id);
@@ -182,12 +191,6 @@ public class CommunityController {
         postService.updatePost(dto); // 게시물 업데이트
         return "redirect:/community/"+postId; // 업데이트 후 모든 게시글 보기 페이지로 리다이렉트
     }
-
-//    @PostMapping("update")
-//    public String updateArticle(PostDTO dto) {
-//        postService.updatePost(dto);
-//        return "redirect:/community";
-//    }
 
     ///////////////////////////////////// 댓글 처리 //////////////////////////////////////////
     @PostMapping("{id}/comments")

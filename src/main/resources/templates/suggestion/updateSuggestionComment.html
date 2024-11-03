@@ -13,14 +13,14 @@
 <th:block layout:fragment="script"></th:block>
 <body>
 
-  <div layout:fragment="content" class="update_suggestion_comment">
-    <h1>[[ ${dto.suggestionTitle} ]]</h1>
-    <p th:text="${dto.users != null ? dto.users.userNickname : '익명'}"></p>
-    <!--    userNickname = null인 경우 익명으로 처리 일단....-->
-    <div class="suggestion_content_before">
-      <input class="form-control" th:value="${dto.suggestionContent}" disabled>
-    </div>
-    <a href="/suggestion/box">건의함으로</a>
+<div layout:fragment="content" class="update_suggestion_comment">
+  <h1>[[ ${dto.suggestionTitle} ]]</h1>
+  <p th:text="${dto.users != null ? dto.users.userNickname : '익명'}"></p>
+  <!--    userNickname = null인 경우 익명으로 처리 일단....-->
+  <div class="suggestion_content_before">
+    <input class="form-control" th:value="${dto.suggestionContent}" disabled>
+  </div>
+  <a href="/suggestion/box">건의함으로</a>
 
 
 
@@ -59,6 +59,7 @@
       });
     });
   </script>
-  </div>
-  </body>
-  </html>
+</div>
+</body>
+</html>
+

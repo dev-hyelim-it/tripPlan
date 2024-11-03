@@ -7,12 +7,13 @@
 
     <!-- 전체 적용될 css -->
     <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{/css/showPost.css}">
+        <link rel="stylesheet" th:href="@{/css/style.css}">
     </th:block>
 
     <!-- 전체 적용될 스크립트 -->
     <th:block layout:fragment="script"></th:block>
 </head>
+
 <body>
 <div layout:fragment="content" class="content">
     <h1 th:text="${dto.postTitle}"></h1>
@@ -21,6 +22,12 @@
         <strong>키워드:</strong>
         <span th:each="keyword : ${dto.keyword}" th:text="${keyword.keyword}">키워드</span>
     </p>
+
+    <p>
+        <strong>장소:</strong>
+        <span th:each="place : ${dto.places}" th:text="${place.placeName}">장소 이름</span>
+    </p>
+
     <div th:text="${dto.postContent}"></div>
 
     <a th:if="${dto.users.userId} == ${currentUserId}" th:href="@{/community/{id}/update(id=${dto.postId})}" class="btn btn-primary">수정</a>
@@ -54,10 +61,10 @@
 
     <!-- 댓글 작성 -->
     <form id="comment-form" th:action="@{/community/{id}/comments(id=${dto.postId})}" method="post">
-<!--        <div class="m-2">-->
-<!--            <label class="form-label">닉네임</label>-->
-<!--            <p th:text="${dto.users.userNickname}"></p>-->
-<!--        </div>-->
+        <!--        <div class="m-2">-->
+        <!--            <label class="form-label">닉네임</label>-->
+        <!--            <p th:text="${dto.users.userNickname}"></p>-->
+        <!--        </div>-->
         <div class="m-2">
             <label class="form-label">댓글 내용</label>
             <textarea class="form-control" rows="3" id="new-comment-body" name="commentContent" required></textarea>
