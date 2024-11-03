@@ -60,6 +60,7 @@
         </tr>
         </thead>
         <tbody th:fragment="postList" class="com_table_body">
+
         <tr th:each="post : ${posts}">
             <th th:text="${post.postId}"></th>
             <td>

@@ -127,6 +127,11 @@
             keywordsInput.value = selectedKeywords.join(','); // ID를 콤마로 구분된 문자열로 변환
             event.target.appendChild(keywordsInput);
         }
+
+        // 페이지 로드 시 여행 목록 확인
+        window.onload = function() {
+            validateTravelList();
+        };
     </script>
 </head>
 <body onload="loadKeywords()">
@@ -192,6 +197,7 @@
     <script th:inline="javascript">
         $(document).ready(function () {
             console.log("JavaScript loaded successfully");
+
 
             // 취소 버튼 클릭 시 동작
             $(document).on("click", "#com_reset", function () {
