@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{/css/community.css}">
+        <link rel="stylesheet" th:href="@{/css/style.css}">
     </th:block>
     <th:block layout:fragment="script"></th:block>
 
@@ -53,30 +53,69 @@
 
         // 키워드 선택
         function selectKeyword(keyword) {
-            // 중복 확인 후 선택된 키워드 배열 업데이트
             if (!selectedKeywords.includes(keyword)) {
                 selectedKeywords.push(keyword);
             } else {
                 selectedKeywords = selectedKeywords.filter(k => k !== keyword);
             }
-
-            // 선택된 키워드 표시
             document.getElementById('selectedKeywords').innerText = selectedKeywords.join(', ');
         }
 
+        // 페이지 로드 시 여행 목록 확인
+        window.onload = function() {
+            validateTravelList();
+            setDateLimits();
+        };
+
+        function setDateLimits() {
+            const startDateInput = document.getElementById('startDate');
+            const endDateInput = document.getElementById('endDate');
+
+            startDateInput.addEventListener('change', function() {
+                const startDate = this.value;
+                if (startDate) {
+                    endDateInput.setAttribute('min', startDate);
+                } else {
+                    endDateInput.removeAttribute('min');
+                }
+            });
+        }
+
         function submitForm(event) {
-            // 제목과 내용 입력 확인
             const title = document.querySelector('input[name="postTitle"]').value;
             const content = document.querySelector('textarea[name="postContent"]').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const messages = [];
+            let isValid = true;
 
             if (!title) {
-                alert('글 제목을 입력해 주세요.');
-                event.preventDefault(); // 제출 방지
-                return;
+                messages.push('글 제목을 입력해 주세요.');
+                isValid = false;
             }
 
             if (!content) {
-                alert('글 내용을 입력해 주세요.');
+                messages.push('글 내용을 입력해 주세요.');
+                isValid = false;
+            }
+
+            if (!startDate) {
+                messages.push("떠날 날짜를 선택해주세요.");
+                isValid = false;
+            }
+
+            if (!endDate) {
+                messages.push("도착할 날짜를 선택해주세요.");
+                isValid = false;
+            }
+
+            if (startDate && endDate && startDate > endDate) {
+                messages.push("떠날 날짜는 도착할 날짜보다 이전이어야 합니다.");
+                isValid = false;
+            }
+
+            if (!isValid) {
+                alert(messages.join("\n"));
                 event.preventDefault(); // 제출 방지
                 return;
             }
@@ -94,6 +133,7 @@
             validateTravelList();
         };
     </script>
+</head>
 <body onload="loadKeywords()">
 <div layout:fragment="content" class="content" id="myListContainer">
     <div class="com_left_section">
@@ -157,14 +197,12 @@
         $(document).ready(function () {
             console.log("JavaScript loaded successfully");
 
-            // 댓글 취소 버튼 클릭 시 동작
+            // 취소 버튼 클릭 시 동작
             $(document).on("click", "#com_reset", function () {
                 location.href = '/community';
             });
         });
     </script>
-
-
 </div>
 </body>
 </html>
