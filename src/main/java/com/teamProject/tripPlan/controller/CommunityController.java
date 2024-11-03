@@ -192,12 +192,6 @@ public class CommunityController {
         return "redirect:/community/"+postId; // 업데이트 후 모든 게시글 보기 페이지로 리다이렉트
     }
 
-//    @PostMapping("update")
-//    public String updateArticle(PostDTO dto) {
-//        postService.updatePost(dto);
-//        return "redirect:/community";
-//    }
-
     ///////////////////////////////////// 댓글 처리 //////////////////////////////////////////
     @PostMapping("{id}/comments")
     public String insertComment(CommentDTO dto, @PathVariable("id") Long postId, HttpSession session, Principal principal) {
