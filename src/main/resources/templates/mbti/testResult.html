@@ -1,39 +1,59 @@
 <!DOCTYPE html>
-<html xmlns:th="www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>여행 성향 테스트</title>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </th:block>
+    <th:block layout:fragment="script"></th:block>
 </head>
 <body>
-  <h1>00님의 여행 성향 테스트 결과 페이지</h1>
-  <h2>[[ ${myResult.resultTitle} ]]</h2>
-    <h3>[[ ${myResult.description} ]]</h3>
-    <div>
-        <b>[[ ${myResult.recommendArea1} ]]</b>
-        <ul>
-            <li><b>[[ ${myResult.areaName1} ]]</b></li>
-            <li>[[ ${myResult.areaDescription1} ]]</li>
-        </ul>
-    </div>
-    <div>
-        <b>[[ ${myResult.recommendArea2} ]]</b>
-        <ul>
-            <li><b>[[ ${myResult.areaName2} ]]</b></li>
-            <li>[[ ${myResult.areaDescription2} ]]</li>
-        </ul>
-    </div>
-  <button><a th:href="@{/typeTest}">다시 테스트하기</a></button>
-  <button><a th:href="@{/main}">여행하러 가자~!</a></button>
+<div layout:fragment="content" class="mbti_test_result_container">
+    <form class="mbti_test_result_form">
+        <div class="mbti_result_header">
+            <h1 class="mbti_user_nickname">[[ ${userNickname} ]]님의 여행 성향 테스트 결과 페이지</h1>
+            <h2 class="mbti_result_title">[[ ${myResult.resultTitle} ]]</h2>
+        </div>
 
-  <script>
-      // 세션 스토리지에서 'visitedResultPage' 플래그 확인
-      if (sessionStorage.getItem('visitedResultPage')) {
-          // 플래그가 이미 존재하면 리다이렉트
-          window.location.href = "/typeTest";
-      } else {
-          // 처음 방문 시 플래그 설정
-          sessionStorage.setItem('visitedResultPage', 'true');
-      }
-  </script>
+        <div class="mbti_result_description">
+            <span>[[ ${myResult.description} ]]</span>
+        </div>
+
+        <div class="mbti_recommendation_section">
+            <div class="mbti_recommendation_area">
+                <b class="mbti_area_title">[[ ${myResult.recommendArea1} ]]</b>
+                <ul class="mbti_area_details">
+                    <li><b class="mbti_area_name">[[ ${myResult.areaName1} ]]</b></li>
+                    <li class="mbti_area_description">[[ ${myResult.areaDescription1} ]]</li>
+                </ul>
+            </div>
+            <div class="mbti_recommendation_area">
+                <b class="mbti_area_title">[[ ${myResult.recommendArea2} ]]</b>
+                <ul class="mbti_area_details">
+                    <li><b class="mbti_area_name">[[ ${myResult.areaName2} ]]</b></li>
+                    <li class="mbti_area_description">[[ ${myResult.areaDescription2} ]]</li>
+                </ul>
+            </div>
+        </div>
+        <div class="mbti_test_result_buttons">
+            <button class="mbti_btn_retest"><a th:href="@{/typeTest}">다시 테스트하기</a></button>
+            <button class="mbti_btn_travel"><a th:href="@{/main}">여행하러 가자~!</a></button>
+        </div>
+    </form>
+
+    <script>
+        // 세션 스토리지에서 'visitedResultPage' 플래그 확인
+        if (sessionStorage.getItem('visitedResultPage')) {
+            // 플래그가 이미 존재하면 리다이렉트
+            window.location.href = "/typeTest";
+        } else {
+            // 처음 방문 시 플래그 설정
+            sessionStorage.setItem('visitedResultPage', 'true');
+        }
+    </script>
+</div>
 </body>
 </html>
