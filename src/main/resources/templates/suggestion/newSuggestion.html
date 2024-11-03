@@ -13,7 +13,7 @@
 <th:block layout:fragment="script"></th:block>
 
 <body>
-<div layout:fragment="content" action="/suggestionBox" class="content" id="myListContainer">
+<div layout:fragment="content" action="/suggestionBox" class="new_suggestion_content" id="myListContainer">
 
   <form th:action="@{/suggestion/create}" method="post" class="suggestion_new_form">
       <div class="com_right_section">
@@ -43,6 +43,11 @@
     <script th:inline="javascript">
         $(document).ready(function () {
           console.log("JavaScript loaded successfully");
+
+          // 댓글 취소 버튼 클릭 시 동작
+          $(document).on("click", "#sug_reset", function () {
+            location.href = '/suggestion/box';
+          });
 
           // 등록 버튼 클릭 시 동작
           $("#sug_new_okay").on("click", function (event) {

@@ -37,7 +37,7 @@ public class SuggestionCommentDAO {
 
 
     public void updateComment(SuggestionComment comment) {
-        Comment newComment = em.find(Comment.class, comment.getCommentId());
+        SuggestionComment newComment = em.find(SuggestionComment.class, comment.getCommentId());
         newComment.setCommentContent(comment.getCommentContent());
 //        em.persist(newComment);
     }

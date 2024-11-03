@@ -5,9 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <title>자유게시판</title>
-    <th:block layout:fragment="css"></th:block>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </th:block>
     <th:block layout:fragment="script"></th:block>
     <style>
+        /*
         .keyword-row {
             display: flex;
             flex-wrap: wrap;
@@ -20,6 +23,7 @@
         .keyword-row input[type="checkbox"] {
             margin-right: 5px;
         }
+        */
     </style>
 
     <script>
@@ -34,6 +38,7 @@
             return response.text();
         })
         .then(html => {
+            // .com_table tbody를 선택하여 innerHTML 설정
             document.querySelector('.table tbody').innerHTML = html;
         })
         .catch(error => {
@@ -43,19 +48,19 @@
     </script>
 </head>
 <body>
-<div layout:fragment="content" class="content">
+<div layout:fragment="content" class="com_content">
     <h2 class="com-title">자유게시판</h2>
     <div class="mb-3">
-        <label for="keyword" class="form-label">키워드:</label>
-        <select id="keywordSelect" class="form-select" onchange="filterPostsBySelectedKeyword()">
+        <label for="keyword" class="com_form_label">키워드:</label>
+        <select id="keywordSelect" class="com_form_select" onchange="filterPostsBySelectedKeyword()">
             <option value="">모든 키워드</option>
             <th:block th:each="keyword : ${allKeywords}">
                 <option th:value="${keyword.keywordId}" th:text="${keyword.keyword}"></option>
             </th:block>
         </select>
     </div>
-    <table class="table">
-        <thead>
+    <table class="com_table">
+        <thead class="com_table_head">
         <tr>
             <th scope="col">글번호</th>
             <th scope="col">제목</th>
@@ -65,7 +70,7 @@
             <th scope="col">키워드</th>
         </tr>
         </thead>
-        <tbody th:fragment="postList">
+        <tbody th:fragment="postList" class="com_table_body">
 
         <tr th:each="post : ${posts}">
                 <th th:text="${post.postId}"></th>

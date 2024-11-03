@@ -10,11 +10,22 @@
     <th:block layout:fragment="script"></th:block>
 
     <script>
+        // 선택한 주소 표시
         function showAddress(button) {
             const address = button.getAttribute('data-address');
             document.getElementById('selectedAddress').innerText = address;
         }
 
+        // 여행 목록이 비어 있는지 확인
+        function validateTravelList() {
+            const travelListSize = [[${list.size()}]];
+            if (travelListSize === 0) {
+                alert('여행 목록이 없습니다. 메인 페이지로 이동합니다.');
+                window.location.href = '/main';
+            }
+        }
+
+        // 키워드 로드
         function loadKeywords() {
             fetch('/api/keywords')
                 .then(response => response.json())
@@ -29,6 +40,7 @@
                 });
         }
 
+        // 버튼 생성 함수
         function createButton(keyword, onClick) {
             const button = document.createElement('button');
             button.innerText = keyword;
@@ -39,6 +51,7 @@
 
         let selectedKeywords = [];
 
+        // 키워드 선택
         function selectKeyword(keyword) {
             // 중복 확인 후 선택된 키워드 배열 업데이트
             if (!selectedKeywords.includes(keyword)) {
@@ -68,6 +81,7 @@
                 return;
             }
 
+            // 선택된 키워드 추가
             const keywordsInput = document.createElement('input');
             keywordsInput.type = 'hidden';
             keywordsInput.name = 'keywords'; // 서버에서 사용할 키
@@ -75,9 +89,10 @@
             event.target.appendChild(keywordsInput);
         }
 
-        function cancelForm() {
-            window.location.href = '/community'; // 취소 버튼 클릭 시 리다이렉트
-        }
+        // 페이지 로드 시 여행 목록 확인
+        window.onload = function() {
+            validateTravelList();
+        };
     </script>
 <body onload="loadKeywords()">
 <div layout:fragment="content" class="content" id="myListContainer">
@@ -85,11 +100,18 @@
         <h2>나의 여행 목록</h2>
         <table class="table">
             <tbody>
-            <tr th:each="travel : ${travelLists}">
+            <tr th:each="travel : ${list}">
                 <td>
-                    <button type="button" th:text="${travel.placeName}"
-                            th:data-address="${travel.placeAddress}"
-                            onclick="showAddress(this)"></button>
+                    <h4>장소 목록:</h4>
+                    <span name="selectedTravel" th:value="${travel.travelId}" onclick="showPlaces(this.value)" checked></span>
+                    <div th:data-travel-id="${travel.travelId}">
+                        <div th:each="place : ${places}" th:if="${place.travel.travelId == travel.travelId}">
+                            <p>
+                                <input type="radio" name="selectedPlace" th:value="${place.placeId}" th:data-address="${place.addressName}" onclick="showAddress(this)">
+                                <span th:text="${place.placeName}"></span>
+                            </p>
+                        </div>
+                    </div>
                 </td>
             </tr>
             </tbody>
@@ -100,20 +122,20 @@
         <div class="com_right_section">
             <div>
                 <label>글 제목</label>
-                <input type="text" th:field="${dto.postTitle}">
+                <input type="text" th:field="${dto.postTitle}" required>
             </div>
             <div>
                 <label>글 작성자</label>
                 <input type="text" th:field="${person.userNickname}" disabled>
             </div>
             <div>
-                <label>여행 장소</label>
-                <p id="selectedAddress">여행 장소가 여기에 표시됩니다.</p>
+                <label>여행 날짜</label>
+                <input type="date" id="startDate" required> ~ <input type="date" id="endDate" required>
             </div>
-<!--            <div>-->
-<!--                <label>여행 날짜</label>-->
-<!--                <input type="date" id="startDate" disabled> ~ <input type="date" id="endDate" disabled>-->
-<!--            </div>-->
+            <div>
+                <label>주소</label>
+                <p id="selectedAddress"></p> <!-- 선택된 주소 표시 -->
+            </div>
             <div>
                 <label for="keyword">키워드 선택:</label>
                 <select id="keyword" th:field="${dto.keyword.keywordId}">
@@ -123,13 +145,26 @@
                 </select>
             </div>
             <div>
-                <label>내용 입력</label>
+                <label>글쓰기</label>
                 <textarea cols="20" rows="7" th:field="${dto.postContent}"></textarea>
             </div>
-            <input class="com_btn_newPost" id="com_reset" type="button" value="취소" onclick="cancelForm()">
+            <input class="com_btn_newPost" id="com_reset" type="button" value="취소">
             <input class="com_btn_newPost" id="com_new_okay" type="submit" value="등록">
         </div>
     </form>
+    <script src="/js/jQuery.js"></script>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            console.log("JavaScript loaded successfully");
+
+            // 댓글 취소 버튼 클릭 시 동작
+            $(document).on("click", "#com_reset", function () {
+                location.href = '/community';
+            });
+        });
+    </script>
+
+
 </div>
 </body>
 </html>

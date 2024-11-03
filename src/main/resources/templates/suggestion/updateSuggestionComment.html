@@ -6,7 +6,7 @@
 
 <!-- 전체 적용될 css -->
 <th:block layout:fragment="css">
-  <link rel="stylesheet" th:href="@{/css/showPost.css}">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </th:block>
 
 <!-- 전체 적용될 스크립트 -->
@@ -41,11 +41,24 @@
                   th:field="*{commentContent}"></textarea>
       </div>
       <div class="update_suggestion_comment_buttons">
-        <input type="reset" value="취소">
-        <input type="submit" value="수정">
+        <input class="update_suggestion_comment_reset" type="reset" value="취소">
+        <input class="update_suggestion_comment_submit" type="submit" value="수정">
+        <input type="hidden" th:value="${suggestionId}">
       </div>
     </div>
   </form>
-</div>
-</body>
-</html>
+  <script src="/js/jQuery.js"></script>
+  <script th:inline="javascript">
+    $(document).ready(function () {
+      console.log("JavaScript loaded successfully");
+
+      // 댓글 삭제 버튼 클릭 시 동작
+      $(document).on("click", ".update_suggestion_comment_reset", function () {
+        let suggestionId = $(this).next().next().val();
+        location.href = '/suggestion/'+suggestionId;
+      });
+    });
+  </script>
+  </div>
+  </body>
+  </html>

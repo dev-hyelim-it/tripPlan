@@ -38,8 +38,8 @@ public class SuggestionDAO {
         return suggestion;
     }
 
-    public void deleteById(Long SuggestionId) {
-        Suggestion suggestion = em.find(Suggestion.class, SuggestionId);
+    public void deleteById(Long suggestionId) {
+        Suggestion suggestion = em.find(Suggestion.class, suggestionId);
         em.remove(suggestion);
     }
 

@@ -11,6 +11,7 @@ import com.teamProject.tripPlan.repository.UserRepository;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import javax.swing.text.html.Option;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+//@Transactional
 public class PostService {
 
     @Autowired
@@ -29,6 +31,9 @@ public class PostService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+//    TravelService travelService;
 
     public List<PostDTO> findAllPost() {
         // 키워드를 포함하여 모든 게시물을 가져오는 메소드 호출
@@ -44,8 +49,16 @@ public class PostService {
         return PostDTO.fromEntity(post);
     }
 
+//    public void deletePost(Long postId) {
+//        System.out.println("Delete : " + postId);
+////        postRepository.deleteById(postId);
+//        dao.deleteById(postId);
+//    }
+
     public void deletePost(Long postId) {
+        System.out.println("Delete : " + postId);
         dao.deleteById(postId);
+        System.out.println("Post with ID " + postId + " has been deleted successfully.");
     }
 
     public void updatePost(PostDTO dto) {
@@ -62,30 +75,32 @@ public class PostService {
                 .toList();
     }
 
-    public void insertPost(Long userNo, PostDTO dto) {
-        // Users 객체를 가져와서 PostDTO에 설정
-        Users user = userRepository.findById(userNo)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        // PostDTO에 사용자 설정
-        dto.setUsers(user);
-
-        // PostDTO를 Post로 변환 후 DAO에 저장
-        Post post = PostDTO.fromDTO(dto);
-
-        // Travel 객체 설정
-        Travel travel = dto.getTravel();
-        if (travel != null) {
-            travel.setUsers(user); // 여행 정보에 사용자 설정
-            post.setTravel(travel);
-        }
-
-        // 키워드가 null인 경우 초기화
-        if (post.getKeyword() == null) {
-            post.setKeyword(dto.getKeyword());
-        }
-
-        postRepository.save(post); // JPA를 통해 저장
-    }
+//    public void insertPost(Long userNo, PostDTO dto) {
+//        // Users 객체를 가져와서 PostDTO에 설정
+//        Users user = userRepository.findById(userNo)
+//                .orElseThrow(() -> new RuntimeException("User not found"));
+//
+//        // PostDTO에 사용자 설정
+//        dto.setUsers(user);
+//
+//        // PostDTO를 Post로 변환 후 DAO에 저장
+//        Post post = PostDTO.fromDTO(dto);
+//
+//        // Travel 객체 설정
+//        Travel travel = dto.getTravel();
+//        if (travel != null) {
+//            travel.setUsers(user); // 여행 정보에 사용자 설정
+//              // Travel을 먼저 저장
+//              travelService.save(travel); // TravelService를 통해 Travel 저장
+//            post.setTravel(travel);
+//        }
+//
+//        // 키워드가 null인 경우 초기화
+//        if (post.getKeyword() == null) {
+//            post.setKeyword(dto.getKeyword());
+//        }
+//
+//        postRepository.save(post); // JPA를 통해 저장
+//    }
 
 }

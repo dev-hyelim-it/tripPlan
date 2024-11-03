@@ -12,9 +12,9 @@
 <div layout:fragment="content" class="content">
     <h1>게시물 수정</h1>
     <form th:action="@{/community/{id}/update(id=${dto.postId})}" method="post" id="com_np_form" class="com_np_form">
-        <div>
+        <div class="com_new_head">
             <label>글 제목</label>
-            <input type="text" th:field="${dto.postTitle}" required>
+            <input class="com_new_head_text" type="text" th:field="${dto.postTitle}" required>
         </div>
         <div>
             <label>글 작성자</label>
@@ -22,7 +22,7 @@
         </div>
         <div>
             <label>여행 장소</label>
-            <p id="selectedAddress">여행 장소가 여기에 표시됩니다.</p>
+            <p id="selectedAddress" th:value="${dto.places}">여행 장소가 여기에 표시됩니다.</p>
         </div>
         <div>
             <label>여행 날짜</label>
@@ -39,11 +39,45 @@
         </div>
         <div>
             <label>글쓰기</label>
-            <textarea cols="20" rows="7" th:field="${dto.postContent}" required></textarea>
+            <textarea class="com_new_body" cols="20" rows="7" th:field="${dto.postContent}" required></textarea>
         </div>
-        <input class="com_btn_newPost" id="com_reset" type="reset" value="취소">
+        <input class="com_btn_newPost" id="com_new_post_reset" type="reset" value="취소">
         <input class="com_btn_newPost" id="com_new_okay" type="submit" value="수정하기">
+        <input type="hidden" th:value="${dto.postId}">
     </form>
+    <script src="/js/jQuery.js"></script>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+          console.log("JavaScript loaded successfully");
+
+          // 댓글 취소 버튼 클릭 시 동작
+          $(document).on("click", "#com_new_post_reset", function () {
+            let postId = $(this).next().next().val();
+            location.href = '/community/'+postId;
+          });
+
+          // 등록 버튼 클릭 시 동작
+          $("#com_new_okay").on("click", function (event) {
+            event.preventDefault();
+
+            // 제목이 비어있는지 확인
+            if ($(".com_new_head_text").val() == "") {
+              alert("제목을 입력하세요.");
+              $("#new-suggestion-head").focus();
+              return;
+            }
+            // 내용이 비어있는지 확인
+            if ($(".com_new_body").val() == "") {
+              alert("내용을 입력하세요.");
+              $("#new-suggestion-body").focus();
+              return;
+            }
+
+            // 폼 제출
+            $("form").submit();
+          });
+        });
+    </script>
 </div>
 </body>
 </html>
