@@ -5,57 +5,51 @@
 <head>
     <meta charset="UTF-8">
     <title>자유게시판</title>
-    <th:block layout:fragment="css"></th:block>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </th:block>
     <th:block layout:fragment="script"></th:block>
-    <style>
-        .keyword-row {
-            display: flex;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        .keyword-row div {
-            margin-right: 15px;
-            margin-bottom: 10px;
-        }
-        .keyword-row input[type="checkbox"] {
-            margin-right: 5px;
-        }
-    </style>
 
     <script>
         function filterPostsBySelectedKeyword() {
-    const selectedKeywordId = document.getElementById('keywordSelect').value;
+            const selectedKeywordId = document.getElementById('keywordSelect').value;
 
-    fetch(`/community/filter?keywords=${selectedKeywordId ? selectedKeywordId : ''}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        })
-        .then(html => {
-            document.querySelector('.table tbody').innerHTML = html;
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-        });
-}
+            fetch(`/community/filter?keywords=${selectedKeywordId ? selectedKeywordId : ''}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    // .com_table tbody를 선택하여 innerHTML 설정
+                    const tbody = document.querySelector('.com_table_body');
+                    if (tbody) {
+                        tbody.innerHTML = html; // tbody가 null이 아닌지 확인 후 설정
+                    } else {
+                        console.error('No tbody found to update');
+                    }
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
     </script>
 </head>
 <body>
-<div layout:fragment="content" class="content">
+<div layout:fragment="content" class="com_content">
     <h2 class="com-title">자유게시판</h2>
     <div class="mb-3">
-        <label for="keyword" class="form-label">키워드:</label>
-        <select id="keywordSelect" class="form-select" onchange="filterPostsBySelectedKeyword()">
+        <label for="keyword" class="com_form_label">키워드:</label>
+        <select id="keywordSelect" class="com_form_select" onchange="filterPostsBySelectedKeyword()">
             <option value="">모든 키워드</option>
             <th:block th:each="keyword : ${allKeywords}">
                 <option th:value="${keyword.keywordId}" th:text="${keyword.keyword}"></option>
             </th:block>
         </select>
     </div>
-    <table class="table">
-        <thead>
+    <table class="com_table">
+        <thead class="com_table_head">
         <tr>
             <th scope="col">글번호</th>
             <th scope="col">제목</th>
@@ -65,22 +59,20 @@
             <th scope="col">키워드</th>
         </tr>
         </thead>
-        <tbody th:fragment="postList">
-
+        <tbody th:fragment="postList" class="com_table_body">
         <tr th:each="post : ${posts}">
-                <th th:text="${post.postId}"></th>
-                <td>
-                    <a th:href="@{/community/{id}(id=${post.postId})}" th:text="${post.postTitle}"></a>
-                </td>
-                <td th:if="${post.users != null}" th:text="${post.users.userNickname}">작성자 없음</td>
-                <td th:if="${post.users == null}">작성자 없음</td>
-                <td th:text="${post.insertedDate != null ? #temporals.format(post.insertedDate, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
-                <td th:text="${post.likes}"></td>
-                <td>
-                    <span th:text="${post.keyword.keyword}"></span>
-                </td>
+            <th th:text="${post.postId}"></th>
+            <td>
+                <a th:href="@{/community/{id}(id=${post.postId})}" th:text="${post.postTitle}"></a>
+            </td>
+            <td th:if="${post.users != null}" th:text="${post.users.userNickname}">작성자 없음</td>
+            <td th:if="${post.users == null}">작성자 없음</td>
+            <td th:text="${post.insertedDate != null ? #temporals.format(post.insertedDate, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
+            <td th:text="${post.likes}"></td>
+            <td>
+                <span th:text="${post.keyword.keyword}"></span>
+            </td>
         </tr>
-
         </tbody>
     </table>
     <form action="/community/new" method="get">

@@ -6,43 +6,48 @@
 
 <!-- 전체 적용될 css -->
 <th:block layout:fragment="css">
-  <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </th:block>
 
 <!-- 전체 적용될 스크립트 -->
 <th:block layout:fragment="script"></th:block>
 
 <body>
-<div layout:fragment="content" action="/suggestionBox" class="content" id="myListContainer">
+<div layout:fragment="content" action="/suggestionBox" class="new_suggestion_content" id="myListContainer">
 
-  <form th:action="@{/suggestion/create}" method="post" class="suggestion_new_form">
-      <div class="com_right_section">
-          <div>
-              <label>글 제목</label>
-              <input id="new-suggestion-head" type="text" th:field="${dto.suggestionTitle}">
-          </div>
-          <div>
-              <label>글 작성자</label>
-              <!--                <input type="text" th:text="${session.loginId}">-->
-              <input type="text" th:value="${myNickname}" disabled>
-          </div>
-          <div>
-              <label>글쓰기</label>
-              <textarea id="new-suggestion-body" cols="20" rows="7" th:field="${dto.suggestionContent}"></textarea>
-          </div>
-          <div class="sug_btn_newSuggestion">
-              <input id="sug_reset" type="reset" value="취소">
-              <input id="sug_new_okay" type="submit" value="등록">
-          </div>
+    <form th:action="@{/suggestion/create}" method="post" class="suggestion_new_form">
+        <div class="com_right_section">
+            <div>
+                <label>글 제목</label>
+                <input id="new-suggestion-head" type="text" th:field="${dto.suggestionTitle}">
+            </div>
+            <div>
+                <label>글 작성자</label>
+                <!--                <input type="text" th:text="${session.loginId}">-->
+                <input type="text" th:value="${myNickname}" disabled>
+            </div>
+            <div>
+                <label>글쓰기</label>
+                <textarea id="new-suggestion-body" cols="20" rows="7" th:field="${dto.suggestionContent}"></textarea>
+            </div>
+            <div class="sug_btn_newSuggestion">
+                <input id="sug_reset" type="reset" value="취소">
+                <input id="sug_new_okay" type="submit" value="등록">
+            </div>
 
-          <a href="/suggestion/box">건의함으로</a>
-      </div>
+            <a href="/suggestion/box">건의함으로</a>
+        </div>
 
-  </form>
+    </form>
     <script src="/js/jQuery.js"></script>
     <script th:inline="javascript">
         $(document).ready(function () {
           console.log("JavaScript loaded successfully");
+
+          // 댓글 취소 버튼 클릭 시 동작
+          $(document).on("click", "#sug_reset", function () {
+            location.href = '/suggestion/box';
+          });
 
           // 등록 버튼 클릭 시 동작
           $("#sug_new_okay").on("click", function (event) {

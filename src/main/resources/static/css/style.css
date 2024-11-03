@@ -121,31 +121,522 @@
 }
 /* 마이페이지 끝 */
 
+/* ********************************************************************************8 */
+/* 커뮤니티 페이지 시작 */
+/* 전체 페이지 스타일 */
+body {
+    font-family: 'Noto Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
+/* 커뮤니티 페이지 제목 스타일 */
+.com_title {
+    color: #007BFF;
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* 키워드 선택 영역 스타일 */
+.com_keyword {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.com_form_label {
+    font-weight: bold;
+}
+
+/* 게시물 테이블 스타일 */
+.com_table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.com_table_head th {
+    padding: 12px;
+}
+
+.com_table_body td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.com_table_body td:hover {
+    background-color: #d6e4ff; /* hover 시 배경색 */
+}
+
+/* 버튼 스타일 */
+.btn {
+    border-radius: 5px;
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.btn_primary {
+    background-color: #007BFF;
+}
+
+.btn_primary:hover {
+    background-color: #0056b3;
+}
+
+.btn_secondary {
+    background-color: #6c757d;
+}
+
+.btn_secondary:hover {
+    background-color: #5a6268;
+}
+
+/* 카드 스타일 */
+.card {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+/* 댓글 및 폼 스타일 */
+.np_form {
+    margin-bottom: 15px;
+}
+
+.np_form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+.np_form input[type="text"],
+.np_form input[type="date"],
+.np_form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+textarea {
+    height: 120px;
+    resize: none;
+}
+
+.np_right_section input[type="reset"],
+.np_right_section input[type="submit"] {
+    padding: 10px 20px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+}
+
+/* 추가적인 스타일 */
+.np_right_section {
+    border: 2px solid #007BFF;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* newPost.html */
+.myPageMainContainer {
+    text-align: center;
+}
+
+.np_insert {
+    max-width: 800px; /* 너비 제한 */
+    margin: 0 auto; /* 중앙 정렬 */
+    padding: 20px;
+    border: 1px solid #ddd; /* 테두리 */
+    border-radius: 8px; /* 둥글게 */
+    background-color: #f9f9f9; /* 배경색 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 */
+}
+
+.np_form_row {
+    display: flex;
+    flex-direction: column; /* 수직 정렬 */
+    margin-bottom: 15px;
+}
+
+.np_form_row label {
+    margin-bottom: 5px; /* 라벨과 입력 필드 간격 */
+}
+
+/* showPost.html */
+.sp_h1 {
+    color: #007BFF;
+    margin-bottom: 20px;
+    text-align: center; /* 제목 중앙 정렬 */
+}
+
+.sp_p {
+    text-align: center; /* 작성자 중앙 정렬 */
+    font-size: 1.2em; /* 글자 크기 */
+}
+
+.sp_btn {
+    padding: 10px 20px; /* 버튼 안쪽 여백 */
+    border: none; /* 테두리 없음 */
+    border-radius: 4px; /* 둥글게 */
+    color: white; /* 텍스트 색상 */
+    cursor: pointer; /* 커서 변경 */
+    transition: background-color 0.3s; /* 배경색 전환 효과 */
+}
+
+.sp_btn_primary {
+    background-color: #007BFF; /* 기본 버튼 색상 */
+}
+
+.sp_btn_primary:hover {
+    background-color: #0056b3; /* 호버 시 색상 변경 */
+}
+
+.sp_btn_danger {
+    background-color: #dc3545; /* 삭제 버튼 색상 */
+}
+
+.sp_btn_danger:hover {
+    background-color: #c82333; /* 호버 시 색상 변경 */
+}
+
+.sp_card_header {
+    background-color: #f1f1f1; /* 카드 헤더 색상 */
+    padding: 10px;
+    border-radius: 4px; /* 둥글게 */
+}
+
+.sp_card_body {
+    padding: 15px; /* 카드 본문 여백 */
+    border: 1px solid #ddd; /* 테두리 */
+    border-radius: 4px; /* 둥글게 */
+    margin-top: 5px; /* 위쪽 여백 */
+}
+
+.card_text {
+    margin-bottom: 10px; /* 댓글 내용 아래 여백 */
+}
+
+.form_label {
+    display: block; /* 블록으로 표시 */
+    margin-bottom: 5px; /* 아래 여백 */
+}
+
+.form_control {
+    width: 100%; /* 전체 너비 */
+    padding: 10px; /* 안쪽 여백 */
+    border: 1px solid #ccc; /* 테두리 */
+    border-radius: 4px; /* 둥글게 */
+}
+/* 커뮤니티 페이지 끝 */
+
+/* *********************************************************************************************** */
+/* mbti 페이지  시작*/
+    /* question.html */
+    /* 전체 질문 영역 */
+    .mbti_question {
+        padding: 20px;
+        border: 2px solid #007BFF;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    /* 질문 번호 스타일 */
+    .mbti_q_num h2 {
+        text-align: center;
+        color: #007BFF;
+        font-weight: bold;
+    }
+
+    /* 질문 텍스트 스타일 */
+    .mbti_q_text {
+        margin: 15px 0;
+        font-size: 1.2em;
+        color: #333;
+    }
+
+    /* 답변 버튼 스타일 */
+    .btn_answer {
+        padding: 10px 20px;
+        margin: 10px;
+        border: none;
+        border-radius: 4px;
+        background-color: #007BFF;
+        color: white;
+        cursor: pointer;
+        font-size: 1em;
+        transition: background-color 0.3s;
+    }
+
+    .btn_answer:hover {
+        background-color: #0056b3;
+    }
+
+    /* 숨겨진 입력 필드 스타일 (필요한 경우) */
+    input[type="hidden"] {
+        display: none; /* 숨김 */
+    }
+
+    /* 버튼 컨트롤 (이전/다음/완료) 스타일 추가 (필요한 경우) */
+    .btn_mbti_con {
+        padding: 10px 20px;
+        margin: 10px;
+        border: none;
+        border-radius: 4px;
+        background-color: #6c757d;
+        color: white;
+        cursor: pointer;
+        font-size: 1em;
+        transition: background-color 0.3s;
+    }
+
+    .btn_mbti_con:hover {
+        background-color: #5a6268;
+    }
+
+    /* testMainForm.html */
+    .mbti_form {
+        padding: 20px;
+        border: 2px solid #007BFF;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* 제목 스타일 */
+    .mbti_form h1 {
+        color: #007BFF;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    /* 시작 버튼 스타일 */
+    #btn_test_start {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color: #007BFF;
+        color: white;
+        cursor: pointer;
+        font-size: 1.2em;
+        transition: background-color 0.3s;
+    }
+
+    #btn_test_start:hover {
+        background-color: #0056b3;
+    }
+
+    /* question.html */
+    /* 질문 폼 스타일 */
+    #submit_answer {
+        padding: 20px;
+        border: 2px solid #007BFF;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* 질문 번호 스타일 */
+    .question_num {
+        color: #007BFF;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    /* 질문 텍스트 스타일 */
+    .question_text {
+        margin-bottom: 20px;
+        font-size: 1.1em;
+    }
+
+    /* 답변 버튼 스타일 */
+    .btn_answer {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color: #007BFF;
+        color: white;
+        cursor: pointer;
+        font-size: 1em;
+        margin: 5px; /* 버튼 간격 추가 */
+        transition: background-color 0.3s, transform 0.2s; /* 효과 추가 */
+    }
+
+    .btn_answer:hover {
+        background-color: #0056b3;
+        transform: scale(1.05); /* 약간 확대 효과 */
+    }
+
+    /* 이전, 다음 버튼 스타일 (주석 처리된 부분) */
+    .btn_mbti_con {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color: #6c757d; /* 회색 배경 */
+        color: white;
+        cursor: pointer;
+        font-size: 1em;
+        margin: 5px; /* 버튼 간격 추가 */
+        transition: background-color 0.3s;
+    }
+
+    .btn_mbti_con:hover {
+        background-color: #5a6268; /* 어두운 회색 배경 */
+    }
+
+    /* testResult.html */
+    .mbti_tr_title {
+        color: #007BFF;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 20px;
+        font-size: 2.5em; /* 제목 크기 조정 */
+    }
+
+    .mbti_tr_result_title {
+        color: #0056b3;
+        text-align: center;
+        margin-bottom: 15px;
+        font-size: 2em; /* 부제목 크기 조정 */
+    }
+
+    .mbti_tr_description {
+        color: #555; /* 설명 텍스트 색상 */
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 1.2em; /* 설명 크기 조정 */
+    }
+
+    /* 결과 페이지 스타일 */
+    .mbti_tr_result {
+        padding: 20px;
+        border: 2px solid #007BFF;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* 제목 스타일 */
+    .mbti_tr_result h1 {
+        color: #007BFF;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .mbti_tr_result h2 {
+        color: #333;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .mbti_tr_result h3 {
+        color: #666;
+        margin-bottom: 20px;
+    }
+
+    /* 추천 지역 스타일 */
+    .mbti_tr_result div {
+        margin: 20px 0;
+        text-align: left; /* 텍스트 왼쪽 정렬 */
+    }
+
+    .mbti_tr_result b {
+        font-size: 1.2em; /* 강조된 텍스트 크기 */
+    }
+
+    /* 버튼 스타일 */
+    .mbti_tr_result button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color: #007BFF;
+        color: white;
+        cursor: pointer;
+        font-size: 1em;
+        margin: 5px; /* 버튼 간격 추가 */
+        transition: background-color 0.3s;
+    }
+
+    .mbti_tr_result button:hover {
+        background-color: #0056b3;
+    }
+
+    /* 버튼 링크 스타일 */
+    .mbti_tr_result button a {
+        color: white; /* 링크 색상 */
+        text-decoration: none; /* 링크 밑줄 제거 */
+    }
+
+    .mbti_tr_buttons {
+        display: flex;
+        justify-content: center; /* 중앙 정렬 */
+        gap: 20px; /* 버튼 간격 */
+        margin-top: 20px; /* 위쪽 여백 */
+    }
+
+    .mbti_tr_button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color: #007BFF;
+        color: white;
+        font-size: 1.2em;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        text-align: center;
+    }
+
+    .mbti_tr_button:hover {
+        background-color: #0056b3; /* 호버 시 색상 변경 */
+    }
+
+    .mbti_tr_button a {
+        color: white; /* 링크 색상 */
+        text-decoration: none; /* 링크 밑줄 제거 */
+    }
+
+/* mbti 페이지 끝 */
+/**********************************************************************************************/
 
 .form-row {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            margin-bottom: 15px;
-        }
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        margin-bottom: 15px;
+    }
 
-        .my-button {
-            flex: 1;
-            min-width: 80px; /* 키워드 버튼 크기 줄임 */
-        }
+    .my-button {
+        flex: 1;
+        min-width: 80px; /* 키워드 버튼 크기 줄임 */
+    }
 
-        .keyword-row, .area-row {
-            display: flex;
-            flex-wrap: wrap; /* 자동 줄바꿈 */
-            gap: 10px; /* 버튼 간 간격 */
-            margin-bottom: 10px;
-        }
+    .keyword-row, .area-row {
+        display: flex;
+        flex-wrap: wrap; /* 자동 줄바꿈 */
+        gap: 10px; /* 버튼 간 간격 */
+        margin-bottom: 10px;
+    }
 
-        .keyword-button, .area-button {
-            flex: 1 1 calc(20% - 10px); /* 5열 배치로 조정 */
-            min-width: 80px; /* 크기 조정 */
-        }
+    .keyword-button, .area-button {
+        flex: 1 1 calc(20% - 10px); /* 5열 배치로 조정 */
+        min-width: 80px; /* 크기 조정 */
+    }
 
 .map_search_box {
 margin-bottom: 15px;
@@ -290,51 +781,6 @@ height:30px;
     font-size: 16px; /* 버튼 글자 크기 */
 }
 
-/* showSuggestion.html */
-.suggestion_content_container{
-    margin: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-}
-
-.suggestion_title{
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    gap: 10px; /* 제목과 버튼 사이 간격 */
-}
-
-. show_suggestion_btns{
-    font-size: 14px; /* 버튼 글자 크기 줄이기 */
-    padding: 4px 8px; /* 버튼 크기 조절 */
-    margin-left: 10px;
-}
-
-.show_suggestion_comment_btns a {
-    display: inline-block;
-    padding: 8px 16px; /* 버튼 크기 조절 */
-    font-size: 14px; /* 글자 크기 조절 */
-    color: white; /* 버튼 글자 색상 */
-    background-color: #007bff; /* 버튼 배경 색상 (파란색) */
-    border-radius: 4px; /* 버튼 모서리 둥글게 */
-    text-decoration: none; /* 링크 밑줄 제거 */
-    margin-right: 8px; /* 버튼 간 간격 */
-    text-align: center;
-}
-
-.show_suggestion_comment_btns a:hover {
-    background-color: #0056b3; /* 호버 시 버튼 색상 변경 */
-}
-
-.show_suggestion_comment_delete_btn {
-    background-color: #dc3545; /* 삭제 버튼의 배경 색상 (빨간색) */
-}
-
-.show_suggestion_comment_delete_btn:hover {
-    background-color: #c82333; /* 삭제 버튼 호버 시 색상 */
-}
-
 /* newSuggestion */
 .suggestion_new_form{
     max-width: 600px;
@@ -418,53 +864,426 @@ input:disabled {
     color: #777;
 }
 
-/*  */
-.form_update_suggestion{
-
+/* showSuggestion */
+.show_suggestion_all {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
 }
 
-.update_suggestion {
-
+/* Title and header styling */
+.suggestion_content_container {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .suggestion_title {
-
+    font-size: 24px;
+    font-weight: bold;
+    color: #222;
 }
 
-.suggestion_writer{
-
+.show_suggestion_btns {
+    display: flex;
+    justify-content: flex-end;
 }
 
-.suggestion_content{
-
+.show_suggestion_btns a {
+    margin-left: 10px;
+    color: #0073e6;
+    text-decoration: none;
+    font-weight: bold;
 }
 
-.update_suggestion_comment{
-
+.show_suggestion_btns a:hover {
+    text-decoration: underline;
 }
 
-.suggestion_content_before{
-
+/* Post content styling */
+.suggestion_content {
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 16px;
+    color: #333;
+    background-color: #f7f7f7;
+    border-radius: 4px;
+    border: 1px solid #ddd;
 }
 
-.update_suggestion_comment_form{
-
+/* Comment section styling */
+.suggestion_contents {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
 }
 
-.suggestion_comment_all{
-
+.show_suggestion_content_btns {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
 }
 
-.suggestion_comment_nickname{
-
+.show_suggestion_content_btns .username {
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
 }
 
-.suggestion_comment_content{
-
+.show_suggestion_comment_btns a {
+    color: #0073e6;
+    margin-left: 5px;
+    font-size: 13px;
 }
 
-.update_suggestion_comment_buttons{
+.show_suggestion_comment_btns a:hover {
+    text-decoration: underline;
+}
 
+.show_suggestion_comment_writer{
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    margin-right: auto; /* Ensures it stays to the left */
+}
+
+.card-body {
+    padding: 10px 0;
+}
+
+.card-text {
+    font-size: 14px;
+    color: #444;
+}
+
+/* Reaction and interaction icons */
+.reaction-icons {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    color: #888;
+}
+
+.reaction-icons .icon {
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.reaction-icons .icon:hover {
+    color: #0073e6;
+}
+
+/* Comment input area styling */
+.new_suggestion_comment_nickname,
+.new_suggestion_comment_content {
+    margin-top: 15px;
+}
+
+.new_suggestion_comment_content label {
+    font-weight: bold;
+}
+
+.new_suggestion_comment_content textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+#suggestion-comment-create-btn {
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#suggestion-comment-create-btn:hover {
+    background-color: #45a049;
+}
+
+/* Modal styling for delete confirmation */
+#delete-confirm-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#delete-confirm-modal p {
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+#delete-confirm-modal button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#confirm-delete-btn {
+    background-color: #f44336;
+    color: #fff;
+}
+
+#cancel-delete-btn {
+    background-color: #ddd;
+    color: #333;
+    margin-left: 5px;
+}
+
+#confirm-delete-btn:hover {
+    background-color: #e53935;
+}
+
+#cancel-delete-btn:hover {
+    background-color: #ccc;
+}
+
+/* updateSuggestion */
+.update_suggestion_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.form_update_suggestion {
+    width: 400px;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Title, writer, and content styling */
+.suggestion_title, .suggestion_writer, .suggestion_content {
+    margin-bottom: 20px;
+}
+
+.suggestion_title label,
+.suggestion_writer label,
+.suggestion_content label {
+    display: block;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.suggestion_title input[type="text"],
+.suggestion_writer input[type="text"],
+.suggestion_content textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Disabled input field styling for writer */
+.suggestion_writer input[type="text"]:disabled {
+    background-color: #f0f0f0;
+    color: #777;
+}
+
+/* Button styling */
+.update_sug_btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.update_sug_reset, .update_sug_submit {
+    width: 48%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.update_sug_reset {
+    background-color: #f44336;
+    color: white;
+}
+
+.update_sug_submit {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.update_sug_reset:hover {
+    background-color: #e53935;
+}
+
+.update_sug_submit:hover {
+    background-color: #43a047;
+}
+
+/* Link to suggestion box */
+.update_suggestion_container a {
+    display: inline-block;
+    margin-top: 15px;
+    color: #0073e6;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.update_suggestion_container a:hover {
+    text-decoration: underline;
+}
+
+/* updateSuggestionComment */
+/* General container styling */
+.update_suggestion_comment {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+/* Title styling */
+.update_suggestion_comment h1 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Username and content display */
+.update_suggestion_comment p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.suggestion_content_before {
+    margin-bottom: 20px;
+}
+
+.suggestion_content_before input {
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #555;
+    box-sizing: border-box;
+}
+
+/* Link to suggestion box */
+.update_suggestion_comment a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #0073e6;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.update_suggestion_comment a:hover {
+    text-decoration: underline;
+}
+
+/* Form styling */
+.update_suggestion_comment_form {
+    margin-top: 20px;
+}
+
+.suggestion_comment_all {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Label styling */
+.suggestion_comment_nickname label,
+.suggestion_comment_content label {
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}
+
+/* Input and textarea styling */
+.suggestion_comment_nickname input[type="text"],
+.suggestion_comment_content textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #555;
+    box-sizing: border-box;
 }
 
 
+/* textarea {
+    resize: vertical;
+} */
+
+/* Buttons styling */
+.update_suggestion_comment_buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.update_suggestion_comment_buttons input[type="reset"],
+.update_suggestion_comment_buttons input[type="submit"] {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 48%;
+    box-sizing: border-box;
+}
+
+/* Specific button colors */
+.update_suggestion_comment_buttons input[type="reset"] {
+    background-color: #f44336;
+    color: #fff;
+}
+
+.update_suggestion_comment_buttons input[type="submit"] {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+.update_suggestion_comment_buttons input[type="reset"]:hover {
+    background-color: #e53935;
+}
+
+.update_suggestion_comment_buttons input[type="submit"]:hover {
+    background-color: #43a047;
+}

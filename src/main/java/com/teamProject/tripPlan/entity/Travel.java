@@ -22,7 +22,7 @@ public class Travel {
 //    private LocalDateTime startDate;
 //    private LocalDateTime endDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_no")
     private Users users;
 

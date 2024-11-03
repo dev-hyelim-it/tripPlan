@@ -71,21 +71,39 @@ public class SuggestionController {
     public String showOneSuggestion(@PathVariable("id") Long id, Model model, Principal principal) {
         SuggestionDTO dto = suggestionService.getOneSuggestion(id);
         model.addAttribute("dto", dto);
+//        dto.getUsers().getUserNickname()
         Users users = queryService.findOneUser(principal.getName());
         model.addAttribute("myNickname", users.getUserNickname());
         return "suggestion/showSuggestion";
     }
 
+//    @GetMapping("{id}/delete")
+//    public String deleteSuggestion(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+//        System.out.println("Deleting suggestion with ID: " + id);
+//        suggestionService.deleteSuggestion(id);
+//        redirectAttributes.addFlashAttribute("msg", "정상적으로 삭제되었습니다.");
+//        return "redirect:/suggestion/box";
+//    }
+
     @GetMapping("{id}/delete")
-    public String deleteSuggestion(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+    @ResponseBody
+    public String deleteSuggestion(@PathVariable("id") Long id) {
+        System.out.println("Deleting suggestion with ID: " + id);
         suggestionService.deleteSuggestion(id);
-        redirectAttributes.addFlashAttribute("msg", "정상적으로 삭제되었습니다.");
-        return "redirect:/suggestion/box";
+        return "삭제 성공";
     }
+
+//    @RequestMapping(value = "{id}/delete", method = RequestMethod.GET)
+//    public String deleteSuggestion(@PathVariable("id") Long id) {
+//        suggestionService.deleteSuggestion(id);  // 실제 삭제 로직 수행
+//        return "redirect:/suggestion/box";  // 삭제 후 건의함으로 리다이렉트
+//    }
 
     @GetMapping("{id}/update")
     public String viewUpdateSuggestion(Model model, @PathVariable("id") Long suggestionId) {
+        model.addAttribute("suggestionId", suggestionId);
         model.addAttribute("dto", suggestionService.getOneSuggestion(suggestionId));
+
         return "/suggestion/updateSuggestion";
     }
 
@@ -93,14 +111,18 @@ public class SuggestionController {
     public String updateSuggestion(SuggestionDTO dto) {
         System.out.println(dto);
         suggestionService.updateSuggestion(dto);
-        return "redirect:/suggestion/box";
+        return "redirect:/suggestion/" + dto.getSuggestionId();
     }
 
     ///////////////////////////////////// 댓글 처리 //////////////////////////////////////////
     @PostMapping("{id}/comments")
-    public String insertSuggestionComment(SuggestionCommentDTO dto, @PathVariable("id") Long suggestionId) {
+    public String insertSuggestionComment(SuggestionCommentDTO dto, @PathVariable("id") Long suggestionId, Principal principal) {
         System.out.println(dto.toString());
+        Users users = queryService.findOneUser(principal.getName());
+        String loggedInNickname = users.getUserNickname();
+        dto.setCommentNickname(loggedInNickname);
         commentService.insertSuggestionComment(suggestionId, dto);
+
         return "redirect:/suggestion/" + suggestionId;
     }
 

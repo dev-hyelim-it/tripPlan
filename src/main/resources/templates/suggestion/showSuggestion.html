@@ -14,16 +14,22 @@
 
 <!-- 우리가 작업할 공간 -->
 <body data-suggestion-id="[[${suggestionId}]]">
-<div layout:fragment="content" class="content">
+<div layout:fragment="content" class="show_suggestion_all">
 
   <form class="new_suggestion_form">
     <div class="suggestion_content_container">
       <h1 class="suggestion_title">[[ ${dto.suggestionTitle} ]]</h1>
       <div class="show_suggestion_btns">
-        <a th:href="@{/suggestion/{id}/update(id=${dto.suggestionId})}" class="suggestion_content_update_btn" >글 수정</a>
-        <a th:href="@{/suggestion/{id}/delete(id=${dto.suggestionId})}" class="suggestion_content_delete_btn" id="suggestion-delete-btn">글 삭제</a>
+        <a th:if="${dto.users.userNickname} == ${myNickname}" th:href="@{/suggestion/{id}/update(id=${dto.suggestionId})}" class="suggestion_content_update_btn" >글 수정</a>
+        <a th:if="${dto.users.userNickname} == ${myNickname}" class="suggestion_content_delete_btn" id="suggestion-delete-btn">글 삭제</a>
+        <input type="hidden" th:value="${dto.suggestionId}">
       </div>
-
+      <!-- 건의글 삭제 확인 모달 창 -->
+      <div id="delete-confirm-modal-suggestion" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid #ccc; background-color: #fff; padding: 20px; z-index: 1000;">
+        <p>건의글을 삭제하시겠습니까?</p>
+        <button id="confirm-delete-suggestion-btn">삭제</button>
+        <button id="cancel-delete-suggestion-btn">취소</button>
+      </div>
       <div class="suggestion_content">
         <input class="form-control" th:value="${dto.suggestionContent}" disabled>
       </div>
@@ -37,18 +43,24 @@
   <!-- 댓글 부분 -->
   <div class="suggestion_contents" th:each="comment : ${dto.comments}" th:object="${comment}">
     <div class="show_suggestion_content_btns">
-      <span th:text="*{commentNickname}">Featured</span>
+      <span class="show_suggestion_comment_writer" th:text="*{commentNickname}"></span>
       <div class="show_suggestion_comment_btns">
-        <a class="show_suggestion_comment_update_btn" id="suggestion-comment-update-btn">수정</a>
-        <a class="show_suggestion_comment_delete_btn" id="suggestion-comment-delete-btn">삭제</a>
+        <a th:if="*{commentNickname} == ${myNickname}" class="show_suggestion_comment_update_btn" id="suggestion-comment-update-btn">수정</a>
+        <a th:if="*{commentNickname} == ${myNickname}" class="show_suggestion_comment_delete_btn" id="suggestion-comment-delete-btn">삭제</a>
         <input type="hidden" th:value="*{commentId}">
       </div>
-      <!-- 삭제 확인 모달 창 -->
-      <div id="delete-confirm-modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid #ccc; background-color: #fff; padding: 20px; z-index: 1000;">
+      <!-- 댓글 삭제 확인 모달 창 -->
+      <div id="delete-confirm-modal-comment" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid #ccc; background-color: #fff; padding: 20px; z-index: 1000;">
         <p>댓글을 삭제하시겠습니까?</p>
-        <button id="confirm-delete-btn">삭제</button>
-        <button id="cancel-delete-btn">취소</button>
+        <button id="confirm-delete-comment-btn">삭제</button>
+        <button id="cancel-delete-comment-btn">취소</button>
       </div>
+      <!-- 삭제 확인 모달 창 -->
+      <!--      <div id="delete-confirm-modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid #ccc; background-color: #fff; padding: 20px; z-index: 1000;">-->
+      <!--        <p>댓글을 삭제하시겠습니까?</p>-->
+      <!--        <button id="confirm-delete-btn">삭제</button>-->
+      <!--        <button id="cancel-delete-btn">취소</button>-->
+      <!--      </div>-->
     </div>
     <div class="card-body">
       <p class="card-text" th:text="*{commentContent}"></p>
@@ -70,51 +82,87 @@
     <button type="button" id="suggestion-comment-create-btn" class="btn btn-primary">댓글 작성</button>
     <!--        <input type="submit" class="btn btn-primary" id="comment-create-btn" value="댓글 작성"></input>-->
   </form>
-  <script src="/js/jQuery.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script th:inline="javascript">
     $(document).ready(function () {
-      console.log("JavaScript loaded successfully");
+        console.log("JavaScript loaded successfully");
 
-      // 건의글 삭제 버튼 클릭 시 동작
-      $(document).on("click", "#suggestion-delete-btn", function () {
-        let commentId = $(this).siblings("input[type='hidden']").val();
-        if (confirm("건의글을 삭제하시겠습니까?")) {
-           location.href = '/suggestion/box';
-        }
-      });
+        let suggestionId;  // 삭제할 건의글 ID를 저장할 변수
+        let commentId;     // 삭제할 댓글 ID를 저장할 변수
 
-      // 댓글 삭제 버튼 클릭 시 동작
-      $(document).on("click", "#suggestion-comment-delete-btn", function () {
-        let commentId = $(this).next().val();
-        if (confirm("댓글을 삭제하시겠습니까?")) {
-           location.href = '/suggestion/comments/'+commentId;
-        }
-      });
+        // 건의글 삭제 버튼 클릭 시 모달 창 표시
+        $(document).on("click", "#suggestion-delete-btn", function (event) {
+            event.preventDefault();
+            suggestionId = $(this).next().val(); // suggestionId 가져옴
+            $("#delete-confirm-modal-suggestion").show(); // 건의글 삭제 모달 표시
+        });
 
-      // 댓글 수정 버튼 클릭 시 동작
-      $(document).on("click", "#suggestion-comment-update-btn", function () {
-        let commentId = $(this).siblings("input[type='hidden']").val();
-        location.href = '/suggestion/comments/view/' + commentId + '/update';
-      });
+        // 건의글 모달창에서 삭제 버튼 클릭시 삭제 되도록
+        $(document).on("click", "#confirm-delete-suggestion-btn", function () {
+            if (suggestionId) {
+              $("#delete-confirm-modal-suggestion").hide();
+                $.ajax({
+                    url: `/suggestion/${suggestionId}/delete`,
+                    type: 'GET', // 서버가 GET 요청을 처리할 경우
+                    success: function(response) {
+                        if (response === "삭제 성공") {
+                            window.location.href = "/suggestion/box";
+                        }
+                    },
+                    error: function() {
+                        alert("삭제 실패. 다시 시도해 주세요.");
+                    }
+                });
+            }
+        });
 
-      // 댓글 작성 버튼 클릭 시 동작
-      $("#suggestion-comment-create-btn").on("click", function (event) {
-        event.preventDefault();
+        // 건의글 모달창에서 취소 버튼 클릭시 모달창 사라지도록
+        $(document).on("click", "#cancel-delete-suggestion-btn", function () {
+            $("#delete-confirm-modal-suggestion").hide(); // 모달 숨김
+        });
 
-        // 내용이 비어있는지 확인
-        if ($("#new-suggestion-comment-body").val() === "") {
-          alert("내용을 입력하세요.");
-          $("#new-suggestion-comment-body").focus();
-          return;
-        }
+        // 댓글 삭제 버튼 클릭 시 모달 창 표시
+        $(document).on("click", "#suggestion-comment-delete-btn", function () {
+            commentId = $(this).next().val(); // commentId를 가져옴
+            $("#delete-confirm-modal-comment").show(); // 댓글 삭제 모달 표시
+        });
 
-        // 폼 제출
-        $("form").submit();
-      });
+        // 댓글 삭제 모달에서 "삭제" 버튼 클릭 시
+        $("#confirm-delete-comment-btn").on("click", function () {
+            if (commentId) {
+                location.href = '/suggestion/comments/'+commentId; // 댓글 삭제 경로로 이동
+            }
+            $("#delete-confirm-modal-comment").hide(); // 모달 숨김
+        });
+
+        // 댓글 삭제 모달에서 "취소" 버튼 클릭 시
+        $("#cancel-delete-comment-btn").on("click", function () {
+            $("#delete-confirm-modal-comment").hide(); // 모달 숨김
+        });
+
+        // 댓글 수정 버튼 클릭 시 동작
+        $(document).on("click", "#suggestion-comment-update-btn", function () {
+          let commentId = $(this).siblings("input[type='hidden']").val();
+          location.href = '/suggestion/comments/view/' + commentId + '/update';
+        });
+
+        // 댓글 작성 버튼 클릭 시 동작
+        $("#suggestion-comment-create-btn").on("click", function (event) {
+          event.preventDefault();
+
+          // 내용이 비어있는지 확인
+          if ($("#new-suggestion-comment-body").val() === "") {
+            alert("내용을 입력하세요.");
+            $("#new-suggestion-comment-body").focus();
+            return;
+          }
+          // 폼 제출
+          $("form").submit();
+        });
     });
   </script>
 </div>
 </body>
 </html>
-
 

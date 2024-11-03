@@ -23,7 +23,6 @@ public class Suggestion extends BaseEntity {
     private String suggestionTitle;
     @Column(length = 1000)
     private String suggestionContent;
-//    private LocalDateTime suggestionDate;
     private int openType;
 
     public Suggestion(){

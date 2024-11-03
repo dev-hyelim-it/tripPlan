@@ -1,10 +1,7 @@
 package com.teamProject.tripPlan.entity;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,6 +11,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+//@NoArgsConstructor
+@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class Post extends BaseEntity {
@@ -24,7 +23,6 @@ public class Post extends BaseEntity {
     private String postTitle;
     @Column(length = 1000)
     private String postContent;
-//    private LocalDateTime postDate;
     private int likes;
 
     public Post() {
@@ -32,17 +30,20 @@ public class Post extends BaseEntity {
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "post",
-            cascade = {CascadeType.PERSIST, CascadeType.ALL})
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comment> comments = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_no")
     private Users users;
 
-    @OneToOne(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Travel travel;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "keyword_id")
     private Keyword keyword;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post", cascade = CascadeType.PERSIST)
+    private List<Place> places = new ArrayList<>(); // 장소 리스트 추가
 }
