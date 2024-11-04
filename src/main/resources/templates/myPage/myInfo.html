@@ -5,74 +5,67 @@
 <head>
     <meta charset="UTF-8">
     <title>내 정보 관리</title>
-    <th:block layout:fragment="css"></th:block>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+        <link rel="stylesheet" th:href="@{/css/reset.css}">
+    </th:block>
     <th:block layout:fragment="script"></th:block>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-        .myInfoContainer {
-            text-align: center;
-        }
-        li {
-        list-style-type: none;
-        }
-        /* 수직 메뉴바 스타일 */
-        .nav {
-            background-color: #343a40; /* 어두운 회색 */
-            padding: 15px;
-            border-radius: 5px; /* 모서리 둥글게 */
-        }
-
-        .nav-link {
-            color: #d6d6d6; /* 메뉴 링크 색상 */
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="reset.css">
+    <script src="https://kit.fontawesome.com/695a12fc7e.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 </head>
 <body>
 <div layout:fragment="content" class="content">
-    <div id="myInfoContainer" class="myInfoContainer">
+    <article id="myInfoContainer" class="myInfoContainer mypage_article">
         <!-- 수직 메뉴바 -->
-        <div class="d-flex">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page"
-                       th:href="@{/myPage/{userId}(userId=${session.loginId})}">마이페이지</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/info/{userId}(userId=${session.loginId})}">내 정보 관리</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/list/{userId}(userId=${session.loginId})}">나의 계획</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/community/{userId}(userId=${session.loginId})}">내 커뮤니티</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/suggestion/new}">건의함</a>
-                </li>
-            </ul>
-            <!--내 정보-->
-            <div class="ml-4">
+        <ul class="mypage_nav flex-column">
+            <li>[[${dto.userId}]]님의<br>마이페이지입니다</li>
+            <li class="mypage_nav_list">
+                <a class="mypage_nav_a active" aria-current="page"
+                   th:href="@{/myPage/{userId}(userId=${session.loginId})}">마이페이지</a>
+            </li>
+            <li class="mypage_nav_list">
+                <a class="mypage_nav_a" th:href="@{/myPage/info/{userId}(userId=${session.loginId})}">내 정보 관리</a>
+            </li>
+            <li class="mypage_nav_list">
+                <a class="mypage_nav_a" th:href="@{/myPage/list/{userId}(userId=${session.loginId})}">나의 계획</a>
+            </li>
+            <li class="mypage_nav_list">
+                <a class="mypage_nav_a" th:href="@{/myPage/community/{userId}(userId=${session.loginId})}">내
+                    커뮤니티</a>
+            </li>
+            <li class="mypage_nav_list">
+                <a class="mypage_nav_a" th:href="@{/suggestion/new}">건의함</a>
+            </li>
+        </ul>
+        <!--내 정보-->
+        <section class="info-parent">
+            <div class="info">
                 <h3>정보 변경 시 주의사항</h3>
                 <h5>주의해 주세요</h5>
                 <hr>
-                <form class="infoForm" th:action="@{/myPage/update/{userId}(userId=${session.loginId})}" th:each="user : ${dto}"
+                <form class="infoForm" th:action="@{/myPage/update/{userId}(userId=${session.loginId})}"
+                      th:each="user : ${dto}"
                       th:object="${user}">
                     <p>
                         <label> 아이디 : </label>
-                        <span id="userId" th:text="*{userId}"></span>
+                        <span id="userId" th:text="*{userId}">가나다라</span>
                     </p>
                     <p>
                         <label> 이름 : </label>
-                        <span id="userName" th:text="*{userName}"></span>
+                        <span id="userName" th:text="*{userName}">마바사</span>
                     </p>
                     <p>
                         <label> 닉네임 : </label>
-                        <span id="userNickname" th:text="*{userNickname}"></span>
+                        <span id="userNickname" th:text="*{userNickname}">아자차카</span>
                     </p>
                     <p>
                         <label> 이메일 : </label>
-                        <span id="userEmail" th:text="*{userEmail}"></span>
+                        <span id="userEmail" th:text="*{userEmail}">타파하</span>
                     </p>
                     <p>
                         <button type="submit">수정하기</button>
@@ -83,36 +76,37 @@
                     </p>
                 </form>
             </div>
-            <script>
-                function confirmDelete() {
-                return confirm("탈퇴 하시겠습니까?");
-                }
-                document.addEventListener('DOMContentLoaded', function() {
-                    const userIdElement = document.getElementById('userId');
-                    const userNameElement = document.getElementById('userName');
-                    const userEmailElement = document.getElementById('userEmail');
+        </section>
+    </article>
+    <div class="b-example-divider"></div>
+    <script>
+        function confirmDelete() {
+        return confirm("탈퇴 하시겠습니까?");
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const userIdElement = document.getElementById('userId');
+            const userNameElement = document.getElementById('userName');
+            const userEmailElement = document.getElementById('userEmail');
 
-                    const userId = userIdElement.textContent;
-                    const userName = userNameElement.textContent;
-                    const userEmail = userEmailElement.textContent;
+            const userId = userIdElement.textContent;
+            const userName = userNameElement.textContent;
+            const userEmail = userEmailElement.textContent;
 
-                    // 이메일을 @으로 구분지어 아이디 일부분 블라인드
-                    const emailParts = userEmail.split('@');
-                    const part1 = emailParts[0];
-                    const part2 = emailParts[1];
-                    const maskedPart = part1[0] + '*'.repeat(userId.length - 1);
+            // 이메일을 @으로 구분지어 아이디 일부분 블라인드
+            const emailParts = userEmail.split('@');
+            const part1 = emailParts[0];
+            const part2 = emailParts[1];
+            const maskedPart = part1[0] + '*'.repeat(userId.length - 1);
 
-                    const maskedId = userId.substring(0, 2) + '*'.repeat(userId.length - 2);
-                    const maskedName = userName.substring(0, 1) + '*'.repeat(userName.length - 1);
-                    const maskedEmail = maskedPart + '@' + part2;
+            const maskedId = userId.substring(0, 2) + '*'.repeat(userId.length - 2);
+            const maskedName = userName.substring(0, 1) + '*'.repeat(userName.length - 1);
+            const maskedEmail = maskedPart + '@' + part2;
 
-                    userIdElement.textContent = maskedId;
-                    userNameElement.textContent = maskedName;
-                    userEmailElement.textContent = maskedEmail;
-                });
-            </script>
-        </div>
-    </div>
+            userIdElement.textContent = maskedId;
+            userNameElement.textContent = maskedName;
+            userEmailElement.textContent = maskedEmail;
+        });
+    </script>
 </div>
 </body>
 </html>

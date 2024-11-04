@@ -6,30 +6,35 @@
     <meta charset="UTF-8">
     <th:block layout:fragment="css">
         <link rel="stylesheet" th:href="@{/css/style.css}">
+        <link rel="stylesheet" th:href="@{/css/reset.css}">
     </th:block>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <th:block layout:fragment="script"></th:block>
 </head>
-
 <body>
-<div layout:fragment="content" class="content">
-    <h1>게시물 수정</h1>
-    <form th:action="@{/community/{id}/update(id=${dto.postId})}" method="post" id="com_np_form" class="com_np_form">
-        <div class="com_new_head">
-            <label>글 제목</label>
-            <input class="com_new_head_text" type="text" th:field="${dto.postTitle}" required>
-        </div>
-        <div>
-            <label>글 작성자</label>
-            <input type="text" th:value="${dto.users.userNickname}" disabled>
-        </div>
-        <div>
-            <label>여행 장소</label>
-            <p id="selectedAddress" th:value="${dto.places}">여행 장소가 여기에 표시됩니다.</p>
-        </div>
-        <div>
-            <label>여행 날짜</label>
-            <!--            <input type="date" id="startDate" required th:value="${dto.startDate}"> ~-->
-            <!--            <input type="date" id="endDate" required th:value="${dto.endDate}">-->
-        </div>
+<div layout:fragment="content" class="update_suggestion_container">
+<!--    <h1>게시물 수정</h1>-->
+    <form th:action="@{/community/{id}/update(id=${dto.postId})}" method="post">
+        <div class="update_suggestion_all">
+            <div class="suggestion_title">
+                <label>글 제목</label>
+                <input class="com_new_head_text" type="text" th:field="${dto.postTitle}" required>
+            </div>
+            <div class="suggestion_writer">
+                <label>글 작성자</label>
+                <input type="text" th:value="${dto.users.userNickname}" disabled>
+            </div>
+<!--            <div>-->
+<!--                <label>여행 장소</label>-->
+<!--                <p id="selectedAddress" th:value="${dto.places}">여행 장소가 여기에 표시됩니다.</p>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <label>여행 날짜</label>-->
+<!--                <input type="date" id="startDate" required th:value="${dto.startDate}"> ~-->
+<!--                <input type="date" id="endDate" required th:value="${dto.endDate}">-->
+<!--            </div>-->
         <div>
             <label for="keyword">키워드 선택:</label>
             <select id="keyword" th:field="${dto.keyword.keywordId}">
@@ -38,13 +43,17 @@
                 </th:block>
             </select>
         </div>
-        <div>
-            <label>글쓰기</label>
-            <textarea class="com_new_body" cols="20" rows="7" th:field="${dto.postContent}" required></textarea>
+            <div class="suggestion_content">
+                <label>글쓰기</label>
+                <textarea class="com_new_body" cols="20" rows="7" th:field="${dto.postContent}" required></textarea>
+            </div>
+
+            <div class="update_sug_btns">
+                <input class="update_sug_reset" id="com_new_post_reset" type="reset" value="취소">
+                <input class="update_sug_submit" id="com_new_okay" type="submit" value="수정하기">
+                <input type="hidden" th:value="${dto.postId}">
+            </div>
         </div>
-        <input class="com_btn_newPost" id="com_new_post_reset" type="reset" value="취소">
-        <input class="com_btn_newPost" id="com_new_okay" type="submit" value="수정하기">
-        <input type="hidden" th:value="${dto.postId}">
     </form>
     <script src="/js/jQuery.js"></script>
     <script th:inline="javascript">
