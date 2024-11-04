@@ -5,10 +5,10 @@
 <head>
     <meta charset="UTF-8">
     <title>회원정보 수정 페이지</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="reset.css">
     <th:block layout:fragment="css"></th:block>
     <th:block layout:fragment="script"></th:block>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
     <script src="https://kit.fontawesome.com/695a12fc7e.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,11 +20,10 @@
     <article class="admin_article">
         <h1 class="admin_title">관리자 메뉴</h1>
         <section class="admin_main_section">
-            <ul class="admin_main_section">
+            <ul class="admin_main_ul">
                 <li class="admin_main_li"><a class="admin_main_active" th:href="@{/admin/customer}">회원 관리<span>회원조회</span></a></li>
                 <li class="admin_main_li"><a th:href="@{/admin/community}">커뮤니티 관리<span>게시글 삭제</span></a></li>
                 <li class="admin_main_li"><a th:href="@{/suggestion/box}">건의함 관리<span>건의글 수정</span></a></li>
-                <li class="admin_main_li"><a th:href="@{/suggestion/box}">건의함 관리<span>건의글 삭제</span></a></li>
             </ul>
             <div class="admin_main_content">
                  <div class="admin_customer_content" id="admin_customer_content">
@@ -61,7 +60,7 @@
                              </tbody>
                          </table>
                          <!-- 회원 삭제 버튼 -->
-                         <a onclick="sendSelectedRadioIdCustomer()" class="btn btn-danger" id="admin-delete-customer-button">회원 삭제</a>
+                         <a onclick="sendSelectedRadioIdCustomer()" class="admin_community_btn btn btn-danger" id="admin-delete-customer-button">회원 삭제</a>
 
                          <!-- 회원 삭제 스크립트 -->
                          <script>

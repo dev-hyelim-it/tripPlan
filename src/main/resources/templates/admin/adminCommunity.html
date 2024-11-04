@@ -3,28 +3,26 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 <head>
-    <meta charset="UTF-8">
-    <title>커뮤니티 수정 페이지</title>
-    <link rel="stylesheet" th:href="@{css/style.css}">
-    <link rel="stylesheet" th:href="@{css/reset.css}">
+    <meta charset="UTF-8">8
+    <title>관리자 페이지</title>
     <th:block layout:fragment="css"></th:block>
     <th:block layout:fragment="script"></th:block>
-    <script src="https://kit.fontawesome.com/695a12fc7e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-
+    <script src="https://kit.fontawesome.com/695a12fc7e.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <div layout:fragment="content" class="content">
     <article class="admin_article">
         <h1 class="admin_title">관리자 메뉴</h1>
         <section class="admin_main_section">
-            <ul class="admin_main_section">
+            <ul class="admin_main_ul">
                 <li class="admin_main_li"><a class="admin_main_active" th:href="@{/admin/customer}">회원 관리<span>회원조회</span></a></li>
                 <li class="admin_main_li"><a th:href="@{/admin/community}">커뮤니티 관리<span>게시글 삭제</span></a></li>
                 <li class="admin_main_li"><a th:href="@{/suggestion/box}">건의함 관리<span>건의글 수정</span></a></li>
-                <li class="admin_main_li"><a th:href="@{/suggestion/box}">건의함 관리<span>건의글 삭제</span></a></li>
             </ul>
             <div class="admin_main_content">
                 <div class="admin_community_content">
@@ -54,7 +52,7 @@
 
                         </li>
                     </ul>
-                    <a onclick="sendSelectedRadioIdKeywordPost()" class="btn btn-danger">게시글 삭제</a>
+                    <a onclick="sendSelectedRadioIdKeywordPost()" class="admin_community_btn btn-danger">게시글 삭제</a>
                     <script>
                         function sendSelectedRadioIdKeywordPost() {
                             const selectedRadio = document.querySelector('input[name="keyword"]:checked');
@@ -77,11 +75,8 @@
                     </script>
                 </div>
             </div>
-
         </section>
-
     </article>
-
 </div>
 </body>
 </html>
