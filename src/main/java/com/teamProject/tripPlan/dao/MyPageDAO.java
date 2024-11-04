@@ -66,16 +66,16 @@ public class MyPageDAO {
     }
 
     // 해당 유저의 여행 계획 리스트 가져오기 (숙소)
-    public List<Accommodation> findUserAccommodation(Long id) {
-        String sql = "SELECT a FROM Accommodation a " +
-                "JOIN TravelAccommodation ta " +
-                "ON a.accommodationId = ta.accommodation.accommodationId " +
-                "JOIN ta.travel t " +
-                "ON ta.travel.travelId = " + id;
-        Query query = em.createQuery(sql);
-        List<Accommodation> accommodation = query.getResultList();
-        return accommodation;
-    }
+//    public List<Accommodation> findUserAccommodation(Long id) {
+//        String sql = "SELECT a FROM Accommodation a " +
+//                "JOIN TravelAccommodation ta " +
+//                "ON a.accommodationId = ta.accommodation.accommodationId " +
+//                "JOIN ta.travel t " +
+//                "ON ta.travel.travelId = " + id;
+//        Query query = em.createQuery(sql);
+//        List<Accommodation> accommodation = query.getResultList();
+//        return accommodation;
+//    }
 
 
     public List<Place> findPlace(Long id) {

@@ -31,8 +31,7 @@ public class Suggestion extends BaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "suggestion",
-            cascade = {CascadeType.PERSIST,
-                    CascadeType.REMOVE})
+            cascade = CascadeType.PERSIST)
     private List<SuggestionComment> comments = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)

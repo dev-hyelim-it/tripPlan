@@ -5,7 +5,6 @@ import com.teamProject.tripPlan.dto.PlaceDTO;
 import com.teamProject.tripPlan.dto.PostDTO;
 import com.teamProject.tripPlan.dto.UsersDTO;
 import com.teamProject.tripPlan.entity.*;
-import com.teamProject.tripPlan.repository.UserRepository;
 import com.teamProject.tripPlan.service.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.List;
@@ -34,9 +32,6 @@ public class CommunityController {
     UsersService usersService;
 
     @Autowired
-    UserRepository userRepository;
-
-    @Autowired
     CommentService commentService;
 
     @Autowired
@@ -47,7 +42,7 @@ public class CommunityController {
 
     @Autowired
     TravelService travelService;
-  
+
     private static final ThreadLocal<Boolean> deleteInProgress = ThreadLocal.withInitial(() -> false);
 
     // "localhost:8080:/community" -> community/community.html
@@ -86,9 +81,6 @@ public class CommunityController {
         PostDTO postDTO = new PostDTO();
         postDTO.setKeyword(null); // 초기화
         model.addAttribute("dto", postDTO);
-
-        List<MyList> myLists = myPageService.findAllMyLists();
-        model.addAttribute("travelLists", myLists);
 
         // 사용자의 여행 목록을 가져옴
         List<Travel> travels = myPageService.findUserList(id);

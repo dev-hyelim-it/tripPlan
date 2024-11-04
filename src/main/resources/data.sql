@@ -14,7 +14,6 @@ INSERT INTO mbti_question (question_text, question_type) VALUES
 ('일정에 공백이 생겼다! 뭘 하시겠습니까?', '자연 vs 도시'),
 ('여행을 다녀온 당신. 기억에 남는 나의 모습은?', '힐링 vs 액티비티');
 
-
 -- 질문 1: 연차로 놀러갈 당신. 어디로 놀러가시겠습니까? (자연 vs 도시)
 INSERT INTO answer_options (option_text, option_type, question_id) VALUES
 ('나무가 많은 자연으로', 'NATURE', 1),
@@ -69,30 +68,3 @@ INSERT INTO mbti_test_result (result_title, result_type, description, recommend_
 ('당신은 HC(Healing, City)의 성향을 가지고 있습니다!', 'HC', '당신은 도시의 편의와 즐길 거리를 선호하면서도, 혼잡한 환경을 피해 조용히 힐링할 수 있는 시간을 원하는 여행자입니다. 자연 속에서의 힐링보다는 도시 속에서 여유로운 휴식을 즐기며 재충전하고자 합니다.', '부산', '해운대 달맞이길', '해운대 바다가 내려다보이는 한적한 산책길로, 도심에서 벗어나 조용히 힐링할 수 있습니다. 근처에 아늑한 카페들이 있어, 바다를 감상하며 여유롭게 시간을 보낼 수 있습니다.', '경기도 수원', '행궁동 카페거리', '수원 화성 근처에 위치한 조용한 카페 거리로, 개성 있는 카페들이 많아 차분한 분위기 속에서 휴식할 수 있습니다.'),
 ('당신은 AN(Activity, Nature)의 성향을 가지고 있습니다!', 'AN', '당신은 자연을 사랑하고, 그 속에서 다양한 활동을 통해 에너지를 얻는 사람입니다. 한적하게 쉬기보다는 자연 속에서 몸을 움직이며 신나는 경험을 하는 것을 좋아합니다.', '제주도', '곽지과물해변 스노클링', '맑은 물과 함께 해양 생물을 관찰할 수 있어 스노클링을 즐기기에 적합한 장소입니다.', '충청북도 단양', '패러글라이딩', '단양은 패러글라이딩 명소로도 유명하여 하늘을 날며 아름다운 단양의 산과 강을 내려다볼 수 있습니다.'),
 ('당신은 AC(Activity, City)의 성향을 가지고 있습니다!', 'AC', '당신은 도시의 다양한 체험과 활동적인 경험을 선호하는 여행자입니다. 도심 속에서 색다른 경험과 즐길 거리를 찾으며 에너지를 얻고, 새로운 공간과 문화에 적극적으로 참여하는 스타일입니다.', '부산', '서면', '부산의 대표적인 상업 지구로, 쇼핑과 맛집 투어를 즐길 수 있습니다. 실내 클라이밍과 VR 체험 같은 실내 액티비티도 다수 있어 활발한 도시 경험을 즐기기에 좋습니다.', '전주', '전주 한옥마을과 객사길', '전통 한옥이 줄지어 있는 골목을 산책하며 다양한 먹거리와 체험 거리를 즐길 수 있습니다. 길거리 음식과 한옥 카페 투어는 전주의 대표적인 즐길 거리입니다.');
-
---attraction, accommodation, restaurant 데이터
-INSERT INTO attraction (attraction_id, attraction_name, attraction_location, keyword) VALUES (1, '(구)강경노동조합', '서울특별시 서초구 매헌로 16(양재동)', '역사');
-INSERT INTO attraction (attraction_id, attraction_name, attraction_location, keyword) VALUES (2, '4560디자인하우스', '서울특별시 서초구 매헌로 16(양재동)', '문화');
-INSERT INTO attraction (attraction_id, attraction_name, attraction_location, keyword) VALUES (3, 'KBS온', '서울특별시 영등포구 여의공원로 13 한국방송공사 본관', '문화');
-INSERT INTO attraction (attraction_id, attraction_name, attraction_location, keyword) VALUES (4, 'KT&G상상마당(홍대)', '서울특별시 마포구 어울마당로 65 상상마당빌딩', '문화');
-INSERT INTO attraction (attraction_id, attraction_name, attraction_location, keyword) VALUES (5, 'K현대미술관', '서울특별시 강남구 선릉로 807 K현대미술관', '문화');
-
-INSERT INTO accommodation (accommodation_id, accommodation_name, accommodation_location, accommodation_grade, accommodation_call, keyword) VALUES (1, '더 리센츠 동대문 호텔', '서울특별시 동대문구 천호대로 383 (장안동)', '3성', '02-3390-7000', '호캉스');
-INSERT INTO accommodation (accommodation_id, accommodation_name, accommodation_location, accommodation_grade, accommodation_call, keyword) VALUES (2, '에이큐브 호텔 동대문', '서울특별시 중구 동호로35길 5 석광빌딩 (을지로5가)', '3성', '02-2264-2888', '호캉스');
-INSERT INTO accommodation (accommodation_id, accommodation_name, accommodation_location, accommodation_grade, accommodation_call, keyword) VALUES (3, '라까사 호텔', '서울특별시 강남구 도산대로1길 83 (신사동)', '3성', '02-6711-9310', '호캉스');
-INSERT INTO accommodation (accommodation_id, accommodation_name, accommodation_location, accommodation_grade, accommodation_call, keyword) VALUES (4, '레이어스 호텔 하단', '부산광역시 사하구 낙동남로 1395 (하단동)', '4성', '051-999-1700', '호캉스');
-INSERT INTO accommodation (accommodation_id, accommodation_name, accommodation_location, accommodation_grade, accommodation_call, keyword) VALUES (5, '사보이 호텔', '서울특별시 중구 명동8나길 10 (충무로1가)', '3성', '02-772-7700', '호캉스');
-
-INSERT INTO restaurant (restaurant_id, restaurant_name, restaurant_location, keyword) VALUES (1, '하연옥 본점', '경남 진주시 진주대로 1317-20', '맛집');
-INSERT INTO restaurant (restaurant_id, restaurant_name, restaurant_location, keyword) VALUES (2, '대동 할매국수', '경남 김해시 동남로45번길 8', '맛집');
-INSERT INTO restaurant (restaurant_id, restaurant_name, restaurant_location, keyword) VALUES (3, '소토', '경남 양산시 상북면 충렬로 617', '맛집');
-INSERT INTO restaurant (restaurant_id, restaurant_name, restaurant_location, keyword) VALUES (4, '하주옥', '경남 사천시 하동길 8-11', '맛집');
-INSERT INTO restaurant (restaurant_id, restaurant_name, restaurant_location, keyword) VALUES (5, '환여 횟집', '경북 포항시 북구 해안로 189-1', '맛집');
-
---INSERT INTO my_list (my_list_id, travel_id, place_address, place_name) VALUES (1, 1, '경북 포항시 북구 해안로 189-1', '포항밥');
---INSERT INTO travel (travel_id, user_no, start_date, end_date) VALUES (1, 1, '2024-09-12', '2024-09-14');
---INSERT INTO travel (travel_id, user_no, start_date, end_date) VALUES (1, 1, '경북 포항시 북구 해안로 189-1', '포항밥');
-
-
-
-

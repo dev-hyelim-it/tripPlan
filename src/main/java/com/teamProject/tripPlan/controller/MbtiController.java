@@ -63,7 +63,7 @@ public class MbtiController {
 
     @PostMapping("insertUsersAnswer")
     public String insertUsersAnswer(UsersMbtiAnswerDTO dto, @RequestParam("questionId") Long questionId,
-                                                            @RequestParam("optionId") Long optionId,
+                                    @RequestParam("optionId") Long optionId,
                                     Principal principal) {
         // 디버깅 로그 추가
         if (dto.getMbtiQuestion() != null) {

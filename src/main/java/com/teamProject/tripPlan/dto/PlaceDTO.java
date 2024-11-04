@@ -1,6 +1,6 @@
 package com.teamProject.tripPlan.dto;
 
-import com.teamProject.tripPlan.entity.MyList;
+//import com.teamProject.tripPlan.entity.MyList;
 import com.teamProject.tripPlan.entity.Place;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
