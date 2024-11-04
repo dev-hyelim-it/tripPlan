@@ -1646,18 +1646,6 @@ a.nav-link {
     width: calc(100% - 110px);
 }
 
-.join_check_btn {
-    padding: 0;
-    width: 100px;
-    height: 45px;
-    font-size: 15px;
-    font-weight: 300;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    background-color: #20b1f5;
-}
-
 .join_wrong {}
 
 .join_btn {
@@ -2527,16 +2515,17 @@ a.nav-link {
 	color: rgb(224, 28, 28);
 }
 
+
 .join_text span:nth-child(2) {
 	margin-left: 10px;
 }
 
 .join_input {
-	padding-left: 8px;
-	width: 100%;
-	height: 45px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
+    padding-left: 8px;
+    width: 100%;
+    height: 45px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .join_form section:nth-of-type(2) .join_text {
@@ -2545,18 +2534,6 @@ a.nav-link {
 
 .join_form section:first-of-type input {
 	width: calc(100% - 110px);
-}
-
-.join_check_btn {
-	padding: 0;
-	width: 100px;
-	height: 45px;
-	font-size: 15px;
-	font-weight: 300;
-	color: white;
-	border: none;
-	border-radius: 5px;
-	background-color: #20b1f5;
 }
 
 .join_wrong {}
@@ -2657,11 +2634,11 @@ a.nav-link {
 }
 
 .join_input {
-	padding-left: 8px;
-	width: 100%;
-	height: 45px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
+    padding-left: 8px;
+    width: 100%;
+    height: 45px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .join_form section:nth-of-type(2) .join_text {
@@ -2670,18 +2647,6 @@ a.nav-link {
 
 .join_form section:first-of-type input {
 	width: calc(100% - 110px);
-}
-
-.join_check_btn {
-	padding: 0;
-	width: 100px;
-	height: 45px;
-	font-size: 15px;
-	font-weight: 300;
-	color: white;
-	border: none;
-	border-radius: 5px;
-	background-color: #20b1f5;
 }
 
 .join_wrong {}
