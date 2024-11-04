@@ -31,7 +31,7 @@
         <button id="cancel-delete-suggestion-btn">취소</button>
       </div>
       <div class="suggestion_content">
-        <input class="form-control" th:value="${dto.suggestionContent}" disabled>
+        <textarea class="form-control" disabled th:text="${dto.suggestionContent}"></textarea>
       </div>
     </div>
 
@@ -55,16 +55,10 @@
         <button id="confirm-delete-comment-btn">삭제</button>
         <button id="cancel-delete-comment-btn">취소</button>
       </div>
-      <!-- 삭제 확인 모달 창 -->
-      <!--      <div id="delete-confirm-modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid #ccc; background-color: #fff; padding: 20px; z-index: 1000;">-->
-      <!--        <p>댓글을 삭제하시겠습니까?</p>-->
-      <!--        <button id="confirm-delete-btn">삭제</button>-->
-      <!--        <button id="cancel-delete-btn">취소</button>-->
-      <!--      </div>-->
-
     </div>
     <div class="card-body">
-      <p class="card-text" th:text="*{commentContent}"></p>
+      <p class="card-text" th:text="*{commentContent}" id="commentContent"></p>
+<!--      <p class="card-text" th:utext="${#strings.replace(comment.commentContent, '\n', '<br>')}"></p>-->
     </div>
   </div>
 
@@ -161,7 +155,7 @@
           // 폼 제출
           $("form").submit();
         });
-    });
+  });
   </script>
 </div>
 </body>
