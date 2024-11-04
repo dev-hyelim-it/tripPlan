@@ -6,29 +6,36 @@
     <meta charset="UTF-8">
     <th:block layout:fragment="css">
         <link rel="stylesheet" th:href="@{/css/style.css}">
+        <link rel="stylesheet" th:href="@{/css/reset.css}">
     </th:block>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <th:block layout:fragment="script"></th:block>
 </head>
 <body>
-<div layout:fragment="content" class="content">
-    <h1 class="sp_h1" th:text="${dto.postTitle}"></h1>
-    <p class="sp_p" th:text="${dto.users.userNickname}"></p>
+<div layout:fragment="content" class="update_suggestion_comment">
+    <h1 th:text="${dto.postTitle}"></h1>
+    <p th:text="${dto.users.userNickname}"></p>
     <div th:text="${dto.postContent}"></div>
-    <a href="/community" class="sp_btn sp_btn_secondary">목록</a>
+    <a href="/community/community" class="sp_btn sp_btn_secondary">목록</a>
 
     <form th:object="${comment}"
           th:action="@{/community/{postId}/comments/{commentId}(postId=${postId}, commentId=*{commentId})}"
-          method="post" id="form" class="sp_form">
-        <div class="m-2">
-            <label class="sp_form_label">닉네임</label>
+          method="post" id="form" class="update_suggestion_comment_form">
+        <div suggestion_comment_all>
+            <label>닉네임</label>
             <input type="text" class="form_control" name="commentNickname" th:field="*{commentNickname}" disabled>
         </div>
-        <div class="m-2">
-            <label class="sp_form_label">댓글 내용</label>
+        <div class="suggestion_comment_content">
+            <label>댓글 내용</label>
             <textarea class="form_control" id="uc_body" rows="3" name="commentContent" th:field="*{commentContent}"></textarea>
         </div>
-        <input type="reset" value="취소" class="sp_btn sp_btn_secondary" id="sp_btn_reset">
-        <input type="submit" value="확인" class="sp_btn sp_btn_primary" id="sp_btn_submit">
-        <input type="hidden" th:value="${dto.postId}">
+        <div class="update_suggestion_comment_buttons">
+            <input type="reset" value="취소" class="update_suggestion_comment_reset" id="sp_btn_reset">
+            <input type="submit" value="확인" class="update_suggestion_comment_submit" id="sp_btn_submit">
+            <input type="hidden" th:value="${dto.postId}">
+        </div>
     </form>
   
     <script src="/js/jQuery.js"></script>
