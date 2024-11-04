@@ -47,7 +47,7 @@ public class CommunityController {
 
     @Autowired
     TravelService travelService;
-
+  
     private static final ThreadLocal<Boolean> deleteInProgress = ThreadLocal.withInitial(() -> false);
 
     // "localhost:8080:/community" -> community/community.html

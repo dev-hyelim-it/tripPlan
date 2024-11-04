@@ -2,11 +2,11 @@ package com.teamProject.tripPlan.service;
 
 import com.teamProject.tripPlan.dto.PlaceDTO;
 import com.teamProject.tripPlan.entity.Place;
+
 import com.teamProject.tripPlan.entity.Travel;
 import com.teamProject.tripPlan.repository.TravelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +19,7 @@ public class TravelService {
     public void save(Travel travel) {
         travelRepository.save(travel);
     }
-
+  
     // Travel ID로 장소 이름을 가져오는 메서드
     public List<PlaceDTO> getPlaceDTOsByTravelId(Long travelId) {
         Travel travel = travelRepository.findById(travelId)
