@@ -5,90 +5,88 @@
 <head>
     <meta charset="UTF-8">
     <title>여행리스트</title>
-    <th:block layout:fragment="css"></th:block>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+        <link rel="stylesheet" th:href="@{/css/reset.css}">
+    </th:block>
     <th:block layout:fragment="script"></th:block>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-        .myListContainer {
-            text-align: center;
-        }
-
-        .form-section {
-            display: none;
-        }
-
-        /* 수직 메뉴바 스타일 */
-        .nav {
-            background-color: #343a40; /* 어두운 회색 */
-            padding: 15px;
-            border-radius: 5px; /* 모서리 둥글게 */
-        }
-
-        .nav-link {
-            color: #d6d6d6; /* 메뉴 링크 색상 */
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="reset.css">
+    <script src="https://kit.fontawesome.com/695a12fc7e.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 </head>
 <body>
 <div layout:fragment="content" class="content">
-    <div id="myListContainer" class="myListContainer">
+    <article id="myListContainer" class="myListContainer mypage_article">
         <!-- 수직 메뉴바 -->
-        <div class="d-flex">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page"
-                       th:href="@{/myPage/{userId}(userId=${session.loginId})}">마이페이지</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/info/{userId}(userId=${session.loginId})}">내 정보 관리</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/list/{userId}(userId=${session.loginId})}">나의 계획</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/community/{userId}(userId=${session.loginId})}">내 커뮤니티</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/suggestion/new}">건의함</a>
-                </li>
-            </ul>
+        <ul class="mypage_nav flex-column">
+            <li>[[${dto.userId}]]님의<br>마이페이지입니다</li>
+            <li class="mypage_nav_list">
+                <a class="mypage_nav_a active" aria-current="page"
+                   th:href="@{/myPage/{userId}(userId=${session.loginId})}">마이페이지</a>
+            </li>
+            <li class="mypage_nav_list">
+                <a class="mypage_nav_a" th:href="@{/myPage/info/{userId}(userId=${session.loginId})}">내 정보 관리</a>
+            </li>
+            <li class="mypage_nav_list">
+                <a class="mypage_nav_a" th:href="@{/myPage/list/{userId}(userId=${session.loginId})}">나의 계획</a>
+            </li>
+            <li class="mypage_nav_list">
+                <a class="mypage_nav_a" th:href="@{/myPage/community/{userId}(userId=${session.loginId})}">내 커뮤니티</a>
+            </li>
+            <li class="mypage_nav_list">
+                <a class="mypage_nav_a" th:href="@{/suggestion/new}">건의함</a>
+            </li>
+        </ul>
 
-            <!-- 여행 계획 목록 -->
-            <div class="ml-4">
+        <!-- 여행 계획 목록 -->
+        <section class="list-parent mypage_section">
+            <div class="list">
                 <h3>여행 계획 중 하나 선택</h3>
-                <span th:each="travel : ${list}" th:object="${travel}">
-                        <input type="radio" name="radio" th:value="*{travelId}" onclick="showForm(this.value)" checked>
-                </span>
+                <span class="mp_input_span">
+                        <div class="mp_input_box" th:each="travel : ${list}" th:object="${travel}">
+                            <input type="radio" name="radio" th:value="*{travelId}" onclick="showForm(this.value)"
+                                   checked>
+                            <p class="radioName"
+                               th:text="${#strings.substringBefore(travel.places[0].addressName, ' ')}">서울특별시</p>
+                        </div>
+                    </span>
                 <hr>
-                    <p>장소 : </p>
-                    <form class="form-section" th:each="places : ${place}" th:object="${places}" th:data-travel-id="${places.travel.travelId}">
-                    <p th:text="${places.placeName}">남이섬</p>
-                    <p th:text="${places.addressName}">춘천 닭갈비</p>
-                    </form>
-                <div class="ml-4">
-                    <h3><a th:href="@{/main}">여행 계획 만들러 가기</a></h3>
+                <p>장소 : </p>
+                <form class="form-section">
+                    <div class="form-update" th:each="places : ${place}" th:object="${places}"
+                         th:data-travel-id="${places.travel.travelId}">
+                        <p class="mp_place_name" th:text="${places.placeName}">남이섬</p>
+                        <p class="mp_place_address" th:text="${places.addressName}">서울 특별시 종로구 인사동로 12길? 이었나? </p>
+                    </div>
+                </form>
+                <div class="mp_make_plan">
+                    <h3><a th:href="@{/main}">여행 계획 만들러 가기<i class="fa-solid fa-map-location-dot"></i></a></h3>
                 </div>
             </div>
-        </div>
-        <script>
-            function showForm(selectedValue) {
-                document.querySelectorAll('.form-section').forEach(form => {
-                    form.style.display = 'none';
-                });
-
-            document.querySelectorAll(`.form-section[data-travel-id="${selectedValue}"]`).forEach(form => {
-                form.style.display = 'block';
+        </section>
+    </article>
+    <div class="b-example-divider"></div>
+    <script>
+        function showForm(selectedValue) {
+            document.querySelectorAll('.form-update').forEach(form => {
+                form.style.display = 'none';
             });
+
+        document.querySelectorAll(`.form-update[data-travel-id="${selectedValue}"]`).forEach(form => {
+            form.style.display = 'block';
+        });
+        }
+        window.onload = function() {
+            const selectedRadio = document.querySelector('input[name="radio"]:checked');
+            if (selectedRadio) {
+            showForm(selectedRadio.value);
             }
-            window.onload = function() {
-                const selectedRadio = document.querySelector('input[name="radio"]:checked');
-                if (selectedRadio) {
-                showForm(selectedRadio.value);
-                }
-            }
-        </script>
-    </div>
+        }
+    </script>
 </div>
 </body>
 </html>
