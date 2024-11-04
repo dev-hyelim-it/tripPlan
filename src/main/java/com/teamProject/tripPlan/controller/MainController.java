@@ -59,9 +59,6 @@ public class MainController {
             log.info(mbtiTestResult.getResultTitle());
             model.addAttribute("userType", mbtiTestResult);
         }
-        // 상위 5개 장소 리스트를 모델에 추가
-        List<String> top5Places = myListService.getTop5PlaceNames();
-        model.addAttribute("top5Places", top5Places);
         return "main"; // main.html 템플릿을 렌더링
     }
 
