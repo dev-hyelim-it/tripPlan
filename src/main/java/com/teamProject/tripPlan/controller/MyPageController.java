@@ -52,6 +52,8 @@ public class MyPageController {
     public String myTravelList(Model model, @PathVariable("userId") String userId) {
         Long id = myPageService.findUserId(userId);
         List<Travel> travels = myPageService.findUserList(id);
+        UsersDTO user = myPageService.findLoginUser(id);
+        model.addAttribute("dto", user);
         model.addAttribute("list", travels);
         if (travels.isEmpty()) {
             model.addAttribute("place", new ArrayList<>());

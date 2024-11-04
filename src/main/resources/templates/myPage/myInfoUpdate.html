@@ -4,83 +4,77 @@
       layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>내 정보 관리 수정</title>
-    <th:block layout:fragment="css"></th:block>
+    <title>내 정보 수정</title>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+        <link rel="stylesheet" th:href="@{/css/reset.css}">
+    </th:block>
     <th:block layout:fragment="script"></th:block>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-        .myInfoContainer {
-            text-align: center;
-        }
-        li {
-        list-style-type: none;
-        }
-        /* 수직 메뉴바 스타일 */
-        .nav {
-            background-color: #343a40; /* 어두운 회색 */
-            padding: 15px;
-            border-radius: 5px; /* 모서리 둥글게 */
-        }
-
-        .nav-link {
-            color: #d6d6d6; /* 메뉴 링크 색상 */
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="reset.css">
+    <script src="https://kit.fontawesome.com/695a12fc7e.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 </head>
 <body>
 <div layout:fragment="content" class="content">
-    <div id="myInfoContainer" class="myInfoContainer">
+    <article id="myInfoContainer" class="myInfoContainer mypage_article">
         <!-- 수직 메뉴바 -->
-        <div class="d-flex">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page"
-                       th:href="@{/myPage/{userId}(userId=${session.loginId})}">마이페이지</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/info/{userId}(userId=${session.loginId})}">내 정보 관리</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/list/{userId}(userId=${session.loginId})}">나의 계획</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/community/{userId}(userId=${session.loginId})}">내 커뮤니티</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/suggestion/new}">건의함</a>
-                </li>
-            </ul>
-            <!--내 정보 수정-->
-            <div class="ml-4">
+        <ul class="mypage_nav flex-column">
+            <li>[[${dto.userId}]]님의<br>마이페이지입니다</li>
+            <li class="mypage_nav_list">
+                <a class="mypage_nav_a active" aria-current="page"
+                   th:href="@{/myPage/{userId}(userId=${session.loginId})}">마이페이지</a>
+            </li>
+            <li class="mypage_nav_list">
+                <a class="mypage_nav_a" th:href="@{/myPage/info/{userId}(userId=${session.loginId})}">내 정보 관리</a>
+            </li>
+            <li class="mypage_nav_list">
+                <a class="mypage_nav_a" th:href="@{/myPage/list/{userId}(userId=${session.loginId})}">나의 계획</a>
+            </li>
+            <li class="mypage_nav_list">
+                <a class="mypage_nav_a" th:href="@{/myPage/community/{userId}(userId=${session.loginId})}">내 커뮤니티</a>
+            </li>
+            <li class="mypage_nav_list">
+                <a class="mypage_nav_a" th:href="@{/suggestion/new}">건의함</a>
+            </li>
+        </ul>
+        <!--내 정보 수정-->
+        <section class="info-parent">
+            <div class="info">
                 <hr>
-                <form th:action="@{/myPage/update}" method="post" th:object="${dto}" class="infoUpdate">
+                <form th:action="@{/myPage/update}" method="post" th:object="${dto}" class="infoForm">
                     <input type="hidden" th:value="*{userNo}" name="userNo">
                     <p>
                         <label> 아이디 : </label>
-                        <input id="userId" th:value="*{userId}" type="text" name="userId">
+                        <input class="myInfo-input" id="userId" th:value="*{userId}" type="text" name="userId">
                     </p>
                     <p>
                         <label> 비밀번호 : </label>
-                        <input id="userPassword" th:value="*{userPassword}" type="password" name="userPassword">
+                        <input class="myInfo-input" id="userPassword" th:value="*{userPassword}" type="password"
+                               name="userPassword">
                     </p>
                     <p>
                         <label> 이름 : </label>
-                        <input id="userName" th:value="*{userName}" type="text" name="userName">
+                        <input class="myInfo-input" id="userName" th:value="*{userName}" type="text" name="userName">
                     </p>
                     <p>
                         <label> 닉네임 : </label>
-                        <input id="userNickname" th:value="*{userNickname}" type="text" name="userNickname">
+                        <input class="myInfo-input" id="userNickname" th:value="*{userNickname}" type="text"
+                               name="userNickname">
                     </p>
                     <p>
                         <label> 이메일 : </label>
-                        <input id="userEmail" th:value="*{userEmail}" type="text" name="userEmail">
+                        <input class="myInfo-input" id="userEmail" th:value="*{userEmail}" type="text" name="userEmail">
                     </p>
                     <button type="submit">수정하기</button>
                 </form>
             </div>
-        </div>
-    </div>
+        </section>
+    </article>
 </div>
+<div class="b-example-divider"></div>
 </body>
 </html>

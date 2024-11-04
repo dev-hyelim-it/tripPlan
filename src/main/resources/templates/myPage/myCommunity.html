@@ -5,67 +5,60 @@
 <head>
     <meta charset="UTF-8">
     <title>내 커뮤니티 목록</title>
-    <th:block layout:fragment="css"></th:block>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+        <link rel="stylesheet" th:href="@{/css/reset.css}">
+    </th:block>
     <th:block layout:fragment="script"></th:block>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-        .myCommunityContainer {
-            text-align: center;
-        }
-        li {
-        list-style-type: none;
-        }
-        /* 수직 메뉴바 스타일 */
-        .nav {
-            background-color: #343a40; /* 어두운 회색 */
-            padding: 15px;
-            border-radius: 5px; /* 모서리 둥글게 */
-        }
-
-        .nav-link {
-            color: #d6d6d6; /* 메뉴 링크 색상 */
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="reset.css">
+    <script src="https://kit.fontawesome.com/695a12fc7e.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 </head>
 <body>
 <div layout:fragment="content" class="content">
-    <div id="myCommunityContainer" class="myCommunityContainer">
+    <article id="myCommunityContainer" class="mypage_article">
         <!-- 수직 메뉴바 -->
-        <div class="d-flex">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page"
-                       th:href="@{/myPage/{userId}(userId=${session.loginId})}">마이페이지</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/info/{userId}(userId=${session.loginId})}">내 정보 관리</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/list/{userId}(userId=${session.loginId})}">나의 계획</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/myPage/community/{userId}(userId=${session.loginId})}">내 커뮤니티</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/suggestion/new}">건의함</a>
-                </li>
-            </ul>
-            <!-- 커뮤니티 목록 -->
-            <div class="ml-4">
-                <h3>커뮤니티에 게시한 글 목록
-                    <a th:href="@{/community}">커뮤니티로 이동</a></h3>
-                <hr>
-                <div th:each="post : ${dto.posts}" th:object="${post}">
-                    <label th:text="*{insertedDate}"> 2024 / 10 /23 </label>
-                    <span><a th:href="@{/community/{id}(id=*{postId})}" th:text="*{postTitle}">부산여행기</a></span>
+        <ul class="mypage_nav flex-column">
+            <li>[[${dto.userId}]]님의<br>마이페이지입니다</li>
+            <li class="mypage_nav_list">
+                <a class="mypage_nav_a active" aria-current="page"
+                   th:href="@{/myPage/{userId}(userId=${session.loginId})}">마이페이지</a>
+            </li>
+            <li class="mypage_nav_list">
+                <a class="mypage_nav_a" th:href="@{/myPage/info/{userId}(userId=${session.loginId})}">내 정보 관리</a>
+            </li>
+            <li class="mypage_nav_list">
+                <a class="mypage_nav_a" th:href="@{/myPage/list/{userId}(userId=${session.loginId})}">나의 계획</a>
+            </li>
+            <li class="mypage_nav_list">
+                <a class="mypage_nav_a" th:href="@{/myPage/community/{userId}(userId=${session.loginId})}">내 커뮤니티</a>
+            </li>
+            <li class="mypage_nav_list">
+                <a class="mypage_nav_a" th:href="@{/suggestion/new}">건의함</a>
+            </li>
+        </ul>
+        <!-- 커뮤니티 목록 -->
+        <section class="community-parent">
+            <div class="my-page-community mypage_box">
+                <h3>커뮤니티에 게시한 글 목록</h3>
+                <div class="mycommunity_list_box">
+                    <div class="mycommunity_list" th:each="post : ${dto.posts}" th:object="${post}">
+                        <label th:text="${#strings.substring(post.insertedDate, 0, 10)}"> 2024 / 10 /23 </label>
+                        <span><a th:href="@{/community/{id}(id=*{postId})}" th:text="*{postTitle}">부산여행기</a></span>
+                    </div>
+                </div>
+                <div class="mp_move_community">
+                    <a href="/community"><i class="fa-brands fa-waze"></i> 커뮤니티로 이동</a>
+                    <a th:href="@{/community/new}"><i class="fa-regular fa-pen-to-square"></i> 글 작성하러 가기</a>
                 </div>
             </div>
-            <div class="ml-4">
-                <h3><a th:href="@{/community/new}">글 작성하러 가기</a></h3>
-            </div>
-        </div>
-    </div>
+        </section>
+    </article>
 </div>
+<div class="b-example-divider"></div>
 </body>
 </html>
