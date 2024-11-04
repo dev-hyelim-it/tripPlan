@@ -3,92 +3,99 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/layout}">
 <head>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="reset.css">
 	<meta charset="UTF-8">
 	<title>메인</title>
 	<th:block layout:fragment="css"></th:block>
 	<th:block layout:fragment="script"></th:block>
+	<script src="https://kit.fontawesome.com/695a12fc7e.js" crossorigin="anonymous"></script>
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" th:href="@{css/style.css}">
-<!-- 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey={45eba8a04e39c19ff52df76714fcfc05}" async></script> -->
+	<link rel="stylesheet" th:href="@{css/reset.css}">
 	<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=2d991f9ecef3922716fbb7e5bfdcc6f5&libraries=services"></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 	<script th:src="@{js/jQuery.js}"></script>
 </head>
 
 <body>
-	<div layout:fragment="content" class="content">
-		<div th:if="${userType}!=null">
-			<span><b>[[ ${userNickname} ]]님의 여행 성향 테스트 결과 추전 지역</b></span>
-			<p>1. [[ ${userType.recommendArea1} ]]-[[ ${userType.areaName1} ]]</p>
-			<p>2. [[ ${userType.recommendArea2} ]]-[[ ${userType.areaName2} ]]</p>
+<div layout:fragment="content" class="content">
+	<article class="main_article">
+		<div class="main_top_content">
+			<h2>전국 추천 여행지 !!</h2>
+			<div class="main_top5">
+				<div class="main_top5_box">
+					<div class="main_top5_card">
+						<img src="/img/seoul.jpg" class="main_card_img" alt="Seoul">
+						<div class="card-body">
+							<h5 class="card-title">서울 경복궁</h5>
+							<a th:href="@{/community}" class="card_review btn btn-primary"><i class="fa-regular fa-note-sticky"></i> 리뷰보기</a>
+						</div>
+					</div>
+				</div>
+				<div class="main_top5_box">
+					<div class="main_top5_card">
+						<img src="/img/jeju.jpg" class="main_card_img" alt="Jeju">
+						<div class="card-body">
+							<h5 class="card-title">제주 성산일출봉</h5>
+							<a th:href="@{/community}" class="card_review btn btn-primary"><i class="fa-regular fa-note-sticky"></i>리뷰보기</a>
+						</div>
+					</div>
+				</div>
+				<div class="main_top5_box">
+					<div class="main_top5_card">
+						<img src="/img/busan.jpg" class="main_card_img" alt="Busan">
+						<div class="card-body">
+							<h5 class="card-title">부산 해운대</h5>
+							<a th:href="@{/community}" class="card_review btn btn-primary"><i class="fa-regular fa-note-sticky"></i>리뷰보기</a>
+						</div>
+					</div>
+				</div>
+				<div class="main_top5_box">
+					<div class="main_top5_card">
+						<img src="/img/gyeongju.jpg" class="main_card_img" alt="Gyeongju">
+						<div class="card-body">
+							<h5 class="card-title">경주 불국사</h5>
+							<a th:href="@{/community}" class="card_review btn btn-primary"><i class="fa-regular fa-note-sticky"></i>리뷰보기</a>
+						</div>
+					</div>
+				</div>
+				<div class="main_top5_box">
+					<div class="main_top5_card">
+						<img src="/img/gangneung.jpg" class="main_card_img" alt="Gangneung">
+						<div class="card-body">
+							<h5 class="card-title">강릉 경포대</h5>
+							<a th:href="@{/community}" class="card_review btn btn-primary"><i class="fa-regular fa-note-sticky"></i>리뷰보기</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<section class="mbti_weather_box">
+				<div class="main_mbti_test_box" th:if="${userType}!=null">
+					<span><b>[[ ${userNickname} ]]님의 여행 성향 테스트 결과 추전 지역</b></span>
+					<p>1. [[ ${userType.recommendArea1} ]]-[[ ${userType.areaName1} ]]</p>
+					<p>2. [[ ${userType.recommendArea2} ]]-[[ ${userType.areaName2} ]]</p>
+				</div>
+				<div class="weather-container">
+					<div class="weather-slides"></div>
+					<button class="prev" onclick="prevSlide()">◀</button>
+					<button class="next" onclick="nextSlide()">▶</button>
+				</div>
+			</section>
 		</div>
 
-		<h2>전국 추천 여행지 !!</h2>
-		<div class="row">
-			<div class="col-md-3 mb-3">
-				<div class="card" style="width: 18rem;">
-					<img src="/img/seoul.jpg" class="card-img-top" alt="Seoul">
-					<div class="card-body">
-						<h5 class="card-title">서울 경복궁</h5>
-						<a th:href="@{/community}" class="btn btn-primary">리뷰보기</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 mb-3">
-				<div class="card" style="width: 18rem;">
-					<img src="/img/jeju.jpg" class="card-img-top" alt="Jeju">
-					<div class="card-body">
-						<h5 class="card-title">제주 성산일출봉</h5>
-						<a th:href="@{/community}" class="btn btn-primary">리뷰보기</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 mb-3">
-				<div class="card" style="width: 18rem;">
-					<img src="/img/busan.jpg" class="card-img-top" alt="Busan">
-					<div class="card-body">
-						<h5 class="card-title">부산 해운대</h5>
-						<a th:href="@{/community}" class="btn btn-primary">리뷰보기</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 mb-3">
-				<div class="card" style="width: 18rem;">
-					<img src="/img/gyeongju.jpg" class="card-img-top" alt="Gyeongju">
-					<div class="card-body">
-						<h5 class="card-title">경주 불국사</h5>
-						<a th:href="@{/community}" class="btn btn-primary">리뷰보기</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 mb-3">
-				<div class="card" style="width: 18rem;">
-					<img src="/img/gangneung.jpg" class="card-img-top" alt="Gangneung">
-					<div class="card-body">
-						<h5 class="card-title">강릉 경포대</h5>
-						<a th:href="@{/community}" class="btn btn-primary">리뷰보기</a>
-					</div>
-				</div>
-			</div>
 		<div class="main">
 			<h3>여행지 검색 하기</h3>
 			<div class="map">
-<!--			<form action="/saveMyList">-->
-<!--				<div class="mb-3">-->
-<!--					<label for="departureDate" class="form-label">떠날 날짜:</label>-->
-<!--					<input type="date" id="departureDate" name="startDate" class="form-control">-->
-<!--				</div>-->
-<!--				<div class="mb-3">-->
-<!--					<label for="arrivalDate" class="form-label">도착할 날짜:</label>-->
-<!--					<input type="date" id="arrivalDate" name="endDate" class="form-control">-->
-<!--				</div>-->
 				<div class="map_search_box">
 					<input type="text" id="keyword" size="15" placeholder="검색어를 입력하세요.">
 					<button id="searchBtn">검색</button> <!--onclick="main()"-->
 				</div>
 				<div class="map_section">
 					<div class="map_box1">
-						<div id="map"></div>
+						<div id="map">지도영역</div>
 						<div id="list"></div>
 					</div>
 					<div class="map_box2">
@@ -101,11 +108,11 @@
 						<button class="save_db_btn" onclick="saveToDatabase()">저장하기</button>
 					</div>
 				</div>
-<!--			</form>-->
-		<script th:src="@{js/main.js}"></script>
-	</div>
+				<!--			</form>-->
+				<script th:src="@{js/main.js}"></script>
+			</div>
+		</div>
+	</article>
 </div>
-</div>
-	</div>
 </body>
 </html>

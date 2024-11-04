@@ -1,3 +1,4 @@
+
 // 지도 표시를 위한 div 요소
     const mapContainer = document.getElementById('map');
 
@@ -197,3 +198,61 @@ const {className} = e.target;
         myListElement.innerHTML = ''; // 리스트를 비움
         // 추가로 UI 업데이트 로직
     }
+
+
+    let cities = ['Seoul', 'Daejeon', 'Incheon', 'Sokcho', 'Gangneung', 'Chuncheon', 'Gwangju', 'Ulsan', 'Busan', 'Mokpo', 'Jeju City'];
+    let apiKey = '04755e2affa51884138930dc31807981'; // OpenWeatherMap API 키로 교체
+
+    let requests = cities.map(city => {
+        let weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+        return $.ajax({
+            url: weatherUrl,
+            type: 'GET',
+            success: function(data) {
+                let temp = data.main.temp;
+                let weatherDescription = data.weather[0].description;
+                let icon = data.weather[0].icon;
+
+                $('.weather-slides').append(`
+                    <div class="weather-slide">
+                        <h2>${city}</h2>
+                        <img src="https://openweathermap.org/img/wn/${icon}.png" alt="${weatherDescription}" style="width: 50px;"/>
+                        <p>${temp} °C / ${weatherDescription}</p>
+                    </div>
+                `);
+            },
+            error: function() {
+                $('.weather-slides').append('<div class="weather-slide">날씨 정보를 가져오는데 실패했습니다.</div>');
+            }
+        });
+    });
+
+    let currentIndex = 0;
+
+    function updateSlide() {
+        let offset = -currentIndex * 100; // 현재 인덱스에 따라 오프셋 계산
+        $('.weather-slides').css('transform', 'translateX(' + offset + '%)');
+    }
+
+    function startAutoSlide() {
+        intervalId = setInterval(function() {
+            currentIndex = (currentIndex + 1) % cities.length;
+            updateSlide();
+        }, 8000);
+    }
+
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + cities.length) % cities.length;
+        updateSlide();
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % cities.length;
+        updateSlide();
+    }
+
+    $.when(...requests).then(function() {
+        updateSlide();
+        startAutoSlide();
+    });
