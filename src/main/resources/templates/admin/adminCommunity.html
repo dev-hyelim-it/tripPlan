@@ -5,81 +5,83 @@
 <head>
     <meta charset="UTF-8">
     <title>커뮤니티 수정 페이지</title>
+    <link rel="stylesheet" th:href="@{css/style.css}">
+    <link rel="stylesheet" th:href="@{css/reset.css}">
     <th:block layout:fragment="css"></th:block>
     <th:block layout:fragment="script"></th:block>
+    <script src="https://kit.fontawesome.com/695a12fc7e.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 
 </head>
 <body>
 <div layout:fragment="content" class="content">
-    <div class="admin_sidebar">
-        <h2>관리자 메뉴</h2>
-        <ul>회원 관리
-            <li><a th:href="@{/admin/customer}">회원조회</a></li>
-        </ul>
-        <ul>키워드 관리
-            <li><a th:href="@{/admin/keyword}">키워드 추가</a></li>
-            <li><a th:href="@{/admin/keyword}">키워드 수정</a></li>
-            <li><a th:href="@{/admin/keyword}">키워드 삭제</a></li>
-        </ul>
-        <ul>커뮤니티 관리
-            <li><a th:href="@{/admin/community}">게시글 삭제</a></li>
-        </ul>
-        <ul> 건의함 관리
-            <li><a th:href="@{/suggestion/box}">건의글 수정</a></li>
-            <li><a th:href="@{/suggestion/box}">건의글 삭제</a></li>
-        </ul>
+    <article class="admin_article">
+        <h1 class="admin_title">관리자 메뉴</h1>
+        <section class="admin_main_section">
+            <ul class="admin_main_section">
+                <li class="admin_main_li"><a class="admin_main_active" th:href="@{/admin/customer}">회원 관리<span>회원조회</span></a></li>
+                <li class="admin_main_li"><a th:href="@{/admin/community}">커뮤니티 관리<span>게시글 삭제</span></a></li>
+                <li class="admin_main_li"><a th:href="@{/suggestion/box}">건의함 관리<span>건의글 수정</span></a></li>
+                <li class="admin_main_li"><a th:href="@{/suggestion/box}">건의함 관리<span>건의글 삭제</span></a></li>
+            </ul>
+            <div class="admin_main_content">
+                <div class="admin_community_content">
+                    <h2 class="admin_community_title">게시글 목록</h2>
+                    <ul class="ac_list_title table-hover">
+                        <li>
+                            <div>#</div>
+                            <div>PostId</div>
+                            <div>UserNickName</div>
+                            <div>PostTitle</div>
+                            <div>PostContent</div>
+                            <div>PostDate</div>
+                            <div>PostLikes</div>
+                        </li>
+                    </ul>
+                    <ul class="ac_list_body" th:each="post : ${posts}" th:object="${post}">
+                        <li class="ac_list_li">
+                            <div>
+                                <input type="radio" name="keyword" th:id="*{postId}">
+                            </div>
+                            <div th:text="*{postId}">1</div>
+                            <div th:text="*{users.userNickname}"></div>
+                            <div th:text="*{postTitle}"></div>
+                            <div th:text="*{postContent}"></div>
+                            <div th:text="*{insertedDate}"></div>
+                            <div th:text="*{likes}">5</div>
 
-    </div>
-    <div class="admin_community_content">
-        <h2>게시글 목록</h2>
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">PostId</th>
-                <th scope="col">UserNickName</th>
-                <th scope="col">PostTitle</th>
-                <th scope="col">PostContent</th>
-                <th scope="col">PostDate</th>
-                <th scope="col">PostLikes</th>
-            </tr>
-            </thead>
-            <tbody class="table-group-divider">
-            <tr th:each="post : ${posts}" th:object="${post}">
-                <th scope="row">
-                    <input type="radio" name="keyword" th:id="*{postId}">
-                </th>
-                <td th:text="*{postId}">1</td>
-                <td th:text="*{users.userNickname}"></td>
-                <td th:text="*{postTitle}">아 저녁 뭐 먹냐</td>
-                <td th:text="*{postContent}">내 생각에는 닭발이 좋을 것 같아!!</td>
-                <td th:text="*{insertedDate}">2024.10.24 - 15:38</td>
-                <td th:text="*{likes}">5</td>
-            </tr>
-            </tbody>
-        </table>
-        <a onclick="sendSelectedRadioIdKeywordPost()" class="btn btn-danger">게시글 삭제</a>
-        <script>
-            function sendSelectedRadioIdKeywordPost() {
-                const selectedRadio = document.querySelector('input[name="keyword"]:checked');
+                        </li>
+                    </ul>
+                    <a onclick="sendSelectedRadioIdKeywordPost()" class="btn btn-danger">게시글 삭제</a>
+                    <script>
+                        function sendSelectedRadioIdKeywordPost() {
+                            const selectedRadio = document.querySelector('input[name="keyword"]:checked');
 
-                if (!selectedRadio) {
-                    alert("삭제할 키워드를 선택해 주세요.");
-                    return;
-                }
+                            if (!selectedRadio) {
+                                alert("삭제할 게시글을 선택해 주세요.");
+                                return;
+                            }
 
-                const id = selectedRadio.id;
-                const url = `/admin/${id}/delete/post`;
+                            const id = selectedRadio.id;
+                            const url = `/admin/${id}/delete/post`;
 
-                fetch(url, {
-                    method: 'DELETE'
-                })
-                .then(response => {
-                    location.reload();
-                });
-            }
-        </script>
-    </div>
+                            fetch(url, {
+                                method: 'DELETE'
+                            })
+                            .then(response => {
+                                location.reload();
+                            });
+                        }
+                    </script>
+                </div>
+            </div>
+
+        </section>
+
+    </article>
+
 </div>
 </body>
 </html>

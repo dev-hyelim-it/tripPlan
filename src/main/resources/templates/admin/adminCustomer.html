@@ -5,89 +5,94 @@
 <head>
     <meta charset="UTF-8">
     <title>회원정보 수정 페이지</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="reset.css">
     <th:block layout:fragment="css"></th:block>
     <th:block layout:fragment="script"></th:block>
-
+    <script src="https://kit.fontawesome.com/695a12fc7e.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 </head>
 <body>
 <div layout:fragment="content" class="content">
-    <div class="admin_sidebar">
-        <h2>관리자 메뉴</h2>
-        <ul>회원 관리
-            <li><a th:href="@{/admin/customer}">회원조회</a></li>
-        </ul>
-        <ul>키워드 관리
-            <li><a th:href="@{/admin/keyword}">키워드 추가</a></li>
-            <li><a th:href="@{/admin/keyword}">키워드 수정</a></li>
-            <li><a th:href="@{/admin/keyword}">키워드 삭제</a></li>
-        </ul>
-        <ul>커뮤니티 관리
-            <li><a th:href="@{/admin/community}">게시글 삭제</a></li>
-        </ul>
-        <ul>건의함 관리
-            <li><a th:href="@{/suggestion/box}">건의글 수정</a></li>
-            <li><a th:href="@{/suggestion/box}">건의글 삭제</a></li>
-        </ul>
+    <!-- 관리자 사이드바 -->
+    <article class="admin_article">
+        <h1 class="admin_title">관리자 메뉴</h1>
+        <section class="admin_main_section">
+            <ul class="admin_main_section">
+                <li class="admin_main_li"><a class="admin_main_active" th:href="@{/admin/customer}">회원 관리<span>회원조회</span></a></li>
+                <li class="admin_main_li"><a th:href="@{/admin/community}">커뮤니티 관리<span>게시글 삭제</span></a></li>
+                <li class="admin_main_li"><a th:href="@{/suggestion/box}">건의함 관리<span>건의글 수정</span></a></li>
+                <li class="admin_main_li"><a th:href="@{/suggestion/box}">건의함 관리<span>건의글 삭제</span></a></li>
+            </ul>
+            <div class="admin_main_content">
+                 <div class="admin_customer_content" id="admin_customer_content">
+                     <div class="admin_customer_content" id="admin-customer-content">
+                         <h2>회원정보 목록</h2>
+                         <table class="table table-hover" id="admin-customers-table">
+                             <thead>
+                             <tr>
+                                 <th scope="col">#</th>
+                                 <th scope="col">UserNo</th>
+                                 <th scope="col">UserId</th>
+                                 <th scope="col">UserPassword</th>
+                                 <th scope="col">UserNickName</th>
+                                 <th scope="col">UserName</th>
+                                 <th scope="col">UserEmail</th>
+                                 <th scope="col"></th>
+                             </tr>
+                             </thead>
+                             <tbody class="table-group-divider">
+                             <tr th:each="user : ${usersList}" th:object="${user}">
+                                 <th scope="row">
+                                     <input type="radio" name="customer" th:id="*{userNo}" class="admin-customer-radio">
+                                 </th>
+                                 <td th:text="*{userNo}"></td>
+                                 <td th:text="*{userId}"></td>
+                                 <td th:text="*{userPassword}"></td>
+                                 <td th:text="*{userNickname}"></td>
+                                 <td th:text="*{userName}"></td>
+                                 <td th:text="*{userEmail}"></td>
+                                 <td>
+                                     <!-- 선택된 사용자에 대한 추가 작업 (예: 수정 버튼) -->
+                                 </td>
+                             </tr>
+                             </tbody>
+                         </table>
+                         <!-- 회원 삭제 버튼 -->
+                         <a onclick="sendSelectedRadioIdCustomer()" class="btn btn-danger" id="admin-delete-customer-button">회원 삭제</a>
 
-    </div>
-    <div class="admin_customer_content">
-        <h2>회원정보 목록</h2>
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">UserNo</th>
-                <th scope="col">UserId</th>
-                <th scope="col">UserPassword</th>
-                <th scope="col">UserNickName</th>
-                <th scope="col">UserName</th>
-                <th scope="col">UserEmail</th>
-                <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody class="table-group-divider">
-            <tr th:each="user : ${usersList}" th:object="${user}">
-                <th scope="row">
-                    <input type="radio" name="customer" th:id="*{userNo}">
-<!--                    th:text="*{userNo}" th:id="*{userId}"-->
-                </th>
-                <td th:text="*{userNo}">2</td>
-                <td th:text="*{userId}">ABCDEFG</td>
-                <td th:text="*{userPassword}">987654321</td>
-                <td th:text="*{userNickname}">Dr.Duck</td>
-                <td th:text="*{userName}">김해찬</td>
-                <td th:text="*{userEmail}">EMAIL@naver.com</td>
-                <td></td>
-            </tr>
-            </tbody>
-        </table>
-        <a onclick="sendSelectedRadioIdCustomer()" class="btn btn-danger">회원 삭제</a>
-        <script>
-            function sendSelectedRadioIdCustomer() {
-                const selectedRadio = document.querySelector('input[name="customer"]:checked');
+                         <!-- 회원 삭제 스크립트 -->
+                         <script>
+                             function sendSelectedRadioIdCustomer() {
+                                 const selectedRadio = document.querySelector('input[name="customer"]:checked');
 
-                if (!selectedRadio) {
-                    alert("삭제할 사용자를 선택해 주세요.");
-                    return;
-                }
+                                 if (!selectedRadio) {
+                                     alert("삭제할 사용자를 선택해 주세요.");
+                                     return;
+                                 }
 
-                const id = selectedRadio.id;
-                const url = `/admin/${id}/delete/customer`;
+                                 const id = selectedRadio.id;
+                                 const url = `/admin/${id}/delete/customer`;
 
+                                 fetch(url, {
+                                     method: 'DELETE',
+                                     headers: {
+                                         'Content-Type': 'application/json'
+                                     }
+                                 });
+                             }
+                         </script>
+                     </div>
+                 </div>
+            </div>
+        </section>
 
-                fetch(url, {
-                    method: 'DELETE',
-                     headers: {
-                'Content-Type': 'application/json'
-                // 'X-CSRF-Token': 'YOUR_CSRF_TOKEN' // CSRF 토큰 필요 시 추가
-                    }
-                })
-                .then(response => {
-                    location.reload();
-                });
-            }
-        </script>
-    </div>
+    </article>
+
+    <!-- 관리자 고객 콘텐츠 -->
+
 </div>
 </body>
 </html>
