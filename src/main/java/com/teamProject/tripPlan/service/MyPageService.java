@@ -17,10 +17,10 @@ import java.util.Optional;
 public class MyPageService {
     @Autowired
     MyPageDAO myPageDAO;
-    @Autowired
-    TravelDateRepository travelDateRepository;
-    @Autowired
-    MyListRepository myListRepository;
+//    @Autowired
+//    TravelDateRepository travelDateRepository;
+//    @Autowired
+//    MyListRepository myListRepository;
     @Autowired
     EntityManager em;
     @Autowired
@@ -53,17 +53,17 @@ public class MyPageService {
     }
 
     // 트래블 데이터 저장 테스트용
-    public TravelDates insertDate(TravelDates dates) {
-        TravelDates dates1 = new TravelDates();
-        dates1.setDeparture_date(dates.getDeparture_date());
-        dates1.setArrival_date(dates.getArrival_date());
-        travelDateRepository.save(dates1);
-        return dates1;
-    }
+//    public TravelDates insertDate(TravelDates dates) {
+//        TravelDates dates1 = new TravelDates();
+//        dates1.setDeparture_date(dates.getDeparture_date());
+//        dates1.setArrival_date(dates.getArrival_date());
+//        travelDateRepository.save(dates1);
+//        return dates1;
+//    }
 
-    public List<MyList> findAllMyLists(){
-        return myListRepository.findAll();
-    }
+//    public List<MyList> findAllMyLists(){
+//        return myListRepository.findAll();
+//    }
 
     public Travel insertTravelList(Long id) {
         Users users = em.find(Users.class, id);
