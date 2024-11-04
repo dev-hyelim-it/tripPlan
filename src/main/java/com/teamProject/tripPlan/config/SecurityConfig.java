@@ -1,12 +1,14 @@
 package com.teamProject.tripPlan.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.OAuth2ClientDsl;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -43,6 +45,7 @@ public class SecurityConfig {
         // 접근권한 설정
         http
                 .authorizeHttpRequests((auth) -> auth
+                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // security 정적 자원 허용. css, js 허용해줌.
                         .requestMatchers("/main").permitAll()
                         .requestMatchers("/login", "/loginProc", "/test", "/result").permitAll() // test, result 메인페이지 완료 시 삭제
                         .requestMatchers("/join", "/joinProc").permitAll()

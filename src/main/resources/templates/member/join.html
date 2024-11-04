@@ -3,45 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <th:block layout:fragment="css"></th:block>
+    <th:block layout:fragment="script"></th:block>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
-<h2>회원가입</h2>
-<form th:action="@{/joinProc}" method="post" name="joinForm">
-    <div>
-        이름 : <input id="userName" type="text" name="userName" placeholder="이름을 입력해주세요.">
-    </div>
-    <div>
-        아이디 : <input id="userId" type="text" name="userId" placeholder="영문,숫자 4~10자입니다.">
-        <div id="dup-userId" class="input-feedback"></div>
-        <div th:if="${error1}" style="color: red;" th:text="${error1}"></div>
-    </div>
-    <div>
-        비밀번호 : <input id="userPassword" type="password" name="userPassword" placeholder="비밀번호는 8~16자입니다.">
-    </div>
-    <div>
-        비밀번호 확인 : <input id="re-password" type="password" name="re-password" placeholder="비밀번호가 일치하지 않습니다.">
-        <div id="dup-password" class="input-feedback"></div>
-    </div>
-    <div>
-        이메일 : <input id="userEmail" type="email" name="userEmail" placeholder="이메일 형식에 맞게 입력하세요.">
-        <div th:if="${error3}" style="color: red;" th:text="${error3}"></div>
-    </div>
-    <div>
-        닉네임 : <input id="userNickname" type="text" name="userNickname" placeholder="한글,영문,숫자로 2~8자까지 입력 가능합니다.">
-        <div id="dup-userNickname" class="input-feedback"></div>
-        <div th:if="${error2}" style="color: red;" th:text="${error2}"></div>
-    </div>
+    <article class="join_article">
+    <h2 class="join_title">회원가입</h2>
+    <p class="join_sub_title">회원이 되어 다양한 혜택을 경험해 보세요!</p>
+    <form class="join_form" th:action="@{/joinProc}" method="post" name="joinForm">
+        <section>
+            <p class="join_text">아이디 <span>*</span></p>
+            <input class="join_input" id="userId" type="text" name="userId" placeholder="영문,숫자 4~10자입니다.">
+            <div id="dup-userId" class="input-feedback"></div>
+        </section>
+        <section>
+            <p class="join_text">비밀번호 <span>*</span><span class="join_wrong" th:if="${error1}" style="color: red;" th:text="${error1}">비번확인</span></p>
+            <input class="join_input" id="userPassword" type="password" name="userPassword" placeholder="비밀번호는 8~16자입니다.">
+            <div id="dup-password" class="input-feedback"></div>
+        </section>
+        <section>
+            <p class="join_text">비밀번호 확인 <span>*</span></p>
+            <input class="join_input" id="re-password" type="password" name="re-password" placeholder="비밀번호 재입력">
+        </section>
+        <section>
+            <p class="join_text">이름 <span>*</span></p>
+            <input class="join_input" id="userName" type="text" name="userName" placeholder="이름을 입력해주세요.">
+        </section>
+        <section>
+            <p class="join_text">이메일 <span>*</span></p>
+            <input class="join_input" id="userEmail" type="email" name="userEmail" placeholder="이메일 형식에 맞게 입력하세요.">
+            <span class="join_wrong" th:if="${error3}" style="color: red;" th:text="${error2}"></span>
+        </section>
+        <section>
+            <p class="join_text">닉네임 <span>*</span></p>
+            <input class="join_input" id="userNickname" type="text" name="userNickname" placeholder="한글,영문,숫자로 2~8자까지 입력 가능합니다.">
+            <div id="dup-userNickname" class="input-feedback"></div>
+            <div class="join_wrong" th:if="${error2}" style="color: red;" th:text="${error3}"></div>
+        </section>
 
-    <!--완료를 누르면 회원가입 성공, 회원가입 정보를 가지고 로그인으로 돌아감-->
-    <input id="submitBtn" type="submit" name="submitBtn" value="완료" th:href="@{/login}"/>
-    <!--회원가입 취소, 아무것도 없이 로그인 페이지로 돌아감-->
-    <input type="button" onclick="location.href='/login'" value="취소"/>
-</form>
-<div th:if="${joinSuccess}" style="color: green;" th:text="${joinSuccess}"></div>
-<div th:if="${error}" style="color: red;" th:text="${error}"></div>
-
+        <section>
+            <!--완료를 누르면 회원가입 성공, 회원가입 정보를 가지고 로그인으로 돌아감-->
+            <input class="join_btn join_submit_btn" id="submitBtn" type="submit" name="submitBtn" value="가입완료" th:href="@{/login}"/>
+            <!--회원가입 취소, 아무것도 없이 로그인 페이지로 돌아감-->
+            <input class="join_btn join_cancel_btn" type="button" onclick="location.href='/login'" value="가입취소"/>
+        </section>
+    </form>
+    </article>
 
 <script>
     $(document).ready(function() {
@@ -111,8 +122,21 @@
           }
        });
 
-       //중복확인 체크박스 삭제
-   });
+        $("#checkUserId").click(function() {
+            let userId = $("#userId").val();
+            checkDuplicate('userId', userId);
+        });
+
+        $("#checkUserEmail").click(function() {
+            let userEmail = $("#userEmail").val();
+            checkDuplicate('userEmail', userEmail);
+        });
+
+        $("#checkUserNickname").click(function() {
+            let userNickname = $("#userNickname").val();
+            checkDuplicate('userNickname', userNickname);
+        });
+    });
 </script>
 </body>
 </html>
