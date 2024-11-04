@@ -6,7 +6,11 @@
     <meta charset="UTF-8">
     <th:block layout:fragment="css">
         <link rel="stylesheet" th:href="@{/css/style.css}">
+        <link rel="stylesheet" th:href="@{/css/reset.css}">
     </th:block>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <th:block layout:fragment="script"></th:block>
 
     <script>
@@ -135,10 +139,10 @@
     </script>
 </head>
 <body onload="loadKeywords()">
-<div layout:fragment="content" class="content" id="myListContainer">
-    <div class="com_left_section">
+<div layout:fragment="content" class="myPageMainContainer" id="myListContainer"> <br>
+    <div class="suggestion_new_form">
         <h2>나의 여행 목록</h2>
-        <table class="table">
+        <table class="np_table">
             <tbody>
             <tr th:each="travel : ${list}">
                 <td>
@@ -158,8 +162,9 @@
         </table>
     </div>
     <br>
-    <form th:action="@{/community/create}" method="post" id="com_np_form" class="com_np_form" onsubmit="submitForm(event)">
-        <div class="com_right_section">
+<!--    <form th:action="@{/community/create}" class="suggestion_new_form" method="post" id="np_form" onsubmit="submitForm(event)">-->
+    <form th:action="@{/community/create}" class="suggestion_new_form" method="post" onsubmit="submitForm(event)">
+<!--        <div class="com_right_section">-->
             <div>
                 <label>글 제목</label>
                 <input type="text" th:field="${dto.postTitle}" required>
@@ -188,9 +193,11 @@
                 <label>글쓰기</label>
                 <textarea cols="20" rows="7" th:field="${dto.postContent}"></textarea>
             </div>
-            <input class="com_btn_newPost" id="com_reset" type="button" value="취소">
-            <input class="com_btn_newPost" id="com_new_okay" type="submit" value="등록">
-        </div>
+            <div class="sug_btn_newSuggestion">
+                <input id="sug_reset" type="reset" value="취소">
+                <input id="sug_new_okay" type="submit" value="등록">
+            </div>
+<!--        </div>-->
     </form>
 
     <script src="/js/jQuery.js"></script>
@@ -200,7 +207,7 @@
 
 
             // 취소 버튼 클릭 시 동작
-            $(document).on("click", "#com_reset", function () {
+            $(document).on("click", "#sug_reset", function () {
                 location.href = '/community';
             });
         });

@@ -7,7 +7,11 @@
     <title>자유게시판</title>
     <th:block layout:fragment="css">
         <link rel="stylesheet" th:href="@{/css/style.css}">
+        <link rel="stylesheet" th:href="@{/css/reset.css}">
     </th:block>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <th:block layout:fragment="script"></th:block>
 
     <script>
@@ -38,8 +42,8 @@
 </head>
 <body>
 <div layout:fragment="content" class="com_content">
-    <h2 class="com-title">자유게시판</h2>
-    <div class="mb-3">
+    <h2 class="com_title">자유게시판</h2>
+    <div class="com_keyword">
         <label for="keyword" class="com_form_label">키워드:</label>
         <select id="keywordSelect" class="com_form_select" onchange="filterPostsBySelectedKeyword()">
             <option value="">모든 키워드</option>
@@ -48,6 +52,7 @@
             </th:block>
         </select>
     </div>
+    <div class="com_table_box">
     <table class="com_table">
         <thead class="com_table_head">
         <tr>
@@ -60,14 +65,12 @@
         </tr>
         </thead>
         <tbody th:fragment="postList" class="com_table_body">
-
         <tr th:each="post : ${posts}">
             <th th:text="${post.postId}"></th>
             <td>
                 <a th:href="@{/community/{id}(id=${post.postId})}" th:text="${post.postTitle}"></a>
             </td>
             <td th:if="${post.users != null}" th:text="${post.users.userNickname}">작성자 없음</td>
-            <td th:if="${post.users == null}">작성자 없음</td>
             <td th:text="${post.insertedDate != null ? #temporals.format(post.insertedDate, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
             <td th:text="${post.likes}"></td>
             <td>
@@ -76,12 +79,14 @@
         </tr>
         </tbody>
     </table>
-
+    </div>
+    <div class="com_btn_box">
     <form action="/community/new" method="get">
-        <button type="submit" class="btn btn-primary">글쓰기</button>
+        <button type="submit" class="com_btn btn btn_primary">글쓰기</button>
     </form>
-    <a href="/main" class="btn btn-secondary">메인</a>
+    <a href="/main" class="com_btn btn btn_secondary">메인</a>
     <br>
+    </div>
 </div>
 </body>
 </html>

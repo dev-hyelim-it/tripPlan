@@ -16,32 +16,63 @@
 </head>
 
 <body>
-<div layout:fragment="content" class="content">
-	<div th:if="${userType}!=null">
-		<span><b>[[ ${userNickname} ]]님의 여행 성향 테스트 결과 추전 지역</b></span>
-		<p>1. [[ ${userType.recommendArea1} ]]-[[ ${userType.areaName1} ]]</p>
-		<p>2. [[ ${userType.recommendArea2} ]]-[[ ${userType.areaName2} ]]</p>
-	</div>
+	<div layout:fragment="content" class="content">
+		<div th:if="${userType}!=null">
+			<span><b>[[ ${userNickname} ]]님의 여행 성향 테스트 결과 추전 지역</b></span>
+			<p>1. [[ ${userType.recommendArea1} ]]-[[ ${userType.areaName1} ]]</p>
+			<p>2. [[ ${userType.recommendArea2} ]]-[[ ${userType.areaName2} ]]</p>
+		</div>
 
-	<!-- Top 5 검색어 -->
-	<h2>실시간 여행 트렌드 Top 5 !!</h2>
-	<div class="row">
-		<div class="col-md-3 mb-3" th:each="place, iterStat : ${top5Places}">
-			<div class="card" style="width: 18rem;">
-				<!-- 이미지 경로를 동적으로 설정 -->
-				<img th:src="@{|/img/image_${iterStat.index + 1}.jpg|}" class="card-img-top" alt="Place Image">
-				<div class="card-body">
-					<h5 class="card-title">[[${iterStat.index + 1}]]위</h5>
-					<p class="card-text">[[${place}]]</p>
-					<a th:href="@{/community}" class="btn btn-primary">리뷰보기</a>
+		<h2>전국 추천 여행지 !!</h2>
+		<div class="row">
+			<div class="col-md-3 mb-3">
+				<div class="card" style="width: 18rem;">
+					<img src="/img/seoul.jpg" class="card-img-top" alt="Seoul">
+					<div class="card-body">
+						<h5 class="card-title">서울 경복궁</h5>
+						<a th:href="@{/community}" class="btn btn-primary">리뷰보기</a>
+					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-
-	<div class="main">
-		<h3>여행지 검색 하기</h3>
-		<div class="map">
+			<div class="col-md-3 mb-3">
+				<div class="card" style="width: 18rem;">
+					<img src="/img/jeju.jpg" class="card-img-top" alt="Jeju">
+					<div class="card-body">
+						<h5 class="card-title">제주 성산일출봉</h5>
+						<a th:href="@{/community}" class="btn btn-primary">리뷰보기</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 mb-3">
+				<div class="card" style="width: 18rem;">
+					<img src="/img/busan.jpg" class="card-img-top" alt="Busan">
+					<div class="card-body">
+						<h5 class="card-title">부산 해운대</h5>
+						<a th:href="@{/community}" class="btn btn-primary">리뷰보기</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 mb-3">
+				<div class="card" style="width: 18rem;">
+					<img src="/img/gyeongju.jpg" class="card-img-top" alt="Gyeongju">
+					<div class="card-body">
+						<h5 class="card-title">경주 불국사</h5>
+						<a th:href="@{/community}" class="btn btn-primary">리뷰보기</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 mb-3">
+				<div class="card" style="width: 18rem;">
+					<img src="/img/gangneung.jpg" class="card-img-top" alt="Gangneung">
+					<div class="card-body">
+						<h5 class="card-title">강릉 경포대</h5>
+						<a th:href="@{/community}" class="btn btn-primary">리뷰보기</a>
+					</div>
+				</div>
+			</div>
+		<div class="main">
+			<h3>여행지 검색 하기</h3>
+			<div class="map">
 <!--			<form action="/saveMyList">-->
 <!--				<div class="mb-3">-->
 <!--					<label for="departureDate" class="form-label">떠날 날짜:</label>-->
@@ -75,5 +106,6 @@
 	</div>
 </div>
 </div>
+	</div>
 </body>
 </html>

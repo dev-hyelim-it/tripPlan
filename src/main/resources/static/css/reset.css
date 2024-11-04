@@ -33,8 +33,7 @@ dd, ul, ol {
 }
 
 /* list를 role값으로 갖는 ul, ol 요소의 기본 목록 스타일을 제거합니다. */
-ul[role='list'],
-ol[role='list'] {
+ul, ol {
   list-style: none;
 }
 
@@ -49,7 +48,6 @@ h4 {
 /* 클래스가 없는 기본 a 태그 요소는 기본 스타일을 가져옵니다. */
 a:not([class]) {
   text-decoration-skip-ink: auto;
-  color: currentColor;
 }
 
 /* 이미지 관련 작업을 더 쉽게 합니다. */
@@ -83,4 +81,8 @@ a {
 
 ::placeholder {
     color: #aaa;
+}
+
+.content {
+    min-height: calc(100vh - 150px);
 }

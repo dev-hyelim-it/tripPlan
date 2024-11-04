@@ -1,30 +1,41 @@
+
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org">
 <head>
     <title>Header</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="reset.css">
+    <script src="https://kit.fontawesome.com/695a12fc7e.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 </head>
 <body>
 <div th:fragment="header">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">여행지 정보 추천 사이트</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" th:href="@{/main}">메인</a>
-                    <a class="nav-link" th:href="@{/myPage/{userId}(userId=${session.loginId})}">마이페이지</a>
-                    <a class="nav-link" th:href="@{/community}">커뮤니티</a>
-                    <a class="nav-link" th:href="@{/myPage/list/{userId}(userId=${session.loginId})}">나의 여행 리스트</a>
-                    <a class="nav-link" th:href="@{/admin/main}" th:if="${session.loginId == 'admin'}">관리자 페이지</a>
-                    <a class="nav-link" th:href="@{/typeTest}">여행 성향 테스트</a>
-                    <a class="nav-link" th:href="@{/suggestion/box}">건의함</a>
-                    <a class="nav-link" th:href="@{/logout}">로그아웃</a>
+    <article class="header_article">
+        <a href="#1" class="logo_box"><img src="/image/logo.png" alt=""></a>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div>
+                <!-- <a class="navbar-brand" href="#">여행지 정보 추천 사이트</a> -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link active" aria-current="page" th:href="@{/main}"><span>메</span><span>인</span></a>
+                        <a class="nav-link" th:href="@{/myPage/{userId}(userId=${session.loginId})}"><span>마</span><span>이 </span><span>페</span><span>이</span><span>지</span></a>
+                        <a class="nav-link" th:href="@{/community}"><span>커</span><span>뮤</span><span>니</span><span>티</span></a>
+                        <a class="nav-link" th:href="@{/myPage/list/{userId}(userId=${session.loginId})}"><span>나</span><span>의 </span><span>여</span><span>행 </span><span>리</span><span>스</span><span>트</span></a>
+                        <a class="nav-link" th:href="@{/admin/main}" th:if="${session.loginId == 'admin'}"><span>관</span><span>리</span><span>자 </span><span>페</span><span>이</span><span>지</span></a>
+                        <a class="nav-link" th:href="@{/typeTest}"><span>여</span><span>행 </span><span>성</span><span>향 </span><span>테</span><span>스</span><span>트</span></a>
+                        <a class="nav-link" th:href="@{/suggestion/box}"><span>건</span><span>의</span><span>함</span></a>
+                        <a class="nav-link" th:href="@{/logout}"><span>로</span><span>그</span><span>아</span><span>웃</span></a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </article>
 </div>
 </body>
 </html>
