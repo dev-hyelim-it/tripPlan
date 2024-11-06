@@ -30,6 +30,7 @@ public class JoinController {
     public String joinProcess(UsersDTO usersDTO, Model model, RedirectAttributes redirectAttributes) {
         String idPattern = "^[0-9a-zA-Z]{4,10}$";
         String nicknamePattern = "^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]{2,8}$";
+        String passwordPattern = "^[a-zA-Z\\d`~!@#$%^&*()-_=+]{8,16}$";
 
         if (!usersDTO.getUserId().matches(idPattern)) {
             model.addAttribute("error1", "아이디는 영문자와 숫자로 4~10자여야 합니다.");
@@ -51,6 +52,10 @@ public class JoinController {
             model.addAttribute("error3", "이미 사용중인 이메일 입니다.");
             model.addAttribute("dto", usersDTO);
             return "member/join";
+        } if (!usersDTO.getUserPassword().matches(passwordPattern)) {
+            model.addAttribute("error4", "비밀번호는 영어와 숫자, 특수기호를 포함한 8~16자여야 합니다.");
+            model.addAttribute("dto", usersDTO);
+            return "member/join";
         }
 
         boolean joinSuccess = joinService.joinProcess(usersDTO);
@@ -58,7 +63,7 @@ public class JoinController {
             redirectAttributes.addFlashAttribute("joinSuccess", "회원가입이 완료되었습니다.");
             return "redirect:/login";
         } else {
-            model.addAttribute("error", "회원가입 처리 중 오류가 발생했습니다. 다시 시도해 주세요.");
+            model.addAttribute("error5", "회원가입 처리 중 오류가 발생했습니다. 다시 시도해 주세요.");
             model.addAttribute("dto", usersDTO);
             return "member/join";
         }
